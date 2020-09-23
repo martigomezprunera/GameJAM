@@ -61,15 +61,13 @@ public class GameManager : MonoBehaviour
     #region FIXED UPDATE
     void FixedUpdate()
     {
-        HandleRound();
-        
+        HandleRound();        
     }
     #endregion
 
     #region HANDLE ROUND
     void HandleRound()
     {  
-
         switch (roundState)
         {
             case RoundState.NONE:
@@ -105,6 +103,7 @@ public class GameManager : MonoBehaviour
                     {
                         ChangeRoundSate(RoundState.SELECTING_ACTION);
                     }
+                    
                     break;
                 }
             default:
@@ -263,8 +262,7 @@ public class GameManager : MonoBehaviour
             Debug.Log(enemy.enemyActions[i] + "\n");
         }
 
-
-        if (aux < numRound)
+        do
         {
             switch (myPlayer.myActions[aux])
             {
