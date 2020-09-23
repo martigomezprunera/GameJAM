@@ -61,15 +61,13 @@ public class GameManager : MonoBehaviour
     #region FIXED UPDATE
     void FixedUpdate()
     {
-        HandleRound();
-        
+        HandleRound();        
     }
     #endregion
 
     #region HANDLE ROUND
     void HandleRound()
     {  
-
         switch (roundState)
         {
             case RoundState.NONE:
@@ -105,6 +103,7 @@ public class GameManager : MonoBehaviour
                     {
                         ChangeRoundSate(RoundState.SELECTING_ACTION);
                     }
+                    
                     break;
                 }
             default:
@@ -189,6 +188,7 @@ public class GameManager : MonoBehaviour
                         for (int i = 0; i < numRound; i++)
                         {
                             mesageText.text +=actions.EXHAUST + "\n";
+                            myPlayer.myActions.Add(actions.EXHAUST);
                         }
 
                     }
@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
                     {
                         enemyActionsText.text += enemy.enemyActions[i] + "\n";
                     }
-                    //TO DO: Cancelling some actions
+
                     CompareActions();
                     break;
                 }
@@ -221,6 +221,8 @@ public class GameManager : MonoBehaviour
                     mesageText.text = "GOING TO THE ROUND  " + numRound + "!  WAITING...";
 
                     waitingRoundTimer = timeStartingRound;
+
+                    aux = 0;
                     break;
                 }
             default:
@@ -249,7 +251,18 @@ public class GameManager : MonoBehaviour
     #region COMPARE ACTIONS
     void CompareActions()
     {
-        if (aux < numRound)
+        Debug.Log("Player Actions: ");
+        for (int i = 0; i < myPlayer.myActions.Count; i++)
+        {
+            Debug.Log(myPlayer.myActions[i] +"\n");
+        }
+        Debug.Log("Enemy Actions: " + enemy.enemyActions);
+        for (int i = 0; i < enemy.enemyActions.Count; i++)
+        {
+            Debug.Log(enemy.enemyActions[i] + "\n");
+        }
+
+        do
         {
             switch (myPlayer.myActions[aux])
             {
@@ -346,15 +359,15 @@ public class GameManager : MonoBehaviour
                             enemy.getDamage(heavyDamage);
                             break;
                         case actions.ATACARFUERTE1:
-                            enemy.getDamage(lightDamage);
+                            enemy.getDamage(heavyDamage);
 
-                            if (aux == numRound - 1)
+                            if (aux < numRound - 1)
                             {
-                                enemy.extraAction = actions.EXHAUST;
+                                enemy.enemyActions[aux + 1] = actions.EXHAUST;
                             }
                             else
                             {
-                                enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                enemy.extraAction = actions.EXHAUST;                                
                             }
                             break;
                         case actions.ATACARFUERTE2:

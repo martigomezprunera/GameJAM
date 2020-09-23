@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     private void Update()
      {
 
-        if (canSelect)
+        /*if (canSelect)
         {
             //ataque
             if ((Input.GetKeyDown("1")) && (myActions.Count < myGameManager.numRound))
@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
             //Esquivar
             else if ((Input.GetKeyDown("4")) && (myActions.Count < myGameManager.numRound))
                 myActions.Add(actions.ESQUIVAR);
-        }
+        }*/
          
      }
     #endregion
@@ -117,6 +117,57 @@ public class Player : MonoBehaviour
         return life;
     }
     #endregion
+
+    #region LIGHT ATTACK
+    public void LightAttack()
+    {
+        if (canSelect && myActions.Count < myGameManager.numRound)
+        {
+            myActions.Add(actions.ATACAR);
+        }
+    }
+    #endregion
+
+    #region HEAVY ATTACK
+    public void HeavyAttack()
+    {
+        if (canSelect && myActions.Count < myGameManager.numRound)
+        {
+            if (myActions.Count + 1 == myGameManager.numRound)
+            {
+                myActions.Add(actions.ATACARFUERTE1);
+                //Lo metemos para la siguiente ronda
+                extraAction = actions.ATACARFUERTE2;
+            }
+            else
+            {
+                myActions.Add(actions.ATACARFUERTE1);
+                myActions.Add(actions.ATACARFUERTE2);
+            }
+        }
+    }
+    #endregion
+
+    #region PARRY
+    public void Parry()
+    {
+        if (canSelect && myActions.Count < myGameManager.numRound)
+        {
+            myActions.Add(actions.PARRY1);
+        }
+    }
+    #endregion
+
+    #region BACK STEP
+    public void BackStep()
+    {
+        if (canSelect && myActions.Count < myGameManager.numRound)
+        {
+            myActions.Add(actions.ESQUIVAR);
+        }
+    }
+    #endregion
+
 
     #endregion
 }
