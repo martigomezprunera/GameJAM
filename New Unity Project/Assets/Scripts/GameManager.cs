@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum actions { ATACAR, ATACARFUERTE1, ATACARFUERTE2, PARRY1, PARRY2, ESQUIVAR, EXHAUST };
+public enum actions { ATACAR, ATACARFUERTE1, ATACARFUERTE2, PARRY1, PARRY2, ESQUIVAR, EXHAUST, NONE };
 
 public enum RoundState
 {
@@ -18,16 +18,20 @@ public class GameManager : MonoBehaviour
     #region VARIABLES
     //public//////////////////////
     public int numRound = 0;
+    [Header("AGENTS")]
     public Player myPlayer;
+    public Enemy enemy;
+    [Header("TEXTS")]
     public Text roundText;
     public Text mesageText;
     public Text timerText;
+    public Text enemyActionsText;
+    [Header("TIMERS")]
     public float timeStartingRound = 3f;
+    [SerializeField] private float roundDuration = 5f;
 
     //Private//////////////////////
     private float countDownRound;
-    private bool selectingActions;
-    [SerializeField] private float roundDuration = 5f;
     private List<actions> iaActions;
     private int aux;
 
@@ -53,11 +57,7 @@ public class GameManager : MonoBehaviour
     void FixedUpdate()
     {
         HandleRound();
-
-        if (Input.GetKeyDown("space"))
-        {
-            selectingActions = true;
-        }
+        
     }
     #endregion
 
@@ -150,7 +150,6 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("CHANGING TO SELECTING ACTIONS");
                     ResetCountDownRound();
-                    myPlayer.ClearActions();
                     roundState = RoundState.SELECTING_ACTION;
                     myPlayer.canSelect = true;
 
@@ -168,19 +167,38 @@ public class GameManager : MonoBehaviour
 
                     waitingRoundTimer = roundDuration;
 
+                    //imprimimos por pantalla la lista de acciones del jugador
                     if (myPlayer.myActions.Count > 0 )
                     {
+                        mesageText.text = "";
                         for (int i = 0; i < myPlayer.myActions.Count; i++)
                         {
-                            mesageText.text = myPlayer.myActions[i] + "\n";
+                            mesageText.text += myPlayer.myActions[i] + "\n";
                         }
                     }
                     else
                     {
-                        mesageText.text = "YOU DID NOTHING!!!!";
+                        //si no has puesto acciones lo ponemos en exhausto
+                        mesageText.text = "";
+
+                        for (int i = 0; i < numRound; i++)
+                        {
+                            mesageText.text +=actions.EXHAUST + "\n";
+                        }
+
                     }
-                    
-                    
+
+                    //pedimos las acciones al enemigo
+                    enemy.GetNewActions(numRound);
+
+                    enemyActionsText.text = "";
+                    for (int i = 0; i < myPlayer.myActions.Count; i++)
+                    {
+                        enemyActionsText.text += enemy.enemyActions[i] + "\n";
+                    }
+
+                    //TO DO: Llamar a comparar las acciones y modificarla en funcion de sus sinergias
+
                     break;
                 }
             case RoundState.GOING_NEXT_ROUND:
@@ -188,12 +206,17 @@ public class GameManager : MonoBehaviour
                     Debug.Log("CHANGING TO GOING NEXT ROUND");
 
                     roundState = RoundState.GOING_NEXT_ROUND;
+                    //Reseteamos acciones y tiempos
                     ResetCountDownRound();
                     myPlayer.ClearActions();
+                    //Limpiamos las acciones del enemigo
+                    enemy.ClearEnemyActions();
+                    enemyActionsText.text = "";
+
                     numRound++;
 
                     roundText.text = "Round " + numRound;
-                    mesageText.text = "GOING TO THE ROUND  " + numRound + "  .WAITING...";
+                    mesageText.text = "GOING TO THE ROUND  " + numRound + "!  WAITING...";
 
                     waitingRoundTimer = timeStartingRound;
                     break;
@@ -392,12 +415,10 @@ public class GameManager : MonoBehaviour
     void FinishRound()
     {
         ResetCountDownRound();
-        selectingActions = false;
         myPlayer.ClearActions();
         numRound++;
     }
     #endregion
-
                
     #endregion
 }

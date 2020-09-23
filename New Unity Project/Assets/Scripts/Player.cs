@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     #region VARIABLES
 
     public List<actions> myActions;
+    actions extraAction = actions.NONE;
+
     GameManager myGameManager;
 
     [SerializeField] private int life = 100;
@@ -33,10 +35,19 @@ public class Player : MonoBehaviour
             if ((Input.GetKeyDown("1")) && (myActions.Count < myGameManager.numRound))
                 myActions.Add(actions.ATACAR);
             //AtaqueFuerte
-            else if ((Input.GetKeyDown("2")) && ((myActions.Count + 1) < myGameManager.numRound))
+            else if ((Input.GetKeyDown("2")) && (myActions.Count  < myGameManager.numRound))
             {
-                myActions.Add(actions.ATACARFUERTE1);
-                myActions.Add(actions.ATACARFUERTE2);
+                if (myActions.Count + 1 == myGameManager.numRound)
+                {
+                    myActions.Add(actions.ATACARFUERTE1);
+                    //Lo metemos para la siguiente ronda
+                    extraAction = actions.ATACARFUERTE2;
+                }
+                else
+                {
+                    myActions.Add(actions.ATACARFUERTE1);
+                    myActions.Add(actions.ATACARFUERTE2);
+                }                
             }
             //Parry
             else if ((Input.GetKeyDown("3")) && (myActions.Count < myGameManager.numRound))
@@ -53,6 +64,13 @@ public class Player : MonoBehaviour
     public void ClearActions()
     {
         myActions.Clear();
+
+        if (extraAction != actions.NONE)
+        {
+            myActions.Add(extraAction);
+
+            extraAction = actions.NONE;
+        }
     }
     #endregion
 
