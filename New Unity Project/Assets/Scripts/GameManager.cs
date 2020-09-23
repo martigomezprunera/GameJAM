@@ -378,7 +378,20 @@ public class GameManager : MonoBehaviour
                             break;
 
                         case actions.ATACARFUERTE1:
-                            //nothing
+                            //next turn exahust 
+                            if ((aux + 1) == numRound)
+                                myPlayer.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
 
                         case actions.ATACARFUERTE2:
@@ -387,19 +400,71 @@ public class GameManager : MonoBehaviour
                             break;
 
                         case actions.PARRY1:
-                            //nada
+                            //next turn exahust 
+                            if ((aux + 1) == numRound)
+                                myPlayer.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
 
                         case actions.PARRY2:
-                            //nada
+                            //next turn exahust 
+                            if ((aux + 1) == numRound)
+                                myPlayer.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
 
                         case actions.ESQUIVAR:
-                            //nada
+                            //next turn exahust 
+                            if ((aux + 1) == numRound)
+                                myPlayer.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
 
                         case actions.EXHAUST:
-                            //nada
+                            //next turn exahust 
+                            if ((aux + 1) == numRound)
+                                myPlayer.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
 
                         default:
