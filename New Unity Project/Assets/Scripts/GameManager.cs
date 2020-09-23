@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum actions { ATACAR, ATACARFUERTE1, ATACARFUERTE2, PARRY1, PARRY2, ESQUIVAR, EXHAUST };
+public enum actions { ATACAR, ATACARFUERTE1, ATACARFUERTE2, PARRY1, PARRY2, ESQUIVAR, EXHAUST, NONE };
 
 public enum RoundState
 {
@@ -18,16 +18,25 @@ public class GameManager : MonoBehaviour
     #region VARIABLES
     //public//////////////////////
     public int numRound = 0;
+    [Header("AGENTS")]
     public Player myPlayer;
+    public Text lifePlayerText;
+    public Enemy enemy;
+    public Text lifeEnemyText;
+    [Header("TEXTS")]
     public Text roundText;
     public Text mesageText;
     public Text timerText;
+    public Text enemyActionsText;
+    [Header("TIMERS")]
     public float timeStartingRound = 3f;
+    [SerializeField] private float roundDuration = 5f;
+    [Header("DAMAGES")]
+    public int lightDamage = 10;
+    public int heavyDamage = 20;
 
     //Private//////////////////////
     private float countDownRound;
-    private bool selectingActions;
-    [SerializeField] private float roundDuration = 5f;
     private List<actions> iaActions;
     private int aux;
 
@@ -53,11 +62,7 @@ public class GameManager : MonoBehaviour
     void FixedUpdate()
     {
         HandleRound();
-
-        if (Input.GetKeyDown("space"))
-        {
-            selectingActions = true;
-        }
+        
     }
     #endregion
 
@@ -140,6 +145,8 @@ public class GameManager : MonoBehaviour
     #region CHANGE ROUND STATE
     void ChangeRoundSate(RoundState newState)
     {
+        UpdateLife();
+
         switch (newState)
         {
             case RoundState.NONE:
@@ -148,9 +155,7 @@ public class GameManager : MonoBehaviour
                 }            
             case RoundState.SELECTING_ACTION:
                 {
-                    Debug.Log("CHANGING TO SELECTING ACTIONS");
                     ResetCountDownRound();
-                    myPlayer.ClearActions();
                     roundState = RoundState.SELECTING_ACTION;
                     myPlayer.canSelect = true;
 
@@ -162,38 +167,58 @@ public class GameManager : MonoBehaviour
                 }
             case RoundState.DOING_ACTIONS:
                 {
-                    Debug.Log("CHANGING TO DOING ACTIONS");
                     roundState = RoundState.DOING_ACTIONS;
                     myPlayer.canSelect = false;
 
                     waitingRoundTimer = roundDuration;
 
+                    //imprimimos por pantalla la lista de acciones del jugador
                     if (myPlayer.myActions.Count > 0 )
                     {
+                        mesageText.text = "";
                         for (int i = 0; i < myPlayer.myActions.Count; i++)
                         {
-                            mesageText.text = myPlayer.myActions[i] + "\n";
+                            mesageText.text += myPlayer.myActions[i] + "\n";
                         }
                     }
                     else
                     {
-                        mesageText.text = "YOU DID NOTHING!!!!";
+                        //si no has puesto acciones lo ponemos en exhausto
+                        mesageText.text = "";
+
+                        for (int i = 0; i < numRound; i++)
+                        {
+                            mesageText.text +=actions.EXHAUST + "\n";
+                        }
+
                     }
-                    
-                    
+
+                    //pedimos las acciones al enemigo
+                    enemy.GetNewActions(numRound);
+
+                    enemyActionsText.text = "";
+                    for (int i = 0; i < myPlayer.myActions.Count; i++)
+                    {
+                        enemyActionsText.text += enemy.enemyActions[i] + "\n";
+                    }
+                    //TO DO: Cancelling some actions
+                    CompareActions();
                     break;
                 }
             case RoundState.GOING_NEXT_ROUND:
                 {
-                    Debug.Log("CHANGING TO GOING NEXT ROUND");
-
                     roundState = RoundState.GOING_NEXT_ROUND;
+                    //Reseteamos acciones y tiempos
                     ResetCountDownRound();
                     myPlayer.ClearActions();
+                    //Limpiamos las acciones del enemigo
+                    enemy.ClearEnemyActions();
+                    enemyActionsText.text = "";
+
                     numRound++;
 
                     roundText.text = "Round " + numRound;
-                    mesageText.text = "GOING TO THE ROUND  " + numRound + "  .WAITING...";
+                    mesageText.text = "GOING TO THE ROUND  " + numRound + "!  WAITING...";
 
                     waitingRoundTimer = timeStartingRound;
                     break;
@@ -224,48 +249,78 @@ public class GameManager : MonoBehaviour
     #region COMPARE ACTIONS
     void CompareActions()
     {
-        /*if (aux < numRound)
+        if (aux < numRound)
         {
             switch (myPlayer.myActions[aux])
             {
                 case actions.ATACAR:
-                    switch (iaActions[aux])
+                    switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
-                            myPlayer.getDamage(10);
+                            myPlayer.getDamage(lightDamage);
+                            enemy.getDamage(lightDamage);
                             break;
                         case actions.ATACARFUERTE1:
-                            //agent get light damage
+                            enemy.getDamage(lightDamage);
+
+                            if (aux == numRound - 1)
+                            {
+                                enemy.extraAction = actions.EXHAUST;
+                            }
+                            else
+                            {
+                                enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
                         case actions.ATACARFUERTE2:
-                            myPlayer.getDamage(20);
-                            //agent get light damage
+                            myPlayer.getDamage(heavyDamage);
+                            enemy.getDamage(lightDamage);
                             break;
                         case actions.PARRY1:
-                            myPlayer.getDamage(10);
+                            myPlayer.getDamage(lightDamage);
                             break;
                         case actions.PARRY2:
-                            //agent get light damage
+                            enemy.getDamage(lightDamage);
                             break;
                         case actions.ESQUIVAR:
                             //nothing
+                            break;
+                        case actions.EXHAUST:
+                            enemy.getDamage(lightDamage);
                             break;
                         default:
                             break;
                     }
                     break;
                 case actions.ATACARFUERTE1:
-                    switch (iaActions[aux])
+                    switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
-                            myPlayer.getDamage(10);
+                            myPlayer.getDamage(lightDamage);
+
+                            if (aux == numRound - 1)
+                            {
+                                myPlayer.extraAction = actions.EXHAUST;
+                            }
+                            else
+                            {
+                                myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
                         case actions.ATACARFUERTE1:
                             //nada
                             break;
                         case actions.ATACARFUERTE2:
-                            myPlayer.getDamage(20);
-                            //Cortar el siguiente movimiento de myplayer
+                            myPlayer.getDamage(heavyDamage);
+
+                            if (aux == numRound - 1)
+                            {
+                                myPlayer.extraAction = actions.EXHAUST;
+                            }
+                            else
+                            {
+                                myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
                         case actions.PARRY1:
                             //Nothing
@@ -274,6 +329,9 @@ public class GameManager : MonoBehaviour
                             //Nothing
                             break;
                         case actions.ESQUIVAR:
+                            //Nothing
+                            break;
+                        case actions.EXHAUST:
                             //Nothing
                             break;
                         default:
@@ -281,43 +339,55 @@ public class GameManager : MonoBehaviour
                     }
                     break;
                 case actions.ATACARFUERTE2:
-                    switch (iaActions[aux])
+                    switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
-                            myPlayer.getDamage(10);
-                            //agent get heavy damage
+                            myPlayer.getDamage(lightDamage);
+                            enemy.getDamage(heavyDamage);
                             break;
                         case actions.ATACARFUERTE1:
-                            //agent get heavy damage y cortar su siguiente movimiento
+                            enemy.getDamage(lightDamage);
+
+                            if (aux == numRound - 1)
+                            {
+                                enemy.extraAction = actions.EXHAUST;
+                            }
+                            else
+                            {
+                                enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
                         case actions.ATACARFUERTE2:
-                            myPlayer.getDamage(20);
-                            //agent get heavy damage
+                            myPlayer.getDamage(heavyDamage);
+                            enemy.getDamage(heavyDamage);
                             break;
                         case actions.PARRY1:
-                            myPlayer.getDamage(10);
+                            myPlayer.getDamage(lightDamage);
                             break;
                         case actions.PARRY2:
-                            //agent get heavy damage
+                            enemy.getDamage(heavyDamage);
                             break;
                         case actions.ESQUIVAR:
                             //nothing
+                            break;
+                        case actions.EXHAUST:
+                            enemy.getDamage(heavyDamage);
                             break;
                         default:
                             break;
                     }
                     break;
                 case actions.PARRY1:
-                    switch (iaActions[aux])
+                    switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
-                            //agent get light damage
+                            enemy.getDamage(lightDamage);
                             break;
                         case actions.ATACARFUERTE1:
                             //nada
                             break;
                         case actions.ATACARFUERTE2:
-                            //agent get light damage
+                            enemy.getDamage(heavyDamage);
                             break;
                         case actions.PARRY1:
                             //nada
@@ -326,6 +396,9 @@ public class GameManager : MonoBehaviour
                             //nada
                             break;
                         case actions.ESQUIVAR:
+                            //nada
+                            break;
+                        case actions.EXHAUST:
                             //nada
                             break;
                         default:
@@ -333,16 +406,16 @@ public class GameManager : MonoBehaviour
                     }
                     break;
                 case actions.PARRY2:
-                    switch (iaActions[aux])
+                    switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
-                            myPlayer.getDamage(10);
+                            myPlayer.getDamage(lightDamage);
                             break;
                         case actions.ATACARFUERTE1:
                             //nothing
                             break;
                         case actions.ATACARFUERTE2:
-                            myPlayer.getDamage(20);
+                            myPlayer.getDamage(heavyDamage);
                             break;
                         case actions.PARRY1:
                             //nothing
@@ -352,13 +425,16 @@ public class GameManager : MonoBehaviour
                             break;
                         case actions.ESQUIVAR:
                             //nothing
+                            break;
+                        case actions.EXHAUST:
+                            //nada
                             break;
                         default:
                             break;
                     }
                     break;
                 case actions.ESQUIVAR:
-                    switch (iaActions[aux])
+                    switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
                             break;
@@ -371,6 +447,36 @@ public class GameManager : MonoBehaviour
                         case actions.PARRY2:
                             break;
                         case actions.ESQUIVAR:
+                            break;
+                        case actions.EXHAUST:
+                            //nada
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case actions.EXHAUST:
+                    switch (enemy.enemyActions[aux])
+                    {
+                        case actions.ATACAR:
+                            myPlayer.getDamage(lightDamage);
+                            break;
+                        case actions.ATACARFUERTE1:
+                            break;
+                        case actions.ATACARFUERTE2:
+                            myPlayer.getDamage(heavyDamage);
+                            break;
+                        case actions.PARRY1:
+                            //nada
+                            break;
+                        case actions.PARRY2:
+                            //nada
+                            break;
+                        case actions.ESQUIVAR:
+                            //nada
+                            break;
+                        case actions.EXHAUST:
+                            //nada
                             break;
                         default:
                             break;
@@ -380,10 +486,9 @@ public class GameManager : MonoBehaviour
                     break;
             }
             aux++;
-            doAnimations();
-        }
-        else*/
-            FinishRound();
+            //doAnimations();
+            UpdateLife();
+        }while (aux < numRound);
 
     }
     #endregion
@@ -392,12 +497,18 @@ public class GameManager : MonoBehaviour
     void FinishRound()
     {
         ResetCountDownRound();
-        selectingActions = false;
         myPlayer.ClearActions();
         numRound++;
     }
     #endregion
 
-               
+    #region  UPDATE LIFE
+    void UpdateLife()
+    {
+        lifePlayerText.text = "Life: " + myPlayer.GetLife();
+        lifeEnemyText.text = "Life: " + enemy.GetLife();
+    }
+    #endregion
+
     #endregion
 }
