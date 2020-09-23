@@ -5,7 +5,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public List<actions> enemyActions;
-    actions extraAction = actions.NONE;
+    public actions extraAction = actions.NONE;
+
+    [SerializeField] private int life = 100;
 
     #region GET NEW ACTION
     public void GetNewActions(int numRound)
@@ -67,6 +69,20 @@ public class Enemy : MonoBehaviour
 
             extraAction = actions.NONE;
         }
+    }
+    #endregion
+
+    #region GET DAMAGE
+    public void getDamage(int damage)
+    {
+        life -= damage;
+    }
+    #endregion
+
+    #region GET LIFE
+    public int GetLife()
+    {
+        return life;
     }
     #endregion
 }

@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     #region VARIABLES
 
     public List<actions> myActions;
-    actions extraAction = actions.NONE;
+    public actions extraAction = actions.NONE;
 
     GameManager myGameManager;
 
@@ -108,6 +108,13 @@ public class Player : MonoBehaviour
     public void getDamage(int damage)
     {
         life -= damage;
+    }
+    #endregion
+
+    #region GET LIFE
+    public int GetLife()
+    {
+        return life;
     }
     #endregion
 
