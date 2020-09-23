@@ -131,9 +131,9 @@ public class Player : MonoBehaviour
     #region HEAVY ATTACK
     public void HeavyAttack()
     {
-        if (canSelect && myActions.Count < myGameManager.numRound)
+        if (canSelect && ((myActions.Count+1) < myGameManager.numRound))
         {
-            if (myActions.Count + 1 == myGameManager.numRound)
+            /*if (myActions.Count + 1 == myGameManager.numRound)
             {
                 myActions.Add(actions.ATACARFUERTE1);
                 //Lo metemos para la siguiente ronda
@@ -143,7 +143,9 @@ public class Player : MonoBehaviour
             {
                 myActions.Add(actions.ATACARFUERTE1);
                 myActions.Add(actions.ATACARFUERTE2);
-            }
+            }*/
+            myActions.Add(actions.ATACARFUERTE1);
+            myActions.Add(actions.ATACARFUERTE2);
         }
     }
     #endregion

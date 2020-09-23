@@ -110,34 +110,7 @@ public class GameManager : MonoBehaviour
                 {
                     break;
                 }
-        }
-
-
-
-        /* if (selecting)
-         {
-             if (countDownRound > 0f)
-             {
-                 countDownRound -= Time.deltaTime;
-                 //Debug.Log(countDownRound);
-             }
-             else
-             {
-             if (myPlayer.myActions.Count == 0)
-             {
-                 for (int i = 0; i < numRound; i++)
-                 {
-                     myPlayer.myActions.Add(actions.EXHAUST);
-                 }
-             }
-             else
-             {
-
-             }
-                 //doAnimations();
-                 CompareActions();
-             }                
-         }*/
+        }        
     }
     #endregion
 
@@ -270,71 +243,69 @@ public class GameManager : MonoBehaviour
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
+                            //both get damage
                             myPlayer.getDamage(lightDamage);
                             enemy.getDamage(lightDamage);
                             break;
-                        case actions.ATACARFUERTE1:
-                            enemy.getDamage(lightDamage);
 
+                        case actions.ATACARFUERTE1:
+                            //Enemy get damage and an exhaust on next round
+                            enemy.getDamage(lightDamage);
                             if (aux == numRound - 1)
-                            {
                                 enemy.extraAction = actions.EXHAUST;
-                            }
                             else
-                            {
                                 enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                            }
                             break;
+
                         case actions.ATACARFUERTE2:
+                            //Both get Damage
                             myPlayer.getDamage(heavyDamage);
                             enemy.getDamage(lightDamage);
                             break;
+
                         case actions.PARRY1:
+                            //Player get Damage
                             myPlayer.getDamage(lightDamage);
                             break;
+
                         case actions.PARRY2:
+                            //Enemy get damage
                             enemy.getDamage(lightDamage);
                             break;
+
                         case actions.ESQUIVAR:
                             //nothing
                             break;
+
                         case actions.EXHAUST:
+                            //Enemy get damage
                             enemy.getDamage(lightDamage);
                             break;
+
                         default:
                             break;
                     }
                     break;
+
                 case actions.ATACARFUERTE1:
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
+                            //Player get damage and exahust on next turn
                             myPlayer.getDamage(lightDamage);
-
-                            if (aux == numRound - 1)
-                            {
-                                myPlayer.extraAction = actions.EXHAUST;
-                            }
-                            else
-                            {
-                                myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                            }
+                            myPlayer.myActions[aux + 1] = actions.EXHAUST;
                             break;
+
                         case actions.ATACARFUERTE1:
-                            //nada
+                            //nothing
                             break;
-                        case actions.ATACARFUERTE2:
-                            myPlayer.getDamage(heavyDamage);
 
-                            if (aux == numRound - 1)
-                            {
-                                myPlayer.extraAction = actions.EXHAUST;
-                            }
-                            else
-                            {
-                                myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                            }
+                        case actions.ATACARFUERTE2:
+                            //Player get damage + exahust on next
+                            myPlayer.getDamage(heavyDamage);
+                            myPlayer.myActions[aux + 1] = actions.EXHAUST;
                             break;
+
                         case actions.PARRY1:
                             //Nothing
                             break;
@@ -351,150 +322,203 @@ public class GameManager : MonoBehaviour
                             break;
                     }
                     break;
+
                 case actions.ATACARFUERTE2:
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
+                            //Both get damage
                             myPlayer.getDamage(lightDamage);
                             enemy.getDamage(heavyDamage);
                             break;
-                        case actions.ATACARFUERTE1:
-                            enemy.getDamage(heavyDamage);
 
-                            if (aux < numRound - 1)
-                            {
-                                enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                            }
-                            else
-                            {
-                                enemy.extraAction = actions.EXHAUST;                                
-                            }
+                        case actions.ATACARFUERTE1:
+                            //Enemy get damage + exahust
+                            enemy.getDamage(heavyDamage);
+                            enemy.enemyActions[aux + 1] = actions.EXHAUST;
                             break;
+
                         case actions.ATACARFUERTE2:
+                            //both get damage
                             myPlayer.getDamage(heavyDamage);
                             enemy.getDamage(heavyDamage);
                             break;
+
                         case actions.PARRY1:
+                            //Player get damage
                             myPlayer.getDamage(lightDamage);
                             break;
+
                         case actions.PARRY2:
+                            //Enemy get damage
                             enemy.getDamage(heavyDamage);
                             break;
+
                         case actions.ESQUIVAR:
-                            //nothing
-                            break;
-                        case actions.EXHAUST:
+                            //Enemy get damage
                             enemy.getDamage(heavyDamage);
                             break;
+
+                        case actions.EXHAUST:
+                            //enemy get damage
+                            enemy.getDamage(heavyDamage);
+                            break;
+
                         default:
                             break;
                     }
                     break;
+
                 case actions.PARRY1:
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
+                            //enemy get damage
                             enemy.getDamage(lightDamage);
                             break;
+
                         case actions.ATACARFUERTE1:
-                            //nada
+                            //nothing
                             break;
+
                         case actions.ATACARFUERTE2:
+                            //Enemy get damage
                             enemy.getDamage(heavyDamage);
                             break;
+
                         case actions.PARRY1:
                             //nada
                             break;
+
                         case actions.PARRY2:
                             //nada
                             break;
+
                         case actions.ESQUIVAR:
                             //nada
                             break;
+
                         case actions.EXHAUST:
                             //nada
                             break;
+
                         default:
                             break;
                     }
                     break;
+
                 case actions.PARRY2:
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
+                            //Player get damage
                             myPlayer.getDamage(lightDamage);
                             break;
+
                         case actions.ATACARFUERTE1:
                             //nothing
                             break;
+
                         case actions.ATACARFUERTE2:
+                            //Player get damage
                             myPlayer.getDamage(heavyDamage);
                             break;
+
                         case actions.PARRY1:
                             //nothing
                             break;
+
                         case actions.PARRY2:
                             //nothing
                             break;
+
                         case actions.ESQUIVAR:
                             //nothing
                             break;
+
                         case actions.EXHAUST:
                             //nada
                             break;
+
                         default:
                             break;
                     }
                     break;
+
                 case actions.ESQUIVAR:
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
+                            //Nada
                             break;
+
                         case actions.ATACARFUERTE1:
+                            //Nada
                             break;
+
                         case actions.ATACARFUERTE2:
+                            //Player get damage
+                            myPlayer.getDamage(heavyDamage);
                             break;
                         case actions.PARRY1:
+                            //Nada
                             break;
+
                         case actions.PARRY2:
+                            //Nada
                             break;
+
                         case actions.ESQUIVAR:
+                            //Nada
                             break;
+
                         case actions.EXHAUST:
-                            //nada
+                            //Nada
                             break;
+
                         default:
                             break;
                     }
                     break;
+
                 case actions.EXHAUST:
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
+                            //Player get damage
                             myPlayer.getDamage(lightDamage);
                             break;
+
                         case actions.ATACARFUERTE1:
+                            //nothing
                             break;
+
                         case actions.ATACARFUERTE2:
+                            //Player get damage
                             myPlayer.getDamage(heavyDamage);
                             break;
+
                         case actions.PARRY1:
-                            //nada
+                            //nothing
                             break;
+
                         case actions.PARRY2:
-                            //nada
+                            //nothing
                             break;
+
                         case actions.ESQUIVAR:
-                            //nada
+                            //nothing
                             break;
+
                         case actions.EXHAUST:
                             //nada
                             break;
+
                         default:
                             break;
                     }
                     break;
+
                 default:
                     break;
             }
