@@ -523,5 +523,12 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region  GET COUNTDOWNROUND
+    public float GetCountDownRound()
+    {
+        return waitingRoundTimer;
+    }
+    #endregion
+
     #endregion
 }
