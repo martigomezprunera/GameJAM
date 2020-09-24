@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     public Text enemyActionsText;
     [Header("TIMERS")]
     public float timeStartingRound = 3f;
-    [SerializeField] private float roundDuration = 5f;
+    [SerializeField] private float roundDuration = 3f;
     [Header("DAMAGES")]
     public int lightDamage = 10;
     public int heavyDamage = 20;
@@ -150,24 +150,16 @@ public class GameManager : MonoBehaviour
                     myPlayer.canSelect = false;
 
                     waitingRoundTimer = roundDuration;
-
-                    //imprimimos por pantalla la lista de acciones del jugador
-                    if (myPlayer.myActions.Count > 0 )
-                    {
-                        mesageText.text = "";
-                        for (int i = 0; i < myPlayer.myActions.Count; i++)
-                        {
-                            mesageText.text += myPlayer.myActions[i] + "\n";
-                        }
-                    }
-                    else
+                    
+                    //Comprobamos que no este vacio
+                    if (myPlayer.myActions.Count <= 0)
                     {
                         //si no has puesto acciones lo ponemos en exhausto
                         mesageText.text = "";
 
                         for (int i = 0; i < numRound; i++)
                         {
-                            mesageText.text +=actions.EXHAUST + "\n";
+                            mesageText.text += actions.EXHAUST + "\n";
                             myPlayer.myActions.Add(actions.EXHAUST);
                         }
 
@@ -175,14 +167,23 @@ public class GameManager : MonoBehaviour
 
                     //pedimos las acciones al enemigo
                     enemy.GetNewActions(numRound);
+                    //Comprobar si player esta vacio
+                    CompareActions();
 
+                    //imprimimos por pantalla la lista de acciones del jugador
+                    if (myPlayer.myActions.Count > 0)
+                    {
+                        mesageText.text = "";
+                        for (int i = 0; i < myPlayer.myActions.Count; i++)
+                        {
+                            mesageText.text += myPlayer.myActions[i] + "\n";
+                        }
+                    }
                     enemyActionsText.text = "";
                     for (int i = 0; i < myPlayer.myActions.Count; i++)
                     {
                         enemyActionsText.text += enemy.enemyActions[i] + "\n";
                     }
-
-                    CompareActions();
                     OnFightGame?.Invoke();
 
                     break;
@@ -234,16 +235,18 @@ public class GameManager : MonoBehaviour
     #region COMPARE ACTIONS
     void CompareActions()
     {
-        Debug.Log("Player Actions: ");
+      //  Debug.Log("Player Actions: ");
         for (int i = 0; i < myPlayer.myActions.Count; i++)
         {
             Debug.Log(myPlayer.myActions[i] +"\n");
         }
-        Debug.Log("Enemy Actions: " + enemy.enemyActions);
+       // Debug.Log("Enemy Actions: " + enemy.enemyActions);
         for (int i = 0; i < enemy.enemyActions.Count; i++)
         {
             Debug.Log(enemy.enemyActions[i] + "\n");
         }
+
+      //  Debug.Log("Comparamos acciones");
 
         do
         {
@@ -654,9 +657,10 @@ public class GameManager : MonoBehaviour
             //doAnimations();
             UpdateLife();
         }while (aux < numRound);
-
     }
     #endregion
+
+
 
     #region FINISH ROUND
     void FinishRound()
