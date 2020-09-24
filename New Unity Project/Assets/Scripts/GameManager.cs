@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,17 +44,22 @@ public class GameManager : MonoBehaviour
     private RoundState roundState  = RoundState.NONE;
     private float waitingRoundTimer = 0f;
 
+    public event Action OnStartGame;
+    public event Action OnActionGame;
+    public event Action OnFightGame;
+
     #endregion
 
     #region METHODS
 
     #region START
-     void Start()
+    void Start()
     {
         //Initialize
         countDownRound = roundDuration;
-        aux = 0;     
+        aux = 0;
 
+        OnStartGame?.Invoke();
         ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
     }
     #endregion
@@ -131,9 +137,10 @@ public class GameManager : MonoBehaviour
                     roundState = RoundState.SELECTING_ACTION;
                     myPlayer.canSelect = true;
 
-                    mesageText.text = "GOOOOOO!!! SELECT YOUR ACTIONS!!";
+                    //mesageText.text = "GOOOOOO!!! SELECT YOUR ACTIONS!!";
 
                     waitingRoundTimer = roundDuration;
+                    OnActionGame?.Invoke();
 
                     break;
                 }
@@ -176,6 +183,8 @@ public class GameManager : MonoBehaviour
                     }
 
                     CompareActions();
+                    OnFightGame?.Invoke();
+
                     break;
                 }
             case RoundState.GOING_NEXT_ROUND:
@@ -191,7 +200,8 @@ public class GameManager : MonoBehaviour
                     numRound++;
 
                     roundText.text = "Round " + numRound;
-                    mesageText.text = "GOING TO THE ROUND  " + numRound + "!  WAITING...";
+                    //mesageText.text = "GOING TO THE ROUND  " + numRound + "!  WAITING...";
+                    OnStartGame?.Invoke();
 
                     waitingRoundTimer = timeStartingRound;
 
@@ -609,6 +619,20 @@ public class GameManager : MonoBehaviour
     {
         lifePlayerText.text = "Life: " + myPlayer.GetLife();
         lifeEnemyText.text = "Life: " + enemy.GetLife();
+    }
+    #endregion
+
+    #region  GET COUNTDOWNROUND
+    public float GetCountDownRound()
+    {
+        return waitingRoundTimer;
+    }
+    #endregion
+
+    #region  GET ROUNDSTATE
+    public RoundState GetroundState()
+    {
+        return roundState;
     }
     #endregion
 
