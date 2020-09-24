@@ -150,8 +150,9 @@ public class GameManager : MonoBehaviour
                     myPlayer.canSelect = false;
 
                     waitingRoundTimer = roundDuration;
-                    
+
                     //Comprobamos que no este vacio
+                    /*
                     if (myPlayer.myActions.Count <= 0)
                     {
                         //si no has puesto acciones lo ponemos en exhausto
@@ -163,6 +164,12 @@ public class GameManager : MonoBehaviour
                             myPlayer.myActions.Add(actions.EXHAUST);
                         }
 
+                    }
+                    */
+                    //comprobamos si faltan
+                    while (myPlayer.myActions.Count < numRound)
+                    {
+                        myPlayer.myActions.Add(actions.EXHAUST);
                     }
 
                     //pedimos las acciones al enemigo
@@ -179,6 +186,7 @@ public class GameManager : MonoBehaviour
                             mesageText.text += myPlayer.myActions[i] + "\n";
                         }
                     }
+
                     enemyActionsText.text = "";
                     for (int i = 0; i < myPlayer.myActions.Count; i++)
                     {
