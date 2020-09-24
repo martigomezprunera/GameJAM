@@ -131,20 +131,13 @@ public class Player : MonoBehaviour
     #region HEAVY ATTACK
     public void HeavyAttack()
     {
-        if (canSelect && myActions.Count < myGameManager.numRound)
-        {
-            if (myActions.Count + 1 == myGameManager.numRound)
-            {
-                myActions.Add(actions.ATACARFUERTE1);
-                //Lo metemos para la siguiente ronda
-                extraAction = actions.ATACARFUERTE2;
-            }
-            else
-            {
-                myActions.Add(actions.ATACARFUERTE1);
-                myActions.Add(actions.ATACARFUERTE2);
-            }
+        if (canSelect && ((myActions.Count+1) < myGameManager.numRound))
+        {            
+            myActions.Add(actions.ATACARFUERTE1);
+            myActions.Add(actions.ATACARFUERTE2);
         }
+        //else
+            //do animation can't select
     }
     #endregion
 

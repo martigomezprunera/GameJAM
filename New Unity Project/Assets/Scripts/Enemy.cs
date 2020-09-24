@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public List<actions> enemyActions;
+    [SerializeField]  public List<actions> enemyActions;
     public actions extraAction = actions.NONE;
 
     [SerializeField] private int life = 100;
@@ -15,8 +15,12 @@ public class Enemy : MonoBehaviour
         int action;
         for (int i = 0; i < numRound; i++)
         {
-            action = Random.Range(0,3);
+            if ((enemyActions.Count > 0)&& (i==0))
+                i++;
 
+            action = Random.Range(0,3);
+            if (numRound == 2)
+                action = 1;
             switch (action)
             {
                 case 0:
@@ -26,17 +30,14 @@ public class Enemy : MonoBehaviour
                     }
                 case 1:
                     {
-                        if (i == numRound - 1)
+                        if ((i + 2) <= numRound)
                         {
                             enemyActions.Add(actions.ATACARFUERTE1);
-                            //Nos guardamos el ataque fuerte dos para añadir en la siguiente
-                            extraAction = actions.ATACARFUERTE2;
+                            i++;
+                            enemyActions.Add(actions.ATACARFUERTE2);
                         }
                         else
-                        {
-                            enemyActions.Add(actions.ATACARFUERTE1);
-                            enemyActions.Add(actions.ATACARFUERTE2);
-                        }                        
+                            enemyActions.Add(actions.ATACAR);
                         break;
                     }
                 case 2:
@@ -54,7 +55,7 @@ public class Enemy : MonoBehaviour
                         break;
                     }
             }
-        }
+        }        
     }
     #endregion
 
