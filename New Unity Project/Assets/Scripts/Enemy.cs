@@ -55,6 +55,14 @@ public class Enemy : MonoBehaviour
                     }
             }
         }
+
+        if (numRound == 3)
+        {
+            enemyActions.Add(actions.PARRY1);
+            enemyActions.Add(actions.ATACARFUERTE1);
+            enemyActions.Add(actions.ESQUIVAR);
+        }
+                
     }
     #endregion
 

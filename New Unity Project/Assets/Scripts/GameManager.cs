@@ -317,8 +317,22 @@ public class GameManager : MonoBehaviour
                             break;
 
                         case actions.PARRY1:
-                            //Nothing
+                            //falla el parry el enemigo
+                            if ((aux + 1) == numRound)
+                                enemy.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
+
                         case actions.PARRY2:
                             //Nothing
                             break;
@@ -410,9 +424,12 @@ public class GameManager : MonoBehaviour
                             break;
 
                         case actions.PARRY1:
-                            //next turn exahust 
+                            //Player next turn exahust 
                             if ((aux + 1) == numRound)
+                            {
                                 myPlayer.extraAction = actions.EXHAUST;
+                                enemy.extraAction = actions.EXHAUST;
+                            }
                             else
                             {
                                 //Check ataquefuerte in next
@@ -423,7 +440,16 @@ public class GameManager : MonoBehaviour
                                 }
                                 else
                                     myPlayer.myActions[aux + 1] = actions.EXHAUST;
+
+                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
                             }
+                            
                             break;
 
                         case actions.PARRY2:
@@ -500,7 +526,20 @@ public class GameManager : MonoBehaviour
                             break;
 
                         case actions.PARRY1:
-                            //nothing
+                            //falla el parry el enemigo
+                            if ((aux + 1) == numRound)
+                                enemy.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
 
                         case actions.PARRY2:
@@ -535,8 +574,22 @@ public class GameManager : MonoBehaviour
                             //Player get damage
                             myPlayer.getDamage(heavyDamage);
                             break;
+
                         case actions.PARRY1:
-                            //Nada
+                            //falla el parry el enemigo
+                            if ((aux + 1) == numRound)
+                                enemy.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            }
                             break;
 
                         case actions.PARRY2:
