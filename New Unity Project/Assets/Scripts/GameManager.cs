@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum actions { ATACAR, ATACARFUERTE1, ATACARFUERTE2, PARRY1, PARRY2, ESQUIVAR, EXHAUST, NONE };
@@ -11,11 +12,14 @@ public enum RoundState
     NONE,
     SELECTING_ACTION,
     DOING_ACTIONS,
-    GOING_NEXT_ROUND
+    GOING_NEXT_ROUND,
+    FINISH_STAGE
 };
 
 public class GameManager : MonoBehaviour
 {
+    
+
     #region VARIABLES
     //public//////////////////////
     public int numRound = 0;
@@ -48,9 +52,14 @@ public class GameManager : MonoBehaviour
     public event Action OnActionGame;
     public event Action OnFightGame;
 
-    #endregion
+    [Header("SCENE MANAGMENT")]
+    public string nextStage;
+    public Animator fadeOut;
+    public Text finishText;
+    bool youWin = false;
 
-    #region METHODS
+    public GameObject fadeInGO;
+    public GameObject fadeOutGO;
 
     #region START
     void Start()
@@ -97,7 +106,26 @@ public class GameManager : MonoBehaviour
                     timerText.text = "Time foing actions: " + waitingRoundTimer;
                     if (waitingRoundTimer <= 0)
                     {
-                        ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+                        ///Miramos si siguen los dos vivos
+                        if (myPlayer.GetLife() > 0 && enemy.GetLife() > 0)
+                        {
+                            ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+                        }
+                        else
+                        {
+                            if (enemy.GetLife() <= 0)
+                            {
+                                finishText.text = "YOU WIN%";
+                                youWin = true;
+                            }
+                            else
+                            {
+                                finishText.text = "YOU LOSE%";
+                                youWin = false;
+                            }
+
+                            ChangeRoundSate(RoundState.FINISH_STAGE);
+                        }
                     }
                     break;
                 }
@@ -109,7 +137,16 @@ public class GameManager : MonoBehaviour
                     {
                         ChangeRoundSate(RoundState.SELECTING_ACTION);
                     }
-                    
+
+                    break;
+                }
+            case RoundState.FINISH_STAGE:
+                {
+                    if (Input.anyKeyDown || Input.mousePresent)
+                    {
+                        fadeOut.SetBool("Active", true);
+                        Invoke("LoadNExtScene", 1f);
+                    }
                     break;
                 }
             default:
@@ -133,6 +170,8 @@ public class GameManager : MonoBehaviour
                 }            
             case RoundState.SELECTING_ACTION:
                 {
+                    fadeInGO.SetActive(false);
+
                     ResetCountDownRound();
                     roundState = RoundState.SELECTING_ACTION;
                     myPlayer.canSelect = true;
@@ -215,6 +254,12 @@ public class GameManager : MonoBehaviour
                     waitingRoundTimer = timeStartingRound;
 
                     aux = 0;
+                    break;
+                }
+            case RoundState.FINISH_STAGE:
+                {
+                    fadeOutGO.SetActive(true);
+                    roundState = RoundState.FINISH_STAGE;
                     break;
                 }
             default:
@@ -661,14 +706,13 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
+
             aux++;
             //doAnimations();
             UpdateLife();
         }while (aux < numRound);
     }
     #endregion
-
-
 
     #region FINISH ROUND
     void FinishRound()
@@ -698,6 +742,20 @@ public class GameManager : MonoBehaviour
     public RoundState GetroundState()
     {
         return roundState;
+    }
+    #endregion
+
+    #region LOAD NEXT SCENE
+    void LoadNExtScene()
+    {
+        if (youWin)
+        {
+            SceneManager.LoadScene(nextStage);
+        }
+        else
+        {
+            SceneManager.LoadScene("Menu_Scene");
+        }
     }
     #endregion
 

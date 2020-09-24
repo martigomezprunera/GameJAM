@@ -50,8 +50,8 @@ public class HUD : MonoBehaviour
     void Update()
     {
         //VARIABLES TO USE IN HUD
-        lifePlayer = 100 - _player.GetLife();
-        lifeEnemy = 100 - _enemy.GetLife();
+        lifePlayer = _player.GetLife();
+        lifeEnemy = _enemy.GetLife();
         countDownTime = _gameManager.GetCountDownRound();
         numRound = _gameManager.numRound;
         roundState = _gameManager.GetroundState();
