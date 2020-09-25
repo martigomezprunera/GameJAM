@@ -23,6 +23,8 @@ public class HUD : MonoBehaviour
     private float countDownTime;
     private int numRound;
     private RoundState roundState;
+    private List<actions> playerActions;
+    private List<actions> enemyActions;
 
     //SLIDERS
     [Header("Sliders")]
@@ -33,35 +35,19 @@ public class HUD : MonoBehaviour
 
     //IMAGES PLAYER
     [Header("Images player")]
-    public Image actionImagePlayer1;
-    public Image actionImagePlayer2;
-    public Image actionImagePlayer3;
-    public Image actionImagePlayer4;
-    public Image actionImagePlayer5;
+    public List<Image> actionImagePlayer;
 
     //TEXT PLAYER ACTIONS
     [Header("Actions text player")]
-    public TextMeshProUGUI actionTextPlayer1;
-    public TextMeshProUGUI actionTextPlayer2;
-    public TextMeshProUGUI actionTextPlayer3;
-    public TextMeshProUGUI actionTextPlayer4;
-    public TextMeshProUGUI actionTextPlayer5;
+    public List<TextMeshProUGUI> actionTextPlayer1;
 
     //IMAGES ENEMY
     [Header("Images enemy")]
-    public Image actionImageEnemy1;
-    public Image actionImageEnemy2;
-    public Image actionImageEnemy3;
-    public Image actionImageEnemy4;
-    public Image actionImageEnemy5;
+    public List<Image> actionImageEnemy;
 
     //TEXT PLAYER ACTIONS
     [Header("Actions text enemy")]
-    public TextMeshProUGUI actionTextEnemy1;
-    public TextMeshProUGUI actionTextEnemy2;
-    public TextMeshProUGUI actionTextEnemy3;
-    public TextMeshProUGUI actionTextEnemy4;
-    public TextMeshProUGUI actionTextEnemy5;
+    public List<TextMeshProUGUI> actionTextEnemy1;
 
     //TEXT 
     [Header("Text")]
@@ -89,6 +75,12 @@ public class HUD : MonoBehaviour
         numRound = _gameManager.numRound;
         roundState = _gameManager.GetroundState();
 
+        //ACTIONS PLAYER
+        playerActions = _player.myActions;
+
+        //ACTIONS ENEMY
+        enemyActions = _enemy.enemyActions;
+
         //SLIDER PLAYER
         SliderPlayerLife();
 
@@ -105,7 +97,7 @@ public class HUD : MonoBehaviour
         TextRound();
 
         //ACTIONS ROUND
-        ActionsImagesActivate();
+        ActionsHUD();
     }
 
     #region AnimateTextReady
@@ -182,7 +174,7 @@ public class HUD : MonoBehaviour
                 textRound.text = "READY%";
 
                 //ANIMATION
-                
+
 
                 break;
             case RoundState.SELECTING_ACTION:
@@ -195,37 +187,87 @@ public class HUD : MonoBehaviour
     }
     #endregion
 
-    #region ActionsImagesActivate
-    void ActionsImagesActivate()
+    #region ActionsHUD
+    void ActionsHUD()
     {
-        switch(numRound)
+        //IMAGE ALPHA
+        ImageActions();
+    }
+    #endregion
+
+    #region ImageActions
+    void ImageActions()
+    {
+        switch (numRound)
         {
             case 1:
-                //IMAGE ALPHA
-                actionImagePlayer1.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 1f);
-                actionImagePlayer2.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 0.2f);
-                actionImagePlayer3.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 0.2f);
-                actionImagePlayer4.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 0.2f);
-                actionImagePlayer5.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 0.2f);
+                actionImagePlayer[0].color = new Color(actionImagePlayer[0].color.r, actionImagePlayer[0].color.g, actionImagePlayer[0].color.b, 1f);
+                actionImagePlayer[1].color = new Color(actionImagePlayer[1].color.r, actionImagePlayer[1].color.g, actionImagePlayer[1].color.b, 0.2f);
+                actionImagePlayer[2].color = new Color(actionImagePlayer[2].color.r, actionImagePlayer[2].color.g, actionImagePlayer[2].color.b, 0.2f);
+                actionImagePlayer[3].color = new Color(actionImagePlayer[3].color.r, actionImagePlayer[3].color.g, actionImagePlayer[3].color.b, 0.2f);
+                actionImagePlayer[4].color = new Color(actionImagePlayer[4].color.r, actionImagePlayer[4].color.g, actionImagePlayer[4].color.b, 0.2f);
 
-                //TEXT ALPHA
-                actionTextPlayer1.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 1f);
-                actionTextPlayer2.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 0.2f);
-                actionTextPlayer3.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 0.2f);
-                actionTextPlayer4.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 0.2f);
-                actionTextPlayer5.color = new Color(actionImagePlayer1.color.r, actionImagePlayer1.color.g, actionImagePlayer1.color.b, 0.2f);
+                actionImageEnemy[0].color = new Color(actionImageEnemy[0].color.r, actionImageEnemy[0].color.g, actionImageEnemy[0].color.b, 1f);
+                actionImageEnemy[1].color = new Color(actionImageEnemy[1].color.r, actionImageEnemy[1].color.g, actionImageEnemy[1].color.b, 0.2f);
+                actionImageEnemy[2].color = new Color(actionImageEnemy[2].color.r, actionImageEnemy[2].color.g, actionImageEnemy[2].color.b, 0.2f);
+                actionImageEnemy[3].color = new Color(actionImageEnemy[3].color.r, actionImageEnemy[3].color.g, actionImageEnemy[3].color.b, 0.2f);
+                actionImageEnemy[4].color = new Color(actionImageEnemy[4].color.r, actionImageEnemy[4].color.g, actionImageEnemy[4].color.b, 0.2f);
 
                 break;
             case 2:
+                actionImagePlayer[0].color = new Color(actionImagePlayer[0].color.r, actionImagePlayer[0].color.g, actionImagePlayer[0].color.b, 1f);
+                actionImagePlayer[1].color = new Color(actionImagePlayer[1].color.r, actionImagePlayer[1].color.g, actionImagePlayer[1].color.b, 1f);
+                actionImagePlayer[2].color = new Color(actionImagePlayer[2].color.r, actionImagePlayer[2].color.g, actionImagePlayer[2].color.b, 0.2f);
+                actionImagePlayer[3].color = new Color(actionImagePlayer[3].color.r, actionImagePlayer[3].color.g, actionImagePlayer[3].color.b, 0.2f);
+                actionImagePlayer[4].color = new Color(actionImagePlayer[4].color.r, actionImagePlayer[4].color.g, actionImagePlayer[4].color.b, 0.2f);
+
+                actionImageEnemy[0].color = new Color(actionImageEnemy[0].color.r, actionImageEnemy[0].color.g, actionImageEnemy[0].color.b, 1f);
+                actionImageEnemy[1].color = new Color(actionImageEnemy[1].color.r, actionImageEnemy[1].color.g, actionImageEnemy[1].color.b, 1f);
+                actionImageEnemy[2].color = new Color(actionImageEnemy[2].color.r, actionImageEnemy[2].color.g, actionImageEnemy[2].color.b, 0.2f);
+                actionImageEnemy[3].color = new Color(actionImageEnemy[3].color.r, actionImageEnemy[3].color.g, actionImageEnemy[3].color.b, 0.2f);
+                actionImageEnemy[4].color = new Color(actionImageEnemy[4].color.r, actionImageEnemy[4].color.g, actionImageEnemy[4].color.b, 0.2f);
 
                 break;
             case 3:
+                actionImagePlayer[0].color = new Color(actionImagePlayer[0].color.r, actionImagePlayer[0].color.g, actionImagePlayer[0].color.b, 1f);
+                actionImagePlayer[1].color = new Color(actionImagePlayer[1].color.r, actionImagePlayer[1].color.g, actionImagePlayer[1].color.b, 1f);
+                actionImagePlayer[2].color = new Color(actionImagePlayer[2].color.r, actionImagePlayer[2].color.g, actionImagePlayer[2].color.b, 1f);
+                actionImagePlayer[3].color = new Color(actionImagePlayer[3].color.r, actionImagePlayer[3].color.g, actionImagePlayer[3].color.b, 0.2f);
+                actionImagePlayer[4].color = new Color(actionImagePlayer[4].color.r, actionImagePlayer[4].color.g, actionImagePlayer[4].color.b, 0.2f);
+
+                actionImageEnemy[0].color = new Color(actionImageEnemy[0].color.r, actionImageEnemy[0].color.g, actionImageEnemy[0].color.b, 1f);
+                actionImageEnemy[1].color = new Color(actionImageEnemy[1].color.r, actionImageEnemy[1].color.g, actionImageEnemy[1].color.b, 1f);
+                actionImageEnemy[2].color = new Color(actionImageEnemy[2].color.r, actionImageEnemy[2].color.g, actionImageEnemy[2].color.b, 1f);
+                actionImageEnemy[3].color = new Color(actionImageEnemy[3].color.r, actionImageEnemy[3].color.g, actionImageEnemy[3].color.b, 0.2f);
+                actionImageEnemy[4].color = new Color(actionImageEnemy[4].color.r, actionImageEnemy[4].color.g, actionImageEnemy[4].color.b, 0.2f);
 
                 break;
             case 4:
+                actionImagePlayer[0].color = new Color(actionImagePlayer[0].color.r, actionImagePlayer[0].color.g, actionImagePlayer[0].color.b, 1f);
+                actionImagePlayer[1].color = new Color(actionImagePlayer[1].color.r, actionImagePlayer[1].color.g, actionImagePlayer[1].color.b, 1f);
+                actionImagePlayer[2].color = new Color(actionImagePlayer[2].color.r, actionImagePlayer[2].color.g, actionImagePlayer[2].color.b, 1f);
+                actionImagePlayer[3].color = new Color(actionImagePlayer[3].color.r, actionImagePlayer[3].color.g, actionImagePlayer[3].color.b, 1f);
+                actionImagePlayer[4].color = new Color(actionImagePlayer[4].color.r, actionImagePlayer[4].color.g, actionImagePlayer[4].color.b, 0.2f);
+
+                actionImageEnemy[0].color = new Color(actionImageEnemy[0].color.r, actionImageEnemy[0].color.g, actionImageEnemy[0].color.b, 1f);
+                actionImageEnemy[1].color = new Color(actionImageEnemy[1].color.r, actionImageEnemy[1].color.g, actionImageEnemy[1].color.b, 1f);
+                actionImageEnemy[2].color = new Color(actionImageEnemy[2].color.r, actionImageEnemy[2].color.g, actionImageEnemy[2].color.b, 1f);
+                actionImageEnemy[3].color = new Color(actionImageEnemy[3].color.r, actionImageEnemy[3].color.g, actionImageEnemy[3].color.b, 1f);
+                actionImageEnemy[4].color = new Color(actionImageEnemy[4].color.r, actionImageEnemy[4].color.g, actionImageEnemy[4].color.b, 0.2f);
 
                 break;
             case 5:
+                actionImagePlayer[0].color = new Color(actionImagePlayer[0].color.r, actionImagePlayer[0].color.g, actionImagePlayer[0].color.b, 1f);
+                actionImagePlayer[1].color = new Color(actionImagePlayer[1].color.r, actionImagePlayer[1].color.g, actionImagePlayer[1].color.b, 1f);
+                actionImagePlayer[2].color = new Color(actionImagePlayer[2].color.r, actionImagePlayer[2].color.g, actionImagePlayer[2].color.b, 1f);
+                actionImagePlayer[3].color = new Color(actionImagePlayer[3].color.r, actionImagePlayer[3].color.g, actionImagePlayer[3].color.b, 1f);
+                actionImagePlayer[4].color = new Color(actionImagePlayer[4].color.r, actionImagePlayer[4].color.g, actionImagePlayer[4].color.b, 1f);
+
+                actionImageEnemy[0].color = new Color(actionImageEnemy[0].color.r, actionImageEnemy[0].color.g, actionImageEnemy[0].color.b, 1f);
+                actionImageEnemy[1].color = new Color(actionImageEnemy[1].color.r, actionImageEnemy[1].color.g, actionImageEnemy[1].color.b, 1f);
+                actionImageEnemy[2].color = new Color(actionImageEnemy[2].color.r, actionImageEnemy[2].color.g, actionImageEnemy[2].color.b, 1f);
+                actionImageEnemy[3].color = new Color(actionImageEnemy[3].color.r, actionImageEnemy[3].color.g, actionImageEnemy[3].color.b, 1f);
+                actionImageEnemy[4].color = new Color(actionImageEnemy[4].color.r, actionImageEnemy[4].color.g, actionImageEnemy[4].color.b, 1f);
 
                 break;
         }

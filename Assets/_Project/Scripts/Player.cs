@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     [SerializeField] private int life = 100;
 
     public bool canSelect = false;
+
+    //HUD
+    public HUD myHud;
     #endregion
 
     #region METHODS
@@ -127,7 +130,10 @@ public class Player : MonoBehaviour
             aux = 5;
 
         if (canSelect && myActions.Count < aux)
+        {
             myActions.Add(actions.ATACAR);
+            FillHUDPlayer(actions.ATACAR);
+        }
     }
     #endregion
 
@@ -143,6 +149,7 @@ public class Player : MonoBehaviour
         {            
             myActions.Add(actions.ATACARFUERTE1);
             myActions.Add(actions.ATACARFUERTE2);
+            FillHUDPlayer(actions.ATACARFUERTE1);
         }
         //else
             //do animation can't select
@@ -158,8 +165,10 @@ public class Player : MonoBehaviour
             aux = 5;
 
         if (canSelect && myActions.Count < aux)
+        {
             myActions.Add(actions.PARRY1);
-
+            FillHUDPlayer(actions.PARRY1);
+        }
     }
     #endregion
 
@@ -172,8 +181,37 @@ public class Player : MonoBehaviour
             aux = 5;
 
         if (canSelect && myActions.Count < aux)
+        {
             myActions.Add(actions.ESQUIVAR);
+            FillHUDPlayer(actions.ESQUIVAR);
+        }
+            
 
+    }
+    #endregion
+
+    #region Fill HUD Player
+    void FillHUDPlayer(actions myAction)
+    {
+        switch (myAction)
+        {
+            case actions.ATACAR:
+                myHud.actionTextPlayer1[myActions.Count - 1].text = "A";
+                break;
+            case actions.ATACARFUERTE1:
+                myHud.actionTextPlayer1[myActions.Count - 2].text = "C";
+                myHud.actionTextPlayer1[myActions.Count - 1].text = "H";
+                break;
+            case actions.PARRY1:
+                myHud.actionTextPlayer1[myActions.Count - 1].text = "P";
+                break;
+            case actions.ESQUIVAR:
+                myHud.actionTextPlayer1[myActions.Count - 1].text = "D";
+                break;
+            default:
+                myHud.actionTextPlayer1[myActions.Count - 1].text = "E";
+                break;
+        }
     }
     #endregion
 
