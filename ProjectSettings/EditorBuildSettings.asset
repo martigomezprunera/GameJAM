@@ -5,7 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: cbfe36cfddfde964d9dfce63a355d5dd
+  - enabled: 1
+    path: Assets/_Project/Scenes/MenuSceneHDRP.unity
+    guid: 97a443313ca1fa7459e5bb4e0c65b0de
+  - enabled: 1
+    path: Assets/_Project/Scenes/HUDSceneHDRP.unity
+    guid: 3993ac500c3e7fc469855dfb19e4bb90
+  - enabled: 1
+    path: Assets/_Project/Scenes/STAGES/StageScreen1HDRP.unity
+    guid: 92a3191c04b6730409666720cc3986ad
+  - enabled: 1
+    path: Assets/_Project/Scenes/STAGES/StageScreen2HDRP.unity
+    guid: 7ed6b9fc2ac128840937d162ac9490ca
+  - enabled: 1
+    path: Assets/_Project/Scenes/STAGES/BossFightScreenHDRP.unity
+    guid: 9ab6ee19c8be47349b2ef8e8951d5078
   m_configObjects: {}

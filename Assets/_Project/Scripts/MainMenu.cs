@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     public Animator fadeOut;
-
+    public string sceneToOpen;
+    
     public void PlayGame()
     {
         //HAY QUE AÑADIR LA ESCENA AL BUILDEAR
@@ -28,6 +29,6 @@ public class MainMenu : MonoBehaviour
 
     void LoadNextScene()
     {
-        SceneManager.LoadScene("StageScreen1");
+        SceneManager.LoadScene(sceneToOpen);
     }
 }
