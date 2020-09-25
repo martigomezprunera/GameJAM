@@ -38,8 +38,23 @@ public class CharacterAnimations : MonoBehaviour
     }
     #endregion
 
+    #region CHARGING HEAVY
+    public void ChargingHeavy()
+    {
+        animator.SetBool("ChargingHeavy", true);
+    }
+    #endregion
+
     #region HEAVY ATTACK
     public void HeavyAttack()
+    {
+        animator.SetBool("HeavyAttack", true);
+        Invoke("GoToIdle", 2f);
+    }
+    #endregion
+
+    #region CANCELLING HEAVY
+    public void CancellingAttack()
     {
         animator.SetBool("HeavyAttack", true);
         Invoke("GoToIdle", 2f);
@@ -66,6 +81,7 @@ public class CharacterAnimations : MonoBehaviour
     public void GoToIdle()
     {
         animator.SetBool("HeavyAttack", false);
+        animator.SetBool("ChargingHeavy", false);
         animator.SetBool("LightAttack", false);
         animator.SetBool("Dodge", false);
         animator.SetBool("Parry", false);
