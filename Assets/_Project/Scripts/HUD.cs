@@ -171,14 +171,10 @@ public class HUD : MonoBehaviour
         switch (roundState)
         {
             case RoundState.GOING_NEXT_ROUND:
-                textRound.text = "READY%";
-
-                //ANIMATION
-
-
+                textRound.text = "READY)";
                 break;
             case RoundState.SELECTING_ACTION:
-                textRound.text = "ACTIONS%";
+                textRound.text = "CHOOSE YOUR ACTIONS%";
                 break;
             case RoundState.DOING_ACTIONS:
                 textRound.text = "FIGHT%";
