@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int life = 100;
     [SerializeField] public int id = 1;
 
+    //HUD
+    public HUD myHud;
+
     #region GET NEW ACTION
     public void GetNewActions(int numRound)
     {
@@ -663,8 +666,31 @@ public class Enemy : MonoBehaviour
             default:
                 break;
         }
-              
-       
+        
+        //HUD first action
+        switch (enemyActions[0])
+        {
+            case actions.ATACAR:
+                myHud.actionTextEnemy1[0].text = "A";
+                break;
+            case actions.ATACARFUERTE1:
+                myHud.actionTextEnemy1[0].text = "C";
+                break;
+            case actions.PARRY1:
+                myHud.actionTextEnemy1[0].text = "P";
+                break;
+            case actions.ESQUIVAR:
+                myHud.actionTextEnemy1[0].text = "D";
+                break;
+            default:
+                break;
+        }
+
+        //INTERROGANTES
+        for(int i = 1; i < (numRound); i++)
+        {
+            myHud.actionTextEnemy1[i].text = ")";
+        }
     }
     #endregion
 
@@ -693,6 +719,34 @@ public class Enemy : MonoBehaviour
     public int GetLife()
     {
         return life;
+    }
+    #endregion
+
+    #region Fill HUD Enemy
+    public void FillHUDEnemy()
+    {
+        for (int i = 0; i < enemyActions.Count; i++)
+        {
+            switch (enemyActions[i])
+            {
+                case actions.ATACAR:
+                    myHud.actionTextEnemy1[i].text = "A";
+                    break;
+                case actions.ATACARFUERTE1:
+                    myHud.actionTextEnemy1[i].text = "C";
+                    myHud.actionTextEnemy1[i].text = "H";
+                    break;
+                case actions.PARRY1:
+                    myHud.actionTextEnemy1[i].text = "P";
+                    break;
+                case actions.ESQUIVAR:
+                    myHud.actionTextEnemy1[i].text = "D";
+                    break;
+                default:
+                    myHud.actionTextEnemy1[i].text = "E";
+                    break;
+            }
+        }        
     }
     #endregion
 }
