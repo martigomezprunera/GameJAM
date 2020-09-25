@@ -60,6 +60,9 @@ public class GameManager : MonoBehaviour
     public GameObject fadeInGO;
     public GameObject fadeOutGO;
 
+    [Header("HUDPlayer")]
+    public HUD myHud;
+
     [Header("ANIMATIONS")]
     public CharacterAnimations characterAnimations;
 
@@ -67,7 +70,6 @@ public class GameManager : MonoBehaviour
     float timerAux = 0;
 
     #endregion
-
 
     #region START
     void Start()
@@ -147,6 +149,12 @@ public class GameManager : MonoBehaviour
                         ChangeRoundSate(RoundState.SELECTING_ACTION);
                     }
 
+                    //UNFILLHUD PLAYER
+                    UnfillHUDPlayer();
+
+                    //UNFILLHUD ENEMY
+                    //UnfillHUDEnemy();
+
                     break;
                 }
             case RoundState.FINISH_STAGE:
@@ -222,6 +230,13 @@ public class GameManager : MonoBehaviour
 
                     //pedimos las acciones al enemigo
                     enemy.GetNewActions(numRound);                    
+                    //enemy.GetNewActions(numRound);
+
+                    //FILLHUDENEMY
+                    enemy.FillHUDEnemy();
+
+                    //Comprobar si player esta vacio
+                    CompareActions();
 
                     //imprimimos por pantalla la lista de acciones del jugador
                     if (myPlayer.myActions.Count > 0)
@@ -261,6 +276,7 @@ public class GameManager : MonoBehaviour
                     OnStartGame?.Invoke();
 
                     waitingRoundTimer = timeStartingRound;
+                    enemy.GetNewActions(numRound);
 
                     aux = 0;
                     break;
@@ -746,9 +762,22 @@ public class GameManager : MonoBehaviour
                                 myPlayer.getDamage(heavyDamage);
                                 break;
 
-                            case actions.PARRY1:
-                                //nothing
-                                break;
+                        case actions.PARRY1:
+                            //falla el parry el enemigo
+                            if ((aux + 1) == numRound)
+                                enemy.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            }
+                            break;
 
                             case actions.PARRY2:
                                 //nothing
@@ -823,6 +852,36 @@ public class GameManager : MonoBehaviour
         else
         {
             SceneManager.LoadScene("Menu_Scene");
+        }
+    }
+    #endregion
+
+    #region UnfillHUDPlayer
+    void UnfillHUDPlayer()
+    {
+        for (int i = 0; i < numRound; i++)
+        {
+            myHud.actionTextPlayer1[i].text = " ";
+        }
+
+        if(myPlayer.myActions.Count > 0)
+        {
+            myHud.actionTextPlayer1[0].text = "E";
+        }
+    }
+    #endregion
+
+    #region UnfillHUDEnemy
+    void UnfillHUDEnemy()
+    {
+        for (int i = 0; i < numRound; i++)
+        {
+            myHud.actionTextEnemy1[i].text = " ";
+        }
+
+        if (myPlayer.myActions.Count > 0)
+        {
+            myHud.actionTextEnemy1[0].text = "E";
         }
     }
     #endregion
