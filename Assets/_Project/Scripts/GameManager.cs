@@ -17,8 +17,7 @@ public enum RoundState
 };
 
 public class GameManager : MonoBehaviour
-{
-    
+{  
 
     #region VARIABLES
     //public//////////////////////
@@ -60,6 +59,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject fadeInGO;
     public GameObject fadeOutGO;
+
+    #endregion
+
 
     #region START
     void Start()
@@ -246,6 +248,8 @@ public class GameManager : MonoBehaviour
                     enemyActionsText.text = "";
 
                     numRound++;
+                    if (numRound > 5)
+                        numRound = 5;
 
                     roundText.text = "Round " + numRound;
                     //mesageText.text = "GOING TO THE ROUND  " + numRound + "!  WAITING...";
@@ -759,5 +763,4 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #endregion
 }

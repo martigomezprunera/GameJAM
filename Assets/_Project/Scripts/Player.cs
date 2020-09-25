@@ -121,17 +121,25 @@ public class Player : MonoBehaviour
     #region LIGHT ATTACK
     public void LightAttack()
     {
-        if (canSelect && myActions.Count < myGameManager.numRound)
-        {
+        int aux = myGameManager.numRound;
+
+        if (aux > 5)
+            aux = 5;
+
+        if (canSelect && myActions.Count < aux)
             myActions.Add(actions.ATACAR);
-        }
     }
     #endregion
 
     #region HEAVY ATTACK
     public void HeavyAttack()
     {
-        if (canSelect && ((myActions.Count+1) < myGameManager.numRound))
+        int aux = myGameManager.numRound;
+
+        if (aux > 5)
+            aux = 5;
+
+        if (canSelect && ((myActions.Count+1) < aux))
         {            
             myActions.Add(actions.ATACARFUERTE1);
             myActions.Add(actions.ATACARFUERTE2);
@@ -144,20 +152,28 @@ public class Player : MonoBehaviour
     #region PARRY
     public void Parry()
     {
-        if (canSelect && myActions.Count < myGameManager.numRound)
-        {
+        int aux = myGameManager.numRound;
+
+        if (aux > 5)
+            aux = 5;
+
+        if (canSelect && myActions.Count < aux)
             myActions.Add(actions.PARRY1);
-        }
+
     }
     #endregion
 
     #region BACK STEP
     public void BackStep()
     {
-        if (canSelect && myActions.Count < myGameManager.numRound)
-        {
+        int aux = myGameManager.numRound;
+
+        if (aux > 5)
+            aux = 5;
+
+        if (canSelect && myActions.Count < aux)
             myActions.Add(actions.ESQUIVAR);
-        }
+
     }
     #endregion
 
