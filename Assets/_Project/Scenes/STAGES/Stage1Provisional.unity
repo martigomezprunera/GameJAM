@@ -2873,7 +2873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1967819982}
   player: {fileID: 1735927305}
-  enemy: {fileID: 1796534951}
+  enemy: {fileID: 1386155475}
   sliderLifePlayer: {fileID: 896615762}
   sliderLifeEnemy: {fileID: 177232549}
   sliderTimePlayer: {fileID: 1468882678}

@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
     #region GET NEW ACTION
     public void GetNewActions(int numRound)
     {
-
+        
         int numActionsToAdd = numRound;
         int action;
         action = Random.Range(1, 5);
@@ -38,13 +38,16 @@ public class Enemy : MonoBehaviour
         //Si arrastyramos exahust añadimos una accion menos
         if (enemyActions.Count > 0)
             numActionsToAdd--;
-
+        if (numActionsToAdd == 1)
+        {
+            action = 3;
+        }
         //Dependiendo del ID
         switch (id)
         {
             #region PRIMER ENEMIGO 
             case 1:
-                switch (numRound)
+                switch (numActionsToAdd)
                 {
                     #region RONDA 1
                     case 1:
@@ -692,6 +695,7 @@ public class Enemy : MonoBehaviour
                 myHud.actionTextEnemy1[0].text = "D";
                 break;
             default:
+                myHud.actionTextEnemy1[0].text = "E";
                 break;
         }
 
@@ -743,6 +747,7 @@ public class Enemy : MonoBehaviour
                     break;
                 case actions.ATACARFUERTE1:
                     myHud.actionTextEnemy1[i].text = "C";
+                    i++;
                     myHud.actionTextEnemy1[i].text = "H";
                     break;
                 case actions.PARRY1:
@@ -762,7 +767,7 @@ public class Enemy : MonoBehaviour
     #region Comprobe
     public void ComprobeNextAnimation()
     {
-        myGameManager.CheckNextAnimationPlayer(1);
+        //myGameManager.CheckNextAnimationPlayer(1);
     }
     #endregion
 }

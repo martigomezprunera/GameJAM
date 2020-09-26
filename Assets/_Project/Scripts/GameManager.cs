@@ -230,7 +230,7 @@ public class GameManager : MonoBehaviour
                     //Comprobar si player esta vacio
                     //CompareActions();
 
-                   
+
                     OnFightGame?.Invoke();
                     break;
                 }
@@ -745,7 +745,10 @@ public class GameManager : MonoBehaviour
 
                             //falla el parry el enemigo
                             if ((aux + 1) == numRound)
+                            {
+                                Debug.Log("Mete la accion");
                                 enemy.extraAction = actions.EXHAUST;
+                            }
                             else
                             {
                                 //Check ataquefuerte in next
@@ -954,7 +957,8 @@ public class GameManager : MonoBehaviour
     {
         if (id == 0)
         {
-            //Check si player esta atacando            
+            //Check si player esta atacando
+            Debug.Log("Aux :" + (aux - 1) + "; MoveList Count : " + lastPlayerActions.Count);
             if (lastPlayerActions[aux - 1] == actions.ATACAR)
             {
                 if ((lastEnemyActions[aux - 1] == actions.ESQUIVAR) || (lastEnemyActions[aux - 1] == actions.PARRY1))
@@ -1023,6 +1027,7 @@ public class GameManager : MonoBehaviour
         //Clear if last
         if (aux == lastPlayerActions.Count)
         {
+            Debug.Log("H entrao nen");
             lastPlayerActions.Clear();
             lastEnemyActions.Clear();
         }
