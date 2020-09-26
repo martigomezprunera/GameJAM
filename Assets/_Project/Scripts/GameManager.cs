@@ -17,7 +17,7 @@ public enum RoundState
 };
 
 public class GameManager : MonoBehaviour
-{  
+{
 
     #region VARIABLES
     //public//////////////////////
@@ -41,7 +41,9 @@ public class GameManager : MonoBehaviour
 
     //Private//////////////////////
     private float countDownRound;
-    private List<actions> iaActions;
+    [SerializeField] private List<actions> lastPlayerActions;
+    [SerializeField] private List<actions> lastEnemyActions;
+    private bool copyActions = false;
     private int aux;
 
     private RoundState roundState  = RoundState.NONE;
@@ -65,9 +67,10 @@ public class GameManager : MonoBehaviour
 
     [Header("ANIMATIONS")]
     public CharacterAnimations characterAnimations;
+    public CharacterAnimations enemyAnimations;
 
-    float timerAnimations = 2f;
-    float timerAux = 0;
+    public float timerAnimations = 2.5f;
+    public float timerAux = 0;
 
     #endregion
 
@@ -83,8 +86,8 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region FIXED UPDATE
-    void FixedUpdate()
+    #region UPDATE
+    void Update()
     {
         HandleRound();        
     }
@@ -92,7 +95,7 @@ public class GameManager : MonoBehaviour
 
     #region HANDLE ROUND
     void HandleRound()
-    {  
+    {
         switch (roundState)
         {
             case RoundState.NONE:
@@ -112,36 +115,38 @@ public class GameManager : MonoBehaviour
                 }
             case RoundState.DOING_ACTIONS:
                 {
+
                     waitingRoundTimer -= Time.deltaTime;
                     timerText.text = "Time foing actions: " + waitingRoundTimer;
 
-                    CompareActions();
-                    
-                    ///Miramos si siguen los dos vivos
-                    if (myPlayer.GetLife() > 0 && enemy.GetLife() > 0)
+                    if (aux < numRound)
                     {
-                        ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+                        CompareActions();
+                        if (myPlayer.GetLife() <= 0 || enemy.GetLife() <= 0)
+                        {
+                            if (enemy.GetLife() <= 0)
+                            {
+                                finishText.text = "YOU WIN%";
+                                youWin = true;
+                            }
+                            else
+                            {
+                                finishText.text = "YOU LOSE%";
+                                youWin = false;
+                            }
+                            ChangeRoundSate(RoundState.FINISH_STAGE);
+                        }
                     }
                     else
                     {
-                        if (enemy.GetLife() <= 0)
-                        {
-                            finishText.text = "YOU WIN%";
-                            youWin = true;
-                        }
-                        else
-                        {
-                            finishText.text = "YOU LOSE%";
-                            youWin = false;
-                        }
-
-                        ChangeRoundSate(RoundState.FINISH_STAGE);
+                        ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
                     }
                     
                     break;
                 }
             case RoundState.GOING_NEXT_ROUND:
                 {
+
                     waitingRoundTimer -= Time.deltaTime;
                     timerText.text = "Time to next Round: " + waitingRoundTimer;
                     if (waitingRoundTimer <= 0)
@@ -187,6 +192,7 @@ public class GameManager : MonoBehaviour
                 }            
             case RoundState.SELECTING_ACTION:
                 {
+
                     fadeInGO.SetActive(false);
 
                     ResetCountDownRound();
@@ -197,7 +203,8 @@ public class GameManager : MonoBehaviour
 
                     waitingRoundTimer = roundDuration;
                     OnActionGame?.Invoke();
-
+                    aux = 0;
+                    copyActions = true;
                     break;
                 }
             case RoundState.DOING_ACTIONS:
@@ -207,21 +214,6 @@ public class GameManager : MonoBehaviour
 
                     waitingRoundTimer = roundDuration;
 
-                    //Comprobamos que no este vacio
-                    /*
-                    if (myPlayer.myActions.Count <= 0)
-                    {
-                        //si no has puesto acciones lo ponemos en exhausto
-                        mesageText.text = "";
-
-                        for (int i = 0; i < numRound; i++)
-                        {
-                            mesageText.text += actions.EXHAUST + "\n";
-                            myPlayer.myActions.Add(actions.EXHAUST);
-                        }
-
-                    }
-                    */
                     //comprobamos si faltan
                     while (myPlayer.myActions.Count < numRound)
                     {
@@ -229,32 +221,17 @@ public class GameManager : MonoBehaviour
                     }
 
                     //pedimos las acciones al enemigo
-                    enemy.GetNewActions(numRound);                    
+                    //enemy.GetNewActions(numRound);                    
                     //enemy.GetNewActions(numRound);
 
                     //FILLHUDENEMY
                     enemy.FillHUDEnemy();
 
                     //Comprobar si player esta vacio
-                    CompareActions();
+                    //CompareActions();
 
-                    //imprimimos por pantalla la lista de acciones del jugador
-                    if (myPlayer.myActions.Count > 0)
-                    {
-                        mesageText.text = "";
-                        for (int i = 0; i < myPlayer.myActions.Count; i++)
-                        {
-                            mesageText.text += myPlayer.myActions[i] + "\n";
-                        }
-                    }
-
-                    enemyActionsText.text = "";
-                    for (int i = 0; i < myPlayer.myActions.Count; i++)
-                    {
-                        enemyActionsText.text += enemy.enemyActions[i] + "\n";
-                    }
+                   
                     OnFightGame?.Invoke();
-
                     break;
                 }
             case RoundState.GOING_NEXT_ROUND:
@@ -278,7 +255,7 @@ public class GameManager : MonoBehaviour
                     waitingRoundTimer = timeStartingRound;
                     enemy.GetNewActions(numRound);
 
-                    aux = 0;
+                    //aux = 0;
                     break;
                 }
             case RoundState.FINISH_STAGE:
@@ -313,454 +290,367 @@ public class GameManager : MonoBehaviour
     #region COMPARE ACTIONS
     void CompareActions()
     {
-        do
+        timerAux += Time.deltaTime;
+        if (timerAux >= timerAnimations)
         {
-            timerAux += Time.deltaTime;
-            if (timerAux >= timerAnimations)
+            timerAux = 0;
+            switch (myPlayer.myActions[aux])
             {
-                timerAux = 0;
-                switch (myPlayer.myActions[aux])
-                {
-                    case actions.ATACAR:
-                        switch (enemy.enemyActions[aux])
-                        {
-                            case actions.ATACAR:
-                                //LLamamos a las animaciones
-                                characterAnimations.LighAttack();
+                case actions.ATACAR:
+                    switch (enemy.enemyActions[aux])
+                    {
+                        case actions.ATACAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.LighAttack();
 
-                                myPlayer.getDamage(lightDamage);
-                                enemy.getDamage(lightDamage);
-                                break;
+                            myPlayer.getDamage(lightDamage);
+                            enemy.getDamage(lightDamage);
+                            break;
 
-                            case actions.ATACARFUERTE1:
-                                //LLamamos a las animaciones
-                                characterAnimations.LighAttack();
+                        case actions.ATACARFUERTE1:
+                            //LLamamos a las animaciones
+                            characterAnimations.LighAttack();
 
-                                //Enemy get damage and an exhaust on next round
-                                enemy.getDamage(lightDamage);
-                                if (aux == numRound - 1)
-                                    enemy.extraAction = actions.EXHAUST;
+                            //Enemy get damage and an exhaust on next round
+                            enemy.getDamage(lightDamage);
+                            if (aux == numRound - 1)
+                                enemy.extraAction = actions.EXHAUST;
+                            else
+                                enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            break;
+
+                        case actions.ATACARFUERTE2:
+                            //LLamamos a las animaciones
+                            characterAnimations.LighAttack();
+
+                            //Both get Damage
+                            myPlayer.getDamage(heavyDamage);
+                            enemy.getDamage(lightDamage);
+                            break;
+
+                        case actions.PARRY1:
+                            //LLamamos a las animaciones
+                            characterAnimations.LighAttack();
+
+                            //Player get Damage
+                            myPlayer.getDamage(lightDamage);
+                            break;
+
+                        case actions.PARRY2:
+                            //LLamamos a las animaciones
+                            characterAnimations.LighAttack();
+
+                            //Enemy get damage
+                            enemy.getDamage(lightDamage);
+                            break;
+
+                        case actions.ESQUIVAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.LighAttack();
+
+                            //nothing
+                            break;
+
+                        case actions.EXHAUST:
+                            //LLamamos a las animaciones
+                            characterAnimations.LighAttack();
+
+                            //Enemy get damage
+                            enemy.getDamage(lightDamage);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+                case actions.ATACARFUERTE1:
+                    switch (enemy.enemyActions[aux])
+                    {
+                        case actions.ATACAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.ChargingHeavy();
+
+                            //Player get damage and exahust on next turn
+                            myPlayer.getDamage(lightDamage);
+                            myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            break;
+
+                        case actions.ATACARFUERTE1:
+                            //LLamamos a las animaciones
+                            characterAnimations.ChargingHeavy();
+                            //nothing
+                            break;
+
+                        case actions.ATACARFUERTE2:
+                            //Player get damage + exahust on next
+                            myPlayer.getDamage(heavyDamage);
+                            myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            break;
+
+                        case actions.PARRY1:
+                            //LLamamos a las animaciones
+                            characterAnimations.ChargingHeavy();
+
+                            //falla el parry el enemigo
+                            if ((aux + 1) == numRound)
+                                enemy.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
+                                }
                                 else
                                     enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                break;
+                            }
+                            break;
 
-                            case actions.ATACARFUERTE2:
-                                //LLamamos a las animaciones
-                                characterAnimations.LighAttack();
+                        case actions.PARRY2:
+                            //LLamamos a las animaciones
+                            characterAnimations.ChargingHeavy();
 
-                                //Both get Damage
-                                myPlayer.getDamage(heavyDamage);
-                                enemy.getDamage(lightDamage);
-                                break;
+                            //Nothing
+                            break;
+                        case actions.ESQUIVAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.ChargingHeavy();
 
-                            case actions.PARRY1:
-                                //LLamamos a las animaciones
-                                characterAnimations.LighAttack();
+                            //Nothing
+                            break;
+                        case actions.EXHAUST:
+                            //LLamamos a las animaciones
+                            characterAnimations.ChargingHeavy();
+                            //Nothing
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
 
-                                //Player get Damage
-                                myPlayer.getDamage(lightDamage);
-                                break;
+                case actions.ATACARFUERTE2:
+                    switch (enemy.enemyActions[aux])
+                    {
+                        case actions.ATACAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.GoToIdle();
+                            characterAnimations.HeavyAttack();
 
-                            case actions.PARRY2:
-                                //LLamamos a las animaciones
-                                characterAnimations.LighAttack();
+                            //Both get damage
+                            myPlayer.getDamage(lightDamage);
+                            enemy.getDamage(heavyDamage);
+                            break;
 
-                                //Enemy get damage
-                                enemy.getDamage(lightDamage);
-                                break;
+                        case actions.ATACARFUERTE1:
+                            //LLamamos a las animaciones
+                            characterAnimations.GoToIdle();
+                            characterAnimations.HeavyAttack();
 
-                            case actions.ESQUIVAR:
-                                //LLamamos a las animaciones
-                                characterAnimations.LighAttack();
+                            //Enemy get damage + exahust
+                            enemy.getDamage(heavyDamage);
+                            enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            break;
 
-                                //nothing
-                                break;
+                        case actions.ATACARFUERTE2:
+                            //LLamamos a las animaciones
+                            characterAnimations.GoToIdle();
+                            characterAnimations.HeavyAttack();
 
-                            case actions.EXHAUST:
-                                //LLamamos a las animaciones
-                                characterAnimations.LighAttack();
+                            //both get damage
+                            myPlayer.getDamage(heavyDamage);
+                            enemy.getDamage(heavyDamage);
+                            break;
 
-                                //Enemy get damage
-                                enemy.getDamage(lightDamage);
-                                break;
+                        case actions.PARRY1:
+                            //LLamamos a las animaciones
+                            characterAnimations.GoToIdle();
+                            characterAnimations.HeavyAttack();
 
-                            default:
-                                break;
-                        }
-                        break;
+                            //Player get damage
+                            myPlayer.getDamage(lightDamage);
+                            break;
 
-                    case actions.ATACARFUERTE1:
-                        switch (enemy.enemyActions[aux])
-                        {
-                            case actions.ATACAR:
-                                //LLamamos a las animaciones
-                                characterAnimations.ChargingHeavy();
+                        case actions.PARRY2:
+                            //LLamamos a las animaciones
+                            characterAnimations.GoToIdle();
+                            characterAnimations.HeavyAttack();
 
-                                //Player get damage and exahust on next turn
-                                myPlayer.getDamage(lightDamage);
-                                myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                break;
+                            //Enemy get damage
+                            enemy.getDamage(heavyDamage);
+                            break;
 
-                            case actions.ATACARFUERTE1:
-                                //LLamamos a las animaciones
-                                characterAnimations.ChargingHeavy();
-                                //nothing
-                                break;
+                        case actions.ESQUIVAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.GoToIdle();
+                            characterAnimations.HeavyAttack();
 
-                            case actions.ATACARFUERTE2:
-                                //Player get damage + exahust on next
-                                myPlayer.getDamage(heavyDamage);
-                                myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                break;
+                            //Enemy get damage
+                            enemy.getDamage(heavyDamage);
+                            break;
 
-                            case actions.PARRY1:
-                                //LLamamos a las animaciones
-                                characterAnimations.ChargingHeavy();
+                        case actions.EXHAUST:
+                            //LLamamos a las animaciones
+                            characterAnimations.GoToIdle();
+                            characterAnimations.HeavyAttack();
 
-                                //falla el parry el enemigo
-                                if ((aux + 1) == numRound)
-                                    enemy.extraAction = actions.EXHAUST;
-                                else
+                            //enemy get damage
+                            enemy.getDamage(heavyDamage);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+
+                case actions.PARRY1:
+                    switch (enemy.enemyActions[aux])
+                    {
+                        case actions.ATACAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.Parry();
+
+                            //enemy get damage
+                            enemy.getDamage(lightDamage);
+                            break;
+
+                        case actions.ATACARFUERTE1:
+                            //LLamamos a las animaciones
+                            characterAnimations.ParryFail();
+
+                            //next turn exahust 
+                            if ((aux + 1) == numRound)
+                                myPlayer.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
                                 {
-                                    //Check ataquefuerte in next
-                                    if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
-                                    {
-                                        enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                        enemy.enemyActions[aux + 2] = actions.ATACAR;
-                                    }
-                                    else
-                                        enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                }
-                                break;
-
-                            case actions.PARRY2:
-                                //LLamamos a las animaciones
-                                characterAnimations.ChargingHeavy();
-
-                                //Nothing
-                                break;
-                            case actions.ESQUIVAR:
-                                //LLamamos a las animaciones
-                                characterAnimations.ChargingHeavy();
-
-                                //Nothing
-                                break;
-                            case actions.EXHAUST:
-                                //LLamamos a las animaciones
-                                characterAnimations.ChargingHeavy();
-                                //Nothing
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case actions.ATACARFUERTE2:
-                        switch (enemy.enemyActions[aux])
-                        {
-                            case actions.ATACAR:
-                                //LLamamos a las animaciones
-                                characterAnimations.GoToIdle();
-                                characterAnimations.HeavyAttack();
-
-                                //Both get damage
-                                myPlayer.getDamage(lightDamage);
-                                enemy.getDamage(heavyDamage);
-                                break;
-
-                            case actions.ATACARFUERTE1:
-                                //LLamamos a las animaciones
-                                characterAnimations.GoToIdle();
-                                characterAnimations.HeavyAttack();
-
-                                //Enemy get damage + exahust
-                                enemy.getDamage(heavyDamage);
-                                enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                break;
-
-                            case actions.ATACARFUERTE2:
-                                //LLamamos a las animaciones
-                                characterAnimations.GoToIdle();
-                                characterAnimations.HeavyAttack();
-
-                                //both get damage
-                                myPlayer.getDamage(heavyDamage);
-                                enemy.getDamage(heavyDamage);
-                                break;
-
-                            case actions.PARRY1:
-                                //LLamamos a las animaciones
-                                characterAnimations.GoToIdle();
-                                characterAnimations.HeavyAttack();
-
-                                //Player get damage
-                                myPlayer.getDamage(lightDamage);
-                                break;
-
-                            case actions.PARRY2:
-                                //LLamamos a las animaciones
-                                characterAnimations.GoToIdle();
-                                characterAnimations.HeavyAttack();
-
-                                //Enemy get damage
-                                enemy.getDamage(heavyDamage);
-                                break;
-
-                            case actions.ESQUIVAR:
-                                //LLamamos a las animaciones
-                                characterAnimations.GoToIdle();
-                                characterAnimations.HeavyAttack();
-
-                                //Enemy get damage
-                                enemy.getDamage(heavyDamage);
-                                break;
-
-                            case actions.EXHAUST:
-                                //LLamamos a las animaciones
-                                characterAnimations.GoToIdle();
-                                characterAnimations.HeavyAttack();
-
-                                //enemy get damage
-                                enemy.getDamage(heavyDamage);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case actions.PARRY1:
-                        switch (enemy.enemyActions[aux])
-                        {
-                            case actions.ATACAR:
-                                //enemy get damage
-                                enemy.getDamage(lightDamage);
-                                break;
-
-                            case actions.ATACARFUERTE1:
-                                //next turn exahust 
-                                if ((aux + 1) == numRound)
-                                    myPlayer.extraAction = actions.EXHAUST;
-                                else
-                                {
-                                    //Check ataquefuerte in next
-                                    if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                    {
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                        myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                    }
-                                    else
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                }
-                                break;
-
-                            case actions.ATACARFUERTE2:
-                                //Enemy get damage
-                                enemy.getDamage(heavyDamage);
-                                break;
-
-                            case actions.PARRY1:
-                                //Player next turn exahust 
-                                if ((aux + 1) == numRound)
-                                {
-                                    myPlayer.extraAction = actions.EXHAUST;
-                                    enemy.extraAction = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
                                 }
                                 else
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
+                            break;
+
+                        case actions.ATACARFUERTE2:
+                            //LLamamos a las animaciones
+                            characterAnimations.Parry();
+
+                            //Enemy get damage
+                            enemy.getDamage(heavyDamage);
+                            break;
+
+                        case actions.PARRY1:
+                            //LLamamos a las animaciones
+                            characterAnimations.ParryFail();
+
+                            //Player next turn exahust 
+                            if ((aux + 1) == numRound)
+                            {
+                                myPlayer.extraAction = actions.EXHAUST;
+                                enemy.extraAction = actions.EXHAUST;
+                            }
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
                                 {
-                                    //Check ataquefuerte in next
-                                    if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                    {
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                        myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                    }
-                                    else
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
-
-                                    if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
-                                    {
-                                        enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                        enemy.enemyActions[aux + 2] = actions.ATACAR;
-                                    }
-                                    else
-                                        enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
                                 }
-
-                                break;
-
-                            case actions.PARRY2:
-                                //next turn exahust 
-                                if ((aux + 1) == numRound)
-                                    myPlayer.extraAction = actions.EXHAUST;
                                 else
-                                {
-                                    //Check ataquefuerte in next
-                                    if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                    {
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                        myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                    }
-                                    else
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                }
-                                break;
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
 
-                            case actions.ESQUIVAR:
-                                //next turn exahust 
-                                if ((aux + 1) == numRound)
-                                    myPlayer.extraAction = actions.EXHAUST;
+                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
+                                }
                                 else
-                                {
-                                    //Check ataquefuerte in next
-                                    if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                    {
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                        myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                    }
-                                    else
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                }
-                                break;
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            }
 
-                            case actions.EXHAUST:
-                                //next turn exahust 
-                                if ((aux + 1) == numRound)
-                                    myPlayer.extraAction = actions.EXHAUST;
+                            break;
+
+                        case actions.PARRY2:
+                            //next turn exahust 
+                            if ((aux + 1) == numRound)
+                                myPlayer.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
+                                }
                                 else
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
+                            break;
+
+                        case actions.ESQUIVAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.ParryFail();
+                            //next turn exahust 
+                            if ((aux + 1) == numRound)
+                                myPlayer.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
                                 {
-                                    //Check ataquefuerte in next
-                                    if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                    {
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                        myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                    }
-                                    else
-                                        myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
                                 }
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case actions.PARRY2:
-                        switch (enemy.enemyActions[aux])
-                        {
-                            case actions.ATACAR:
-                                //Player get damage
-                                myPlayer.getDamage(lightDamage);
-                                break;
-
-                            case actions.ATACARFUERTE1:
-                                //nothing
-                                break;
-
-                            case actions.ATACARFUERTE2:
-                                //Player get damage
-                                myPlayer.getDamage(heavyDamage);
-                                break;
-
-                            case actions.PARRY1:
-                                //falla el parry el enemigo
-                                if ((aux + 1) == numRound)
-                                    enemy.extraAction = actions.EXHAUST;
                                 else
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
+                            break;
+
+                        case actions.EXHAUST:
+                            //LLamamos a las animaciones
+                            characterAnimations.ParryFail();
+
+                            //next turn exahust 
+                            if ((aux + 1) == numRound)
+                                myPlayer.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
                                 {
-                                    //Check ataquefuerte in next
-                                    if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
-                                    {
-                                        enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                        enemy.enemyActions[aux + 2] = actions.ATACAR;
-                                    }
-                                    else
-                                        enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
                                 }
-                                break;
-
-                            case actions.PARRY2:
-                                //nothing
-                                break;
-
-                            case actions.ESQUIVAR:
-                                //nothing
-                                break;
-
-                            case actions.EXHAUST:
-                                //nada
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case actions.ESQUIVAR:
-                        switch (enemy.enemyActions[aux])
-                        {
-                            case actions.ATACAR:
-                                //Nada
-                                break;
-
-                            case actions.ATACARFUERTE1:
-                                //Nada
-                                break;
-
-                            case actions.ATACARFUERTE2:
-                                //Player get damage
-                                myPlayer.getDamage(heavyDamage);
-                                break;
-
-                            case actions.PARRY1:
-                                //falla el parry el enemigo
-                                if ((aux + 1) == numRound)
-                                    enemy.extraAction = actions.EXHAUST;
                                 else
-                                {
-                                    //Check ataquefuerte in next
-                                    if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
-                                    {
-                                        enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                        enemy.enemyActions[aux + 2] = actions.ATACAR;
-                                    }
-                                    else
-                                        enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                }
-                                break;
+                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
+                            }
+                            break;
 
-                            case actions.PARRY2:
-                                //Nada
-                                break;
+                        default:
+                            break;
+                    }
+                    break;
 
-                            case actions.ESQUIVAR:
-                                //Nada
-                                break;
+                case actions.PARRY2:
+                    switch (enemy.enemyActions[aux])
+                    {
+                        case actions.ATACAR:
+                            //Player get damage
+                            myPlayer.getDamage(lightDamage);
+                            break;
 
-                            case actions.EXHAUST:
-                                //Nada
-                                break;
+                        case actions.ATACARFUERTE1:
+                            //nothing
+                            break;
 
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case actions.EXHAUST:
-                        switch (enemy.enemyActions[aux])
-                        {
-                            case actions.ATACAR:
-                                //Player get damage
-                                myPlayer.getDamage(lightDamage);
-                                break;
-
-                            case actions.ATACARFUERTE1:
-                                //nothing
-                                break;
-
-                            case actions.ATACARFUERTE2:
-                                //Player get damage
-                                myPlayer.getDamage(heavyDamage);
-                                break;
+                        case actions.ATACARFUERTE2:
+                            //Player get damage
+                            myPlayer.getDamage(heavyDamage);
+                            break;
 
                         case actions.PARRY1:
                             //falla el parry el enemigo
@@ -779,35 +669,171 @@ public class GameManager : MonoBehaviour
                             }
                             break;
 
-                            case actions.PARRY2:
-                                //nothing
-                                break;
+                        case actions.PARRY2:
+                            //nothing
+                            break;
 
-                            case actions.ESQUIVAR:
-                                //nothing
-                                break;
+                        case actions.ESQUIVAR:
+                            //nothing
+                            break;
 
-                            case actions.EXHAUST:
-                                //nada
-                                break;
+                        case actions.EXHAUST:
+                            //nada
+                            break;
 
-                            default:
-                                break;
-                        }
-                        break;
+                        default:
+                            break;
+                    }
+                    break;
 
-                    default:
-                        break;
-                }
+                case actions.ESQUIVAR:
+                    switch (enemy.enemyActions[aux])
+                    {
+                        case actions.ATACAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.Dodge();
+                            //Nada
+                            break;
 
-                aux++;
-                UpdateLife();
-                waitingRoundTimer = roundDuration;
+                        case actions.ATACARFUERTE1:
+                            //LLamamos a las animaciones
+                            characterAnimations.Dodge();
+
+                            //Nada
+                            break;
+
+                        case actions.ATACARFUERTE2:
+                            //LLamamos a las animaciones
+                            characterAnimations.Dodge();
+
+                            //Player get damage
+                            myPlayer.getDamage(heavyDamage);
+                            break;
+
+                        case actions.PARRY1:
+                            //LLamamos a las animaciones
+                            characterAnimations.Dodge();
+
+                            //falla el parry el enemigo
+                            if ((aux + 1) == numRound)
+                                enemy.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            }
+                            break;
+
+                        case actions.PARRY2:
+                            //LLamamos a las animaciones
+                            characterAnimations.Dodge();
+                            //Nada
+                            break;
+
+                        case actions.ESQUIVAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.Dodge();
+                            //Nada
+                            break;
+
+                        case actions.EXHAUST:
+                            //LLamamos a las animaciones
+                            characterAnimations.Dodge();
+                            //Nada
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+
+                case actions.EXHAUST:
+                    switch (enemy.enemyActions[aux])
+                    {
+                        case actions.ATACAR:
+                            //Player get damage
+                            myPlayer.getDamage(lightDamage);
+                            break;
+
+                        case actions.ATACARFUERTE1:
+                            //LLamamos a las animaciones
+                            characterAnimations.Exhaust();
+
+                            //nothing
+                            break;
+
+                        case actions.ATACARFUERTE2:
+                            //Player get damage
+                            myPlayer.getDamage(heavyDamage);
+                            break;
+
+                        case actions.PARRY1:
+                            //LLamamos a las animaciones
+                            characterAnimations.Exhaust();
+
+                            //falla el parry el enemigo
+                            if ((aux + 1) == numRound)
+                                enemy.extraAction = actions.EXHAUST;
+                            else
+                            {
+                                //Check ataquefuerte in next
+                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
+                                {
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
+                                }
+                                else
+                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            }
+                            break;
+
+                        case actions.PARRY2:
+                            //LLamamos a las animaciones
+                            characterAnimations.Exhaust();
+                            //nothing
+                            break;
+
+                        case actions.ESQUIVAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.Exhaust();
+                            //nothing
+                            break;
+
+                        case actions.EXHAUST:
+                            //LLamamos a las animaciones
+                            characterAnimations.Exhaust();
+                            //nada
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+
+                default:
+                    break;
             }
+            aux++;
+           // Debug.Log("Aux: " + aux);
+            if (copyActions)
+            {
+                //nos guardamos las acciones para las animaciones
+                for (int i=0; i < myPlayer.myActions.Count; i++)
+                {
+                    lastPlayerActions.Add(myPlayer.myActions[i]);
+                    lastEnemyActions.Add(enemy.enemyActions[i]);
+                }
+                copyActions = false;
+            }
+        }
 
-
-            
-        }while (aux < numRound);
+        waitingRoundTimer = roundDuration;
     }
     #endregion
 
@@ -882,6 +908,86 @@ public class GameManager : MonoBehaviour
         if (myPlayer.myActions.Count > 0)
         {
             myHud.actionTextEnemy1[0].text = "E";
+        }
+    }
+    #endregion
+
+    #region CheckNextAnimationPlayer
+    public void CheckNextAnimationPlayer(int id)
+    {
+        if (id == 0)
+        {
+            //Check si player esta atacando            
+            if (lastPlayerActions[aux - 1] == actions.ATACAR)
+            {
+                if ((lastEnemyActions[aux - 1] == actions.ESQUIVAR) || (lastEnemyActions[aux - 1] == actions.PARRY1))
+                {
+                    //enemy hitted
+                    enemyAnimations.Hit();
+                    //ps
+
+                }
+            }
+            else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2)
+            {
+                if (lastEnemyActions[aux - 1] == actions.PARRY1)
+                {
+                    //enemy hitted
+                    enemyAnimations.Hit();
+                    //ps
+                }
+            }
+
+            //Check si hace parry
+            if (lastPlayerActions[aux - 1] == actions.PARRY1)
+            {
+                if ((lastEnemyActions[aux - 1] == actions.ATACAR) || (lastEnemyActions[aux - 1] == actions.ATACARFUERTE2))
+                {
+                    //Enemy Hitted
+                    enemyAnimations.Hit();
+                    //ps
+                }
+            }
+
+        }
+        else
+        {
+            //Check si player esta atacando            
+            if (lastEnemyActions[aux - 1] == actions.ATACAR)
+            {
+                if ((lastPlayerActions[aux - 1] == actions.ESQUIVAR) || (lastPlayerActions[aux - 1] == actions.PARRY1))
+                {
+                    //Character hitted
+                    characterAnimations.Hit();
+                    //ps
+                }
+            }
+            else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE2)
+            {
+                if (lastPlayerActions[aux - 1] == actions.PARRY1)
+                {
+                    //Character hitted
+                    characterAnimations.Hit();
+                    //ps
+                }
+            }
+
+            //Check si hace parry
+            if (lastEnemyActions[aux - 1] == actions.PARRY1)
+            {
+                if ((lastPlayerActions[aux - 1] == actions.ATACAR) || (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2))
+                {
+                    //Character hitted
+                    characterAnimations.Hit();
+                    //ps
+                }
+            }
+        }
+        //Clear if last
+        if (aux == lastPlayerActions.Count)
+        {
+            lastPlayerActions.Clear();
+            lastEnemyActions.Clear();
         }
     }
     #endregion
