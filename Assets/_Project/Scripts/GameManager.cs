@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
 
     [Header("ANIMATIONS")]
     public CharacterAnimations characterAnimations;
+    public CharacterAnimations enemyAnimations;
 
     public float timerAnimations = 2.5f;
     public float timerAux = 0;
@@ -914,52 +915,74 @@ public class GameManager : MonoBehaviour
     #region CheckNextAnimationPlayer
     public void CheckNextAnimationPlayer(int id)
     {
-        //Debug.Log("Posicion en la lista :" + (aux - 1) + "; PlayerCount :" + lastPlayerActions.Count );        
-        //id=0 player is calling function
         if (id == 0)
         {
             //Check si player esta atacando            
-            if ((lastPlayerActions[aux - 1] == actions.ATACAR) || (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2))
+            if (lastPlayerActions[aux - 1] == actions.ATACAR)
             {
-                if ((lastEnemyActions[aux - 1] != actions.ESQUIVAR) && (lastEnemyActions[aux - 1] != actions.PARRY1))
+                if ((lastEnemyActions[aux - 1] == actions.ESQUIVAR) || (lastEnemyActions[aux - 1] == actions.PARRY1))
                 {
-                    Debug.Log("PS atack");
+                    //enemy hitted
+                    enemyAnimations.Hit();
+                    //ps
+
                 }
-                else
-                    Debug.Log("No le das a na nen");
             }
+            else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2)
+            {
+                if (lastEnemyActions[aux - 1] == actions.PARRY1)
+                {
+                    //enemy hitted
+                    enemyAnimations.Hit();
+                    //ps
+                }
+            }
+
             //Check si hace parry
             if (lastPlayerActions[aux - 1] == actions.PARRY1)
             {
                 if ((lastEnemyActions[aux - 1] == actions.ATACAR) || (lastEnemyActions[aux - 1] == actions.ATACARFUERTE2))
                 {
-                    characterAnimations.LighAttack();
+                    //Enemy Hitted
+                    enemyAnimations.Hit();
+                    //ps
                 }
             }
+
         }
         else
         {
-            //id !=0 Enemy is calling the function
-            //Check si player esta atacando
-            if ((enemy.enemyActions[aux] == actions.ATACAR) || (enemy.enemyActions[aux] == actions.ATACARFUERTE2))
+            //Check si player esta atacando            
+            if (lastEnemyActions[aux - 1] == actions.ATACAR)
             {
-                if ((myPlayer.myActions[aux] != actions.ESQUIVAR) && (myPlayer.myActions[aux] == actions.PARRY1))
+                if ((lastPlayerActions[aux - 1] == actions.ESQUIVAR) || (lastPlayerActions[aux - 1] == actions.PARRY1))
                 {
-                    //Player Set Hit
-                    //PS hit player
+                    //Character hitted
+                    characterAnimations.Hit();
+                    //ps
+                }
+            }
+            else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE2)
+            {
+                if (lastPlayerActions[aux - 1] == actions.PARRY1)
+                {
+                    //Character hitted
+                    characterAnimations.Hit();
+                    //ps
                 }
             }
 
             //Check si hace parry
-            if (myPlayer.myActions[aux] == actions.PARRY1)
+            if (lastEnemyActions[aux - 1] == actions.PARRY1)
             {
-                if ((enemy.enemyActions[aux] == actions.ATACAR) || (enemy.enemyActions[aux] == actions.ATACARFUERTE2))
+                if ((lastPlayerActions[aux - 1] == actions.ATACAR) || (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2))
                 {
-                    //Enemy animation light
+                    //Character hitted
+                    characterAnimations.Hit();
+                    //ps
                 }
             }
         }
-
         //Clear if last
         if (aux == lastPlayerActions.Count)
         {

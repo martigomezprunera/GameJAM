@@ -6,7 +6,6 @@ public class CharacterAnimations : MonoBehaviour
 {
     #region VARIABLE
     public Animator animator;
-    int hit = 1;
     #endregion
 
     #region UPDATE
@@ -44,17 +43,12 @@ public class CharacterAnimations : MonoBehaviour
         {
             Exhaust();
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            CancellingAttack();
-        }
     }
     #endregion
 
     #region LIGHT ATTACK
     public void LighAttack()
     {
-        //animator.SetBool("LightAttack", true);
         animator.SetTrigger("Attack");
     }
     #endregion
@@ -73,14 +67,7 @@ public class CharacterAnimations : MonoBehaviour
         animator.SetBool("ChargingHeavy", false);
     }
     #endregion
-
-    #region CANCELLING HEAVY
-    public void CancellingAttack()
-    {
-        Hit();
-    }
-    #endregion
-
+    
     #region PARRY
     public void Parry()
     {
@@ -106,32 +93,15 @@ public class CharacterAnimations : MonoBehaviour
     public void Hit()
     {
 
-        if (hit == 1)
+        if (animator.GetBool("ChargingHeavy"))
         {
-            hit = 2;
-            animator.SetBool("Hit1", true);
-            if (animator.GetBool("ChargingHeavy"))
-            {
-                animator.SetBool("ChargingHeavy", false);
-                Exhaust();
-            }
-            return;
+            animator.SetTrigger("HitCharged");
+            animator.SetBool("ChargingHeavy", false);
         }
-        else if (hit == 2)
+        else 
         {
-            hit = 1;
-            animator.SetBool("Hit2", true);
-
-            if (animator.GetBool("ChargingHeavy"))
-            {
-                animator.SetBool("ChargingHeavy", false);
-                Exhaust();
-            }
-            return;
+            animator.SetTrigger("Hit");
         }
-
-
-
     }
     #endregion
 
@@ -146,15 +116,9 @@ public class CharacterAnimations : MonoBehaviour
     #region GO TO IDLE
     public void GoToIdle()
     {
-        animator.SetBool("HeavyAttack", false);
         animator.SetBool("ChargingHeavy", false);
-        animator.SetBool("LightAttack", false);
-        animator.SetBool("Dodge", false);
-        animator.SetBool("Parry", false);
-        animator.SetBool("ParryFail", false);
-        animator.SetBool("Hit1", false);
-        animator.SetBool("Hit2", false);
         animator.SetBool("Exhausted", false);
+        animator.SetBool("HeavyCancelled", false);
     }
     #endregion
 
