@@ -1041,7 +1041,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1293142117}
+      - m_Target: {fileID: 1735927309}
         m_MethodName: LightAttack
         m_Mode: 1
         m_Arguments:
@@ -2872,7 +2872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1967819982}
-  player: {fileID: 1293142116}
+  player: {fileID: 1735927305}
   enemy: {fileID: 1796534951}
   sliderLifePlayer: {fileID: 896615762}
   sliderLifeEnemy: {fileID: 177232549}
@@ -3372,7 +3372,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1293142117}
+      - m_Target: {fileID: 1735927309}
         m_MethodName: HeavyAttack
         m_Mode: 1
         m_Arguments:
@@ -4418,7 +4418,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1293142118}
-  - component: {fileID: 1293142117}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -4426,23 +4425,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1293142117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1293142116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b580760ef435a74284b62afbbc67311, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myActions: 
-  extraAction: 7
-  life: 100
-  canSelect: 0
-  myHud: {fileID: 844881714}
 --- !u!4 &1293142118
 Transform:
   m_ObjectHideFlags: 0
@@ -6264,6 +6246,23 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1735927304}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1735927309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735927305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b580760ef435a74284b62afbbc67311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myActions: 
+  extraAction: 7
+  life: 100
+  canSelect: 0
+  myHud: {fileID: 844881714}
 --- !u!1 &1753434107
 GameObject:
   m_ObjectHideFlags: 0
@@ -6658,7 +6657,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1293142117}
+      - m_Target: {fileID: 1735927309}
         m_MethodName: Parry
         m_Mode: 1
         m_Arguments:
@@ -6804,7 +6803,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1293142117}
+      - m_Target: {fileID: 1735927309}
         m_MethodName: BackStep
         m_Mode: 1
         m_Arguments:
@@ -7360,7 +7359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numRound: 0
-  myPlayer: {fileID: 1293142117}
+  myPlayer: {fileID: 1735927309}
   lifePlayerText: {fileID: 515719690}
   enemy: {fileID: 1796534952}
   lifeEnemyText: {fileID: 1066474998}
@@ -7380,6 +7379,7 @@ MonoBehaviour:
   myHud: {fileID: 844881714}
   characterAnimations: {fileID: 1735927306}
   timerAnimations: 2.5
+  timerAux: 0
 --- !u!4 &1967819984
 Transform:
   m_ObjectHideFlags: 0

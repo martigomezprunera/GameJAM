@@ -216,5 +216,13 @@ public class Player : MonoBehaviour
     #endregion
 
 
+    #region Comprobe
+    public void ComprobeNextAnimation()
+    {
+        myGameManager.CheckNextAnimationPlayer(0);
+    }
     #endregion
+
+    #endregion
+
 }
