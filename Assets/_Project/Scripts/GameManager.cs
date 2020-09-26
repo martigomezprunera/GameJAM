@@ -193,6 +193,9 @@ public class GameManager : MonoBehaviour
             case RoundState.SELECTING_ACTION:
                 {
 
+                    lastPlayerActions.Clear();
+                    lastEnemyActions.Clear();
+
                     fadeInGO.SetActive(false);
 
                     ResetCountDownRound();
@@ -791,6 +794,8 @@ public class GameManager : MonoBehaviour
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
+                            //LLamamos a las animaciones
+                            characterAnimations.Exhaust();
                             enemyAnimations.LighAttack();
                             //Player get damage
                             myPlayer.getDamage(lightDamage);
@@ -805,6 +810,8 @@ public class GameManager : MonoBehaviour
                             break;
 
                         case actions.ATACARFUERTE2:
+                            //LLamamos a las animaciones
+                            characterAnimations.Exhaust();
                             enemyAnimations.HeavyAttack();
                             //Player get damage
                             myPlayer.getDamage(heavyDamage);
@@ -965,6 +972,7 @@ public class GameManager : MonoBehaviour
                 {
                     //enemy hitted
                     enemyAnimations.Hit();
+                    Debug.Log("HOSTIA PA TI!!");
                     //ps
 
                 }
@@ -974,7 +982,8 @@ public class GameManager : MonoBehaviour
                 if (lastEnemyActions[aux - 1] == actions.PARRY1)
                 {
                     //enemy hitted
-                    enemyAnimations.Hit();
+                    enemyAnimations.Hit();                    
+                    Debug.Log("HOSTIA PA TI!!");
                     //ps
                 }
             }
@@ -986,6 +995,7 @@ public class GameManager : MonoBehaviour
                 {
                     //Enemy Hitted
                     enemyAnimations.Hit();
+                    Debug.Log("HOSTIA PA TI!!");
                     //ps
                 }
             }
@@ -1000,6 +1010,7 @@ public class GameManager : MonoBehaviour
                 {
                     //Character hitted
                     characterAnimations.Hit();
+                    Debug.Log("HOSTIA PA MI!!");
                     //ps
                 }
             }
@@ -1009,6 +1020,7 @@ public class GameManager : MonoBehaviour
                 {
                     //Character hitted
                     characterAnimations.Hit();
+                    Debug.Log("HOSTIA PA MI!!");
                     //ps
                 }
             }
@@ -1020,6 +1032,7 @@ public class GameManager : MonoBehaviour
                 {
                     //Character hitted
                     characterAnimations.Hit();
+                    Debug.Log("HOSTIA PA MI!!");
                     //ps
                 }
             }
@@ -1027,9 +1040,9 @@ public class GameManager : MonoBehaviour
         //Clear if last
         if (aux == lastPlayerActions.Count)
         {
-            Debug.Log("H entrao nen");
-            lastPlayerActions.Clear();
-            lastEnemyActions.Clear();
+            //Debug.Log("H entrao nen");
+            //lastPlayerActions.Clear();
+            //lastEnemyActions.Clear();
         }
     }
     #endregion

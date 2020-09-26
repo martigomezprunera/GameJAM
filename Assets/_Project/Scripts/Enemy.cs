@@ -767,7 +767,7 @@ public class Enemy : MonoBehaviour
     #region Comprobe
     public void ComprobeNextAnimation()
     {
-        //myGameManager.CheckNextAnimationPlayer(1);
+        myGameManager.CheckNextAnimationPlayer(1);
     }
     #endregion
 }
