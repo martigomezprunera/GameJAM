@@ -307,8 +307,8 @@ public class GameManager : MonoBehaviour
                             characterAnimations.LighAttack();
                             enemyAnimations.LighAttack();
 
-                            myPlayer.getDamage(lightDamage);
-                            enemy.getDamage(lightDamage);
+                            //myPlayer.getDamage(lightDamage);
+                            //enemy.getDamage(lightDamage);
                             break;
 
                         case actions.ATACARFUERTE1:
@@ -317,7 +317,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.ChargingHeavy();
 
                             //Enemy get damage and an exhaust on next round
-                            enemy.getDamage(lightDamage);
+                            //enemy.getDamage(lightDamage);
                             if (aux == numRound - 1)
                                 enemy.extraAction = actions.EXHAUST;
                             else
@@ -330,8 +330,8 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.HeavyAttack();
 
                             //Both get Damage
-                            myPlayer.getDamage(heavyDamage);
-                            enemy.getDamage(lightDamage);
+                            //myPlayer.getDamage(heavyDamage);
+                            //enemy.getDamage(lightDamage);
                             break;
 
                         case actions.PARRY1:
@@ -340,7 +340,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.Parry();
 
                             //Player get Damage
-                            myPlayer.getDamage(lightDamage);
+                            //myPlayer.getDamage(lightDamage);
                             break;
 
                         case actions.PARRY2:
@@ -348,7 +348,7 @@ public class GameManager : MonoBehaviour
                             characterAnimations.LighAttack();
 
                             //Enemy get damage
-                            enemy.getDamage(lightDamage);
+                            //enemy.getDamage(lightDamage);
                             break;
 
                         case actions.ESQUIVAR:
@@ -365,7 +365,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.Exhaust();
 
                             //Enemy get damage
-                            enemy.getDamage(lightDamage);
+                            //enemy.getDamage(lightDamage);
                             break;
 
                         default:
@@ -381,7 +381,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.LighAttack();
 
                             //Player get damage and exahust on next turn
-                            myPlayer.getDamage(lightDamage);
+                            //myPlayer.getDamage(lightDamage);
                             myPlayer.myActions[aux + 1] = actions.EXHAUST;
                             break;
 
@@ -397,7 +397,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.HeavyAttack();
 
                             //Player get damage + exahust on next
-                            myPlayer.getDamage(heavyDamage);
+                            //myPlayer.getDamage(heavyDamage);
                             myPlayer.myActions[aux + 1] = actions.EXHAUST;
                             break;
 
@@ -456,8 +456,8 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.LighAttack();
 
                             //Both get damage
-                            myPlayer.getDamage(lightDamage);
-                            enemy.getDamage(heavyDamage);
+                            //myPlayer.getDamage(lightDamage);
+                            //enemy.getDamage(heavyDamage);
                             break;
 
                         case actions.ATACARFUERTE1:
@@ -467,7 +467,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.ChargingHeavy();
 
                             //Enemy get damage + exahust
-                            enemy.getDamage(heavyDamage);
+                            //enemy.getDamage(heavyDamage);
                             enemy.enemyActions[aux + 1] = actions.EXHAUST;
                             break;
 
@@ -478,8 +478,8 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.HeavyAttack();
 
                             //both get damage
-                            myPlayer.getDamage(heavyDamage);
-                            enemy.getDamage(heavyDamage);
+                            //myPlayer.getDamage(heavyDamage);
+                            //enemy.getDamage(heavyDamage);
                             break;
 
                         case actions.PARRY1:
@@ -489,7 +489,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.Parry();
 
                             //Player get damage
-                            myPlayer.getDamage(lightDamage);
+                            //myPlayer.getDamage(lightDamage);
                             break;
 
                         case actions.PARRY2:
@@ -498,7 +498,7 @@ public class GameManager : MonoBehaviour
                             characterAnimations.HeavyAttack();
 
                             //Enemy get damage
-                            enemy.getDamage(heavyDamage);
+                            //enemy.getDamage(heavyDamage);
                             break;
 
                         case actions.ESQUIVAR:
@@ -508,7 +508,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.Dodge();
 
                             //Enemy get damage
-                            enemy.getDamage(heavyDamage);
+                            //enemy.getDamage(heavyDamage);
                             break;
 
                         case actions.EXHAUST:
@@ -518,7 +518,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.Exhaust();
 
                             //enemy get damage
-                            enemy.getDamage(heavyDamage);
+                            //enemy.getDamage(heavyDamage);
                             break;
 
                         default:
@@ -535,7 +535,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.LighAttack();
 
                             //enemy get damage
-                            enemy.getDamage(lightDamage);
+                            //enemy.getDamage(lightDamage);
                             break;
 
                         case actions.ATACARFUERTE1:
@@ -565,7 +565,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.HeavyAttack();
 
                             //Enemy get damage
-                            enemy.getDamage(heavyDamage);
+                            //enemy.getDamage(heavyDamage);
                             break;
 
                         case actions.PARRY1:
@@ -670,7 +670,7 @@ public class GameManager : MonoBehaviour
                     {
                         case actions.ATACAR:
                             //Player get damage
-                            myPlayer.getDamage(lightDamage);
+                            //myPlayer.getDamage(lightDamage);
                             break;
 
                         case actions.ATACARFUERTE1:
@@ -679,7 +679,7 @@ public class GameManager : MonoBehaviour
 
                         case actions.ATACARFUERTE2:
                             //Player get damage
-                            myPlayer.getDamage(heavyDamage);
+                            //myPlayer.getDamage(heavyDamage);
                             break;
 
                         case actions.PARRY1:
@@ -738,7 +738,7 @@ public class GameManager : MonoBehaviour
                             characterAnimations.Dodge();
                             enemyAnimations.HeavyAttack();
                             //Player get damage
-                            myPlayer.getDamage(heavyDamage);
+                            //myPlayer.getDamage(heavyDamage);
                             break;
 
                         case actions.PARRY1:
@@ -798,7 +798,7 @@ public class GameManager : MonoBehaviour
                             characterAnimations.Exhaust();
                             enemyAnimations.LighAttack();
                             //Player get damage
-                            myPlayer.getDamage(lightDamage);
+                            //myPlayer.getDamage(lightDamage);
                             break;
 
                         case actions.ATACARFUERTE1:
@@ -814,7 +814,7 @@ public class GameManager : MonoBehaviour
                             characterAnimations.Exhaust();
                             enemyAnimations.HeavyAttack();
                             //Player get damage
-                            myPlayer.getDamage(heavyDamage);
+                            //myPlayer.getDamage(heavyDamage);
                             break;
 
                         case actions.PARRY1:
@@ -964,14 +964,13 @@ public class GameManager : MonoBehaviour
     {
         if (id == 0)
         {
-            //Check si player esta atacando
-            Debug.Log("Aux :" + (aux - 1) + "; MoveList Count : " + lastPlayerActions.Count);
             if (lastPlayerActions[aux - 1] == actions.ATACAR)
             {
-                if ((lastEnemyActions[aux - 1] == actions.ESQUIVAR) || (lastEnemyActions[aux - 1] == actions.PARRY1))
+                if ((lastEnemyActions[aux - 1] != actions.ESQUIVAR) && (lastEnemyActions[aux - 1] != actions.PARRY1))
                 {
                     //enemy hitted
                     enemyAnimations.Hit();
+                    enemy.getDamage(lightDamage);
                     Debug.Log("HOSTIA PA TI!!");
                     //ps
 
@@ -979,10 +978,11 @@ public class GameManager : MonoBehaviour
             }
             else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2)
             {
-                if (lastEnemyActions[aux - 1] == actions.PARRY1)
+                if (lastEnemyActions[aux - 1] != actions.PARRY1)
                 {
                     //enemy hitted
-                    enemyAnimations.Hit();                    
+                    enemyAnimations.Hit();
+                    enemy.getDamage(heavyDamage);
                     Debug.Log("HOSTIA PA TI!!");
                     //ps
                 }
@@ -995,6 +995,10 @@ public class GameManager : MonoBehaviour
                 {
                     //Enemy Hitted
                     enemyAnimations.Hit();
+                    if(lastEnemyActions[aux - 1] == actions.ATACARFUERTE2)
+                        enemy.getDamage(heavyDamage);
+                    else
+                        enemy.getDamage(lightDamage);
                     Debug.Log("HOSTIA PA TI!!");
                     //ps
                 }
@@ -1006,20 +1010,22 @@ public class GameManager : MonoBehaviour
             //Check si player esta atacando            
             if (lastEnemyActions[aux - 1] == actions.ATACAR)
             {
-                if ((lastPlayerActions[aux - 1] == actions.ESQUIVAR) || (lastPlayerActions[aux - 1] == actions.PARRY1))
+                if ((lastPlayerActions[aux - 1] != actions.ESQUIVAR) && (lastPlayerActions[aux - 1] != actions.PARRY1))
                 {
                     //Character hitted
                     characterAnimations.Hit();
+                    myPlayer.getDamage(lightDamage);
                     Debug.Log("HOSTIA PA MI!!");
                     //ps
                 }
             }
             else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE2)
             {
-                if (lastPlayerActions[aux - 1] == actions.PARRY1)
+                if (lastPlayerActions[aux - 1] != actions.PARRY1)
                 {
                     //Character hitted
                     characterAnimations.Hit();
+                    myPlayer.getDamage(heavyDamage);
                     Debug.Log("HOSTIA PA MI!!");
                     //ps
                 }
@@ -1032,7 +1038,10 @@ public class GameManager : MonoBehaviour
                 {
                     //Character hitted
                     characterAnimations.Hit();
-                    Debug.Log("HOSTIA PA MI!!");
+                    if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2)
+                        myPlayer.getDamage(heavyDamage);
+                    else
+                        myPlayer.getDamage(lightDamage);
                     //ps
                 }
             }

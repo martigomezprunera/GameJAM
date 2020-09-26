@@ -38,10 +38,7 @@ public class Enemy : MonoBehaviour
         //Si arrastyramos exahust añadimos una accion menos
         if (enemyActions.Count > 0)
             numActionsToAdd--;
-        if (numActionsToAdd == 1)
-        {
-            action = 3;
-        }
+
         //Dependiendo del ID
         switch (id)
         {
@@ -84,7 +81,7 @@ public class Enemy : MonoBehaviour
                         switch (action)
                         {
                             case 1:
-                                enemyActions.Add(actions.ATACAR);
+                                enemyActions.Add(actions.ESQUIVAR);
                                 enemyActions.Add(actions.PARRY1);
                                 break;
 
