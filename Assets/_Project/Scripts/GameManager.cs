@@ -302,6 +302,7 @@ public class GameManager : MonoBehaviour
                         case actions.ATACAR:
                             //LLamamos a las animaciones
                             characterAnimations.LighAttack();
+                            enemyAnimations.LighAttack();
 
                             myPlayer.getDamage(lightDamage);
                             enemy.getDamage(lightDamage);
@@ -310,6 +311,7 @@ public class GameManager : MonoBehaviour
                         case actions.ATACARFUERTE1:
                             //LLamamos a las animaciones
                             characterAnimations.LighAttack();
+                            enemyAnimations.ChargingHeavy();
 
                             //Enemy get damage and an exhaust on next round
                             enemy.getDamage(lightDamage);
@@ -322,6 +324,7 @@ public class GameManager : MonoBehaviour
                         case actions.ATACARFUERTE2:
                             //LLamamos a las animaciones
                             characterAnimations.LighAttack();
+                            enemyAnimations.HeavyAttack();
 
                             //Both get Damage
                             myPlayer.getDamage(heavyDamage);
@@ -331,6 +334,7 @@ public class GameManager : MonoBehaviour
                         case actions.PARRY1:
                             //LLamamos a las animaciones
                             characterAnimations.LighAttack();
+                            enemyAnimations.Parry();
 
                             //Player get Damage
                             myPlayer.getDamage(lightDamage);
@@ -347,6 +351,7 @@ public class GameManager : MonoBehaviour
                         case actions.ESQUIVAR:
                             //LLamamos a las animaciones
                             characterAnimations.LighAttack();
+                            enemyAnimations.Dodge();
 
                             //nothing
                             break;
@@ -354,6 +359,7 @@ public class GameManager : MonoBehaviour
                         case actions.EXHAUST:
                             //LLamamos a las animaciones
                             characterAnimations.LighAttack();
+                            enemyAnimations.Exhaust();
 
                             //Enemy get damage
                             enemy.getDamage(lightDamage);
@@ -369,6 +375,7 @@ public class GameManager : MonoBehaviour
                         case actions.ATACAR:
                             //LLamamos a las animaciones
                             characterAnimations.ChargingHeavy();
+                            enemyAnimations.LighAttack();
 
                             //Player get damage and exahust on next turn
                             myPlayer.getDamage(lightDamage);
@@ -378,10 +385,14 @@ public class GameManager : MonoBehaviour
                         case actions.ATACARFUERTE1:
                             //LLamamos a las animaciones
                             characterAnimations.ChargingHeavy();
+                            enemyAnimations.ChargingHeavy();
                             //nothing
                             break;
 
                         case actions.ATACARFUERTE2:
+
+                            enemyAnimations.HeavyAttack();
+
                             //Player get damage + exahust on next
                             myPlayer.getDamage(heavyDamage);
                             myPlayer.myActions[aux + 1] = actions.EXHAUST;
@@ -390,6 +401,7 @@ public class GameManager : MonoBehaviour
                         case actions.PARRY1:
                             //LLamamos a las animaciones
                             characterAnimations.ChargingHeavy();
+                            enemyAnimations.ParryFail();
 
                             //falla el parry el enemigo
                             if ((aux + 1) == numRound)
@@ -416,12 +428,14 @@ public class GameManager : MonoBehaviour
                         case actions.ESQUIVAR:
                             //LLamamos a las animaciones
                             characterAnimations.ChargingHeavy();
+                            enemyAnimations.Dodge();
 
                             //Nothing
                             break;
                         case actions.EXHAUST:
                             //LLamamos a las animaciones
                             characterAnimations.ChargingHeavy();
+                            enemyAnimations.Exhaust();
                             //Nothing
                             break;
                         default:
@@ -436,6 +450,7 @@ public class GameManager : MonoBehaviour
                             //LLamamos a las animaciones
                             characterAnimations.GoToIdle();
                             characterAnimations.HeavyAttack();
+                            enemyAnimations.LighAttack();
 
                             //Both get damage
                             myPlayer.getDamage(lightDamage);
@@ -446,6 +461,7 @@ public class GameManager : MonoBehaviour
                             //LLamamos a las animaciones
                             characterAnimations.GoToIdle();
                             characterAnimations.HeavyAttack();
+                            enemyAnimations.ChargingHeavy();
 
                             //Enemy get damage + exahust
                             enemy.getDamage(heavyDamage);
@@ -456,6 +472,7 @@ public class GameManager : MonoBehaviour
                             //LLamamos a las animaciones
                             characterAnimations.GoToIdle();
                             characterAnimations.HeavyAttack();
+                            enemyAnimations.HeavyAttack();
 
                             //both get damage
                             myPlayer.getDamage(heavyDamage);
@@ -466,6 +483,7 @@ public class GameManager : MonoBehaviour
                             //LLamamos a las animaciones
                             characterAnimations.GoToIdle();
                             characterAnimations.HeavyAttack();
+                            enemyAnimations.Parry();
 
                             //Player get damage
                             myPlayer.getDamage(lightDamage);
@@ -484,6 +502,7 @@ public class GameManager : MonoBehaviour
                             //LLamamos a las animaciones
                             characterAnimations.GoToIdle();
                             characterAnimations.HeavyAttack();
+                            enemyAnimations.Dodge();
 
                             //Enemy get damage
                             enemy.getDamage(heavyDamage);
@@ -493,6 +512,7 @@ public class GameManager : MonoBehaviour
                             //LLamamos a las animaciones
                             characterAnimations.GoToIdle();
                             characterAnimations.HeavyAttack();
+                            enemyAnimations.Exhaust();
 
                             //enemy get damage
                             enemy.getDamage(heavyDamage);
@@ -509,6 +529,7 @@ public class GameManager : MonoBehaviour
                         case actions.ATACAR:
                             //LLamamos a las animaciones
                             characterAnimations.Parry();
+                            enemyAnimations.LighAttack();
 
                             //enemy get damage
                             enemy.getDamage(lightDamage);
@@ -517,6 +538,7 @@ public class GameManager : MonoBehaviour
                         case actions.ATACARFUERTE1:
                             //LLamamos a las animaciones
                             characterAnimations.ParryFail();
+                            enemyAnimations.ChargingHeavy();
 
                             //next turn exahust 
                             if ((aux + 1) == numRound)
@@ -537,6 +559,7 @@ public class GameManager : MonoBehaviour
                         case actions.ATACARFUERTE2:
                             //LLamamos a las animaciones
                             characterAnimations.Parry();
+                            enemyAnimations.HeavyAttack();
 
                             //Enemy get damage
                             enemy.getDamage(heavyDamage);
@@ -545,6 +568,7 @@ public class GameManager : MonoBehaviour
                         case actions.PARRY1:
                             //LLamamos a las animaciones
                             characterAnimations.ParryFail();
+                            enemyAnimations.Parry();
 
                             //Player next turn exahust 
                             if ((aux + 1) == numRound)
@@ -594,6 +618,8 @@ public class GameManager : MonoBehaviour
                         case actions.ESQUIVAR:
                             //LLamamos a las animaciones
                             characterAnimations.ParryFail();
+                            enemyAnimations.Dodge();
+
                             //next turn exahust 
                             if ((aux + 1) == numRound)
                                 myPlayer.extraAction = actions.EXHAUST;
@@ -613,6 +639,7 @@ public class GameManager : MonoBehaviour
                         case actions.EXHAUST:
                             //LLamamos a las animaciones
                             characterAnimations.ParryFail();
+                            enemyAnimations.Exhaust();
 
                             //next turn exahust 
                             if ((aux + 1) == numRound)
@@ -692,20 +719,21 @@ public class GameManager : MonoBehaviour
                         case actions.ATACAR:
                             //LLamamos a las animaciones
                             characterAnimations.Dodge();
+                            enemyAnimations.LighAttack();
                             //Nada
                             break;
 
                         case actions.ATACARFUERTE1:
                             //LLamamos a las animaciones
                             characterAnimations.Dodge();
-
+                            enemyAnimations.ChargingHeavy();
                             //Nada
                             break;
 
                         case actions.ATACARFUERTE2:
                             //LLamamos a las animaciones
                             characterAnimations.Dodge();
-
+                            enemyAnimations.HeavyAttack();
                             //Player get damage
                             myPlayer.getDamage(heavyDamage);
                             break;
@@ -713,6 +741,7 @@ public class GameManager : MonoBehaviour
                         case actions.PARRY1:
                             //LLamamos a las animaciones
                             characterAnimations.Dodge();
+                            enemyAnimations.ParryFail();
 
                             //falla el parry el enemigo
                             if ((aux + 1) == numRound)
@@ -739,12 +768,14 @@ public class GameManager : MonoBehaviour
                         case actions.ESQUIVAR:
                             //LLamamos a las animaciones
                             characterAnimations.Dodge();
+                            enemyAnimations.Dodge();
                             //Nada
                             break;
 
                         case actions.EXHAUST:
                             //LLamamos a las animaciones
                             characterAnimations.Dodge();
+                            enemyAnimations.Exhaust();
                             //Nada
                             break;
 
@@ -757,6 +788,7 @@ public class GameManager : MonoBehaviour
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
+                            enemyAnimations.LighAttack();
                             //Player get damage
                             myPlayer.getDamage(lightDamage);
                             break;
@@ -764,11 +796,13 @@ public class GameManager : MonoBehaviour
                         case actions.ATACARFUERTE1:
                             //LLamamos a las animaciones
                             characterAnimations.Exhaust();
+                            enemyAnimations.ChargingHeavy();
 
                             //nothing
                             break;
 
                         case actions.ATACARFUERTE2:
+                            enemyAnimations.HeavyAttack();
                             //Player get damage
                             myPlayer.getDamage(heavyDamage);
                             break;
@@ -776,6 +810,7 @@ public class GameManager : MonoBehaviour
                         case actions.PARRY1:
                             //LLamamos a las animaciones
                             characterAnimations.Exhaust();
+                            enemyAnimations.ParryFail();
 
                             //falla el parry el enemigo
                             if ((aux + 1) == numRound)
@@ -802,12 +837,14 @@ public class GameManager : MonoBehaviour
                         case actions.ESQUIVAR:
                             //LLamamos a las animaciones
                             characterAnimations.Exhaust();
+                            enemyAnimations.Dodge();
                             //nothing
                             break;
 
                         case actions.EXHAUST:
                             //LLamamos a las animaciones
                             characterAnimations.Exhaust();
+                            enemyAnimations.Exhaust();
                             //nada
                             break;
 

@@ -11,8 +11,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int life = 100;
     [SerializeField] public int id = 1;
 
+
     //HUD
     public HUD myHud;
+
+    //Game Manager
+    GameManager myGameManager;
+
+    private void Start()
+    {
+        myGameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
 
     #region GET NEW ACTION
     public void GetNewActions(int numRound)
@@ -747,6 +756,13 @@ public class Enemy : MonoBehaviour
                     break;
             }
         }        
+    }
+    #endregion
+
+    #region Comprobe
+    public void ComprobeNextAnimation()
+    {
+        myGameManager.CheckNextAnimationPlayer(1);
     }
     #endregion
 }
