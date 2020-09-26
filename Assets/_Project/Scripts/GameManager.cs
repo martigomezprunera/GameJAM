@@ -66,8 +66,8 @@ public class GameManager : MonoBehaviour
     [Header("ANIMATIONS")]
     public CharacterAnimations characterAnimations;
 
-    float timerAnimations = 2f;
-    float timerAux = 0;
+    public float timerAnimations = 2.5f;
+    public float timerAux = 0;
 
     #endregion
 
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region FIXED UPDATE
-    void FixedUpdate()
+    void Update()
     {
         HandleRound();        
     }
@@ -236,7 +236,7 @@ public class GameManager : MonoBehaviour
                     enemy.FillHUDEnemy();
 
                     //Comprobar si player esta vacio
-                    CompareActions();
+                    //CompareActions();
 
                     //imprimimos por pantalla la lista de acciones del jugador
                     if (myPlayer.myActions.Count > 0)
@@ -254,7 +254,6 @@ public class GameManager : MonoBehaviour
                         enemyActionsText.text += enemy.enemyActions[i] + "\n";
                     }
                     OnFightGame?.Invoke();
-
                     break;
                 }
             case RoundState.GOING_NEXT_ROUND:
@@ -313,12 +312,19 @@ public class GameManager : MonoBehaviour
     #region COMPARE ACTIONS
     void CompareActions()
     {
+        aux = 0;
+
         do
         {
             timerAux += Time.deltaTime;
+            Debug.Log("Timer aux" + timerAux);
+
+
             if (timerAux >= timerAnimations)
             {
+                Debug.Log("ENTRA AQUI PARA LA ANIMACION");
                 timerAux = 0;
+
                 switch (myPlayer.myActions[aux])
                 {
                     case actions.ATACAR:
@@ -388,7 +394,6 @@ public class GameManager : MonoBehaviour
                                 break;
                         }
                         break;
-
                     case actions.ATACARFUERTE1:
                         switch (enemy.enemyActions[aux])
                         {
@@ -533,11 +538,17 @@ public class GameManager : MonoBehaviour
                         switch (enemy.enemyActions[aux])
                         {
                             case actions.ATACAR:
+                                //LLamamos a las animaciones
+                                characterAnimations.Parry();
+
                                 //enemy get damage
                                 enemy.getDamage(lightDamage);
                                 break;
 
                             case actions.ATACARFUERTE1:
+                                //LLamamos a las animaciones
+                                characterAnimations.ParryFail();
+
                                 //next turn exahust 
                                 if ((aux + 1) == numRound)
                                     myPlayer.extraAction = actions.EXHAUST;
@@ -555,11 +566,17 @@ public class GameManager : MonoBehaviour
                                 break;
 
                             case actions.ATACARFUERTE2:
+                                //LLamamos a las animaciones
+                                characterAnimations.Parry();
+
                                 //Enemy get damage
                                 enemy.getDamage(heavyDamage);
                                 break;
 
                             case actions.PARRY1:
+                                //LLamamos a las animaciones
+                                characterAnimations.ParryFail();
+
                                 //Player next turn exahust 
                                 if ((aux + 1) == numRound)
                                 {
@@ -606,6 +623,8 @@ public class GameManager : MonoBehaviour
                                 break;
 
                             case actions.ESQUIVAR:
+                                //LLamamos a las animaciones
+                                characterAnimations.ParryFail();
                                 //next turn exahust 
                                 if ((aux + 1) == numRound)
                                     myPlayer.extraAction = actions.EXHAUST;
@@ -623,6 +642,9 @@ public class GameManager : MonoBehaviour
                                 break;
 
                             case actions.EXHAUST:
+                                //LLamamos a las animaciones
+                                characterAnimations.ParryFail();
+
                                 //next turn exahust 
                                 if ((aux + 1) == numRound)
                                     myPlayer.extraAction = actions.EXHAUST;
@@ -699,19 +721,30 @@ public class GameManager : MonoBehaviour
                         switch (enemy.enemyActions[aux])
                         {
                             case actions.ATACAR:
+                                //LLamamos a las animaciones
+                                characterAnimations.Dodge();
                                 //Nada
                                 break;
 
                             case actions.ATACARFUERTE1:
+                                //LLamamos a las animaciones
+                                characterAnimations.Dodge();
+
                                 //Nada
                                 break;
 
                             case actions.ATACARFUERTE2:
+                                //LLamamos a las animaciones
+                                characterAnimations.Dodge();
+
                                 //Player get damage
                                 myPlayer.getDamage(heavyDamage);
                                 break;
 
                             case actions.PARRY1:
+                                //LLamamos a las animaciones
+                                characterAnimations.Dodge();
+
                                 //falla el parry el enemigo
                                 if ((aux + 1) == numRound)
                                     enemy.extraAction = actions.EXHAUST;
@@ -729,14 +762,20 @@ public class GameManager : MonoBehaviour
                                 break;
 
                             case actions.PARRY2:
+                                //LLamamos a las animaciones
+                                characterAnimations.Dodge();
                                 //Nada
                                 break;
 
                             case actions.ESQUIVAR:
+                                //LLamamos a las animaciones
+                                characterAnimations.Dodge();
                                 //Nada
                                 break;
 
                             case actions.EXHAUST:
+                                //LLamamos a las animaciones
+                                characterAnimations.Dodge();
                                 //Nada
                                 break;
 
@@ -754,6 +793,9 @@ public class GameManager : MonoBehaviour
                                 break;
 
                             case actions.ATACARFUERTE1:
+                                //LLamamos a las animaciones
+                                characterAnimations.Exhaust();
+
                                 //nothing
                                 break;
 
@@ -763,9 +805,12 @@ public class GameManager : MonoBehaviour
                                 break;
 
                         case actions.PARRY1:
+                            //LLamamos a las animaciones
+                            characterAnimations.Exhaust();
+
                             //falla el parry el enemigo
                             if ((aux + 1) == numRound)
-                                enemy.extraAction = actions.EXHAUST;
+                            enemy.extraAction = actions.EXHAUST;
                             else
                             {
                                 //Check ataquefuerte in next
@@ -780,14 +825,20 @@ public class GameManager : MonoBehaviour
                             break;
 
                             case actions.PARRY2:
+                                //LLamamos a las animaciones
+                                characterAnimations.Exhaust();
                                 //nothing
                                 break;
 
                             case actions.ESQUIVAR:
+                                //LLamamos a las animaciones
+                                characterAnimations.Exhaust();
                                 //nothing
                                 break;
 
                             case actions.EXHAUST:
+                                //LLamamos a las animaciones
+                                characterAnimations.Exhaust();
                                 //nada
                                 break;
 
@@ -801,13 +852,12 @@ public class GameManager : MonoBehaviour
                 }
 
                 aux++;
-                UpdateLife();
-                waitingRoundTimer = roundDuration;
+                //UpdateLife();
             }
-
-
             
         }while (aux < numRound);
+
+        waitingRoundTimer = roundDuration;
     }
     #endregion
 
