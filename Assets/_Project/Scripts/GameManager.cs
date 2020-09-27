@@ -726,121 +726,125 @@ public class GameManager : MonoBehaviour
     #region CheckNextAnimationPlayer
     public void CheckNextAnimationPlayer(int id)
     {
-        if (id == 0)
+        if (!gameFinished)
         {
-            if (lastPlayerActions[aux - 1] == actions.ATACAR)
-            {
-                if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
-                {
-                    //enemy hitted
-                    enemyAnimations.Hit();
-                    enemy.getDamage(lightDamage);
-                    myPlayer.SpawnBlood();
-                    //ps
 
-                }
-                else if (lastEnemyActions[aux - 1] == actions.ATACAR)
-                {
-                    enemyAnimations.Hit();
-                    characterAnimations.Hit();
-
-                    myPlayer.PlayParry();
-                }
-            }
-            else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
-            {
-                if (lastEnemyActions[aux - 1] == actions.PARRY1)
-                {
-                    //enemy hitted
-                    enemyAnimations.Hit();
-                    enemy.getDamage(heavyDamage);
-                    Debug.Log("HOSTIA PA TI!!");
-                    myPlayer.SpawnBlood();
-                    //ps
-                }
-                else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
-                {
-                    myPlayer.PlayParry();
-                }
-            }
-
-            //Check si hace parry
-            if (lastPlayerActions[aux - 1] == actions.PARRY1)
-            {
-                if ((lastEnemyActions[aux - 1] == actions.ATACAR))
-                {
-                    //Enemy Hitted
-                    enemyAnimations.Hit();
-
-                    enemy.getDamage(lightDamage);
-
-                    myPlayer.SpawnBlood();
-                    //ps
-                }
-            }
-
-        }
-        else
-        {
-            //Check si player esta atacando            
-            if (lastEnemyActions[aux - 1] == actions.ATACAR)
-            {
-                if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
-                {
-                    //Character hitted
-                    characterAnimations.Hit();
-                    myPlayer.getDamage(lightDamage);
-                    enemy.SpawnBlood();
-                    //ps
-                }
-                else if (lastPlayerActions[aux - 1] == actions.ATACAR)
-                {
-                    enemyAnimations.Hit();
-                    characterAnimations.Hit();
-
-                    enemy.PlayParry();
-                }
-                else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
-                {
-                    //Character hitted
-                    characterAnimations.Hit();
-                    myPlayer.getDamage(lightDamage);
-
-                    enemy.SpawnBlood();
-                    //ps
-                }
-            }
-            else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
-            {
-                if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
-                {
-                    enemy.PlayParry();
-                }
-                else
-                {
-                    //Character hitted
-                    characterAnimations.Hit();
-                    myPlayer.getDamage(heavyDamage);
-                    enemy.SpawnBlood();
-                    //ps
-                }
-            }
-
-            //Check si hace parry
-            if (lastEnemyActions[aux - 1] == actions.PARRY1)
+            if (id == 0)
             {
                 if (lastPlayerActions[aux - 1] == actions.ATACAR)
                 {
-                    //Character hitted
-                    characterAnimations.Hit();
-                    enemy.SpawnBlood();
+                    if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
+                    {
+                        //enemy hitted
+                        enemyAnimations.Hit();
+                        enemy.getDamage(lightDamage);
+                        myPlayer.SpawnBlood();
+                        //ps
 
-                    myPlayer.getDamage(lightDamage);
-                    //ps
+                    }
+                    else if (lastEnemyActions[aux - 1] == actions.ATACAR)
+                    {
+                        enemyAnimations.Hit();
+                        characterAnimations.Hit();
+
+                        myPlayer.PlayParry();
+                    }
+                }
+                else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
+                {
+                    if (lastEnemyActions[aux - 1] == actions.PARRY1)
+                    {
+                        //enemy hitted
+                        enemyAnimations.Hit();
+                        enemy.getDamage(heavyDamage);
+                        Debug.Log("HOSTIA PA TI!!");
+                        myPlayer.SpawnBlood();
+                        //ps
+                    }
+                    else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
+                    {
+                        myPlayer.PlayParry();
+                    }
+                }
+
+                //Check si hace parry
+                if (lastPlayerActions[aux - 1] == actions.PARRY1)
+                {
+                    if ((lastEnemyActions[aux - 1] == actions.ATACAR))
+                    {
+                        //Enemy Hitted
+                        enemyAnimations.Hit();
+
+                        enemy.getDamage(lightDamage);
+
+                        myPlayer.SpawnBlood();
+                        //ps
+                    }
+                }
+
+            }
+            else
+            {
+                //Check si player esta atacando            
+                if (lastEnemyActions[aux - 1] == actions.ATACAR)
+                {
+                    if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
+                    {
+                        //Character hitted
+                        characterAnimations.Hit();
+                        myPlayer.getDamage(lightDamage);
+                        enemy.SpawnBlood();
+                        //ps
+                    }
+                    else if (lastPlayerActions[aux - 1] == actions.ATACAR)
+                    {
+                        enemyAnimations.Hit();
+                        characterAnimations.Hit();
+
+                        enemy.PlayParry();
+                    }
+                    else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
+                    {
+                        //Character hitted
+                        characterAnimations.Hit();
+                        myPlayer.getDamage(lightDamage);
+
+                        enemy.SpawnBlood();
+                        //ps
+                    }
+                }
+                else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
+                {
+                    if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
+                    {
+                        enemy.PlayParry();
+                    }
+                    else
+                    {
+                        //Character hitted
+                        characterAnimations.Hit();
+                        myPlayer.getDamage(heavyDamage);
+                        enemy.SpawnBlood();
+                        //ps
+                    }
+                }
+
+                //Check si hace parry
+                if (lastEnemyActions[aux - 1] == actions.PARRY1)
+                {
+                    if (lastPlayerActions[aux - 1] == actions.ATACAR)
+                    {
+                        //Character hitted
+                        characterAnimations.Hit();
+                        enemy.SpawnBlood();
+
+                        myPlayer.getDamage(lightDamage);
+                        //ps
+                    }
                 }
             }
-        }
 
+        }
     }
     #endregion
 
