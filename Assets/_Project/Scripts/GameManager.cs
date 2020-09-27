@@ -248,8 +248,9 @@ public class GameManager : MonoBehaviour
                     enemyActionsText.text = "";
 
                     numRound++;
-                    if (numRound > 5)
-                        numRound = 5;
+
+                    if (numRound > enemy.numRound)
+                        numRound = enemy.numRound;
 
                     roundText.text = "Round " + numRound;
                     //mesageText.text = "GOING TO THE ROUND  " + numRound + "!  WAITING...";
@@ -544,7 +545,7 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.ChargingHeavy();
 
                             //next turn exahust 
-                            if ((aux + 1) == numRound)
+                            /*if ((aux + 1) == numRound)
                                 myPlayer.extraAction = actions.EXHAUST;
                             else
                             {
@@ -556,7 +557,7 @@ public class GameManager : MonoBehaviour
                                 }
                                 else
                                     myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                            }
+                            }*/
                             break;
 
                         case actions.ATACARFUERTE2:
@@ -571,7 +572,8 @@ public class GameManager : MonoBehaviour
                         case actions.PARRY1:
                             //LLamamos a las animaciones
                             characterAnimations.ParryFail();
-                            enemyAnimations.Parry();
+                            enemyAnimations.ParryFail();
+                            //enemyAnimations.Parry();
 
                             //Player next turn exahust 
                             if ((aux + 1) == numRound)

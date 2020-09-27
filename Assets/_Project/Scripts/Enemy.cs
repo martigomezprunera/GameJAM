@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private int life = 100;
     [SerializeField] public int id = 1;
-
+    [SerializeField] public int numRound;
 
     //HUD
     public HUD myHud;
@@ -48,6 +48,7 @@ public class Enemy : MonoBehaviour
                 {
                     #region RONDA 1
                     case 1:
+                        action = Random.Range(1, 3);
                         switch (action)
                         {
                             case 1:
@@ -55,20 +56,20 @@ public class Enemy : MonoBehaviour
                                 break;
 
                             case 2:
-                                enemyActions.Add(actions.ESQUIVAR);
+                                enemyActions.Add(actions.ATACARFUERTE1);
                                 break;
 
                             case 3:
                                 enemyActions.Add(actions.PARRY1);
                                 break;
 
-                            case 4:
-                                enemyActions.Add(actions.ESQUIVAR);
+                            /*case 4:
+                                enemyActions.Add(actions.PARRY1);
                                 break;
 
                             case 5:
                                 enemyActions.Add(actions.ATACAR);
-                                break;
+                                break;*/
 
                             default:
                                 break;
@@ -78,19 +79,20 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 2
                     case 2:
+                        action = Random.Range(1, 2);
                         switch (action)
                         {
                             case 1:
-                                enemyActions.Add(actions.ESQUIVAR);
+                                enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.PARRY1);
                                 break;
 
                             case 2:
-                                enemyActions.Add(actions.ESQUIVAR);
+                                enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACAR);
                                 break;
 
-                            case 3:
+                            /*case 3:
                                 enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
                                 break;
@@ -103,7 +105,7 @@ public class Enemy : MonoBehaviour
                             case 5:
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ESQUIVAR);
-                                break;
+                                break;*/
 
                             default:
                                 break;
@@ -113,12 +115,13 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 3
                     case 3:
+                        action = Random.Range(1, 2);
                         switch (action)
                         {
                             case 1:
                                 enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
+                                enemyActions.Add(actions.ATACARFUERTE1);
                                 break;
 
                             case 2:
@@ -127,7 +130,7 @@ public class Enemy : MonoBehaviour
                                 enemyActions.Add(actions.ATACAR);
                                 break;
 
-                            case 3:
+                            /*case 3:
                                 enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACARFUERTE2);
                                 enemyActions.Add(actions.ATACAR);
@@ -143,7 +146,7 @@ public class Enemy : MonoBehaviour
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
+                                break;*/
 
                             default:
                                 break;
@@ -153,23 +156,24 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 4
                     case 4:
+                        action = Random.Range(1, 2);
                         switch (action)
                         {
                             case 1:
                                 enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
+                                enemyActions.Add(actions.PARRY1);
                                 break;
 
                             case 2:
+                                enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
+                                enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACAR);
                                 break;
 
-                            case 3:
+                            /*case 3:
                                 enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACARFUERTE2);
                                 enemyActions.Add(actions.ESQUIVAR);
@@ -188,7 +192,7 @@ public class Enemy : MonoBehaviour
                                 enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ESQUIVAR);
-                                break;
+                                break;*/
 
                             default:
                                 break;
@@ -198,33 +202,34 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 5
                     case 5:
+                        action = Random.Range(1, 3);
                         switch (action)
                         {
                             case 1:
                                 enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
+                                enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
+                                enemyActions.Add(actions.PARRY1);
                                 break;
 
                             case 2:
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ESQUIVAR);
+                                enemyActions.Add(actions.PARRY1);
+                                enemyActions.Add(actions.ATACAR);
                                 break;
 
                             case 3:
-                                enemyActions.Add(actions.ESQUIVAR);
+                                enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
                                 enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
+                                enemyActions.Add(actions.ATACAR);
+                                enemyActions.Add(actions.ATACAR);
                                 break;
 
-                            case 4:
+                            /*case 4:
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACARFUERTE2);
@@ -238,7 +243,7 @@ public class Enemy : MonoBehaviour
                                 enemyActions.Add(actions.ESQUIVAR);
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ATACAR);
-                                break;
+                                break;*/
 
                             default:
                                 break;
@@ -683,7 +688,7 @@ public class Enemy : MonoBehaviour
                 myHud.actionTextEnemy1[0].text = "A";
                 break;
             case actions.ATACARFUERTE1:
-                myHud.actionTextEnemy1[0].text = "C";
+                myHud.actionTextEnemy1[0].text = "H";
                 break;
             case actions.PARRY1:
                 myHud.actionTextEnemy1[0].text = "P";
@@ -743,8 +748,8 @@ public class Enemy : MonoBehaviour
                     myHud.actionTextEnemy1[i].text = "A";
                     break;
                 case actions.ATACARFUERTE1:
-                    myHud.actionTextEnemy1[i].text = "C";
-                    i++;
+                    //myHud.actionTextEnemy1[i].text = "C";
+                    //i++;
                     myHud.actionTextEnemy1[i].text = "H";
                     break;
                 case actions.PARRY1:

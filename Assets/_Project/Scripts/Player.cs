@@ -145,14 +145,20 @@ public class Player : MonoBehaviour
         if (aux > 5)
             aux = 5;
 
-        if (canSelect && ((myActions.Count+1) < aux))
+        if (canSelect && myActions.Count < aux)
+        {
+            myActions.Add(actions.ATACARFUERTE1);
+            FillHUDPlayer(actions.ATACARFUERTE1);
+        }
+
+        /*if (canSelect && ((myActions.Count+1) < aux))
         {            
             myActions.Add(actions.ATACARFUERTE1);
             myActions.Add(actions.ATACARFUERTE2);
             FillHUDPlayer(actions.ATACARFUERTE1);
-        }
+        }*/
         //else
-            //do animation can't select
+        //do animation can't select
     }
     #endregion
 
@@ -199,7 +205,7 @@ public class Player : MonoBehaviour
                 myHud.actionTextPlayer1[myActions.Count - 1].text = "A";
                 break;
             case actions.ATACARFUERTE1:
-                myHud.actionTextPlayer1[myActions.Count - 2].text = "C";
+                //myHud.actionTextPlayer1[myActions.Count - 2].text = "C";
                 myHud.actionTextPlayer1[myActions.Count - 1].text = "H";
                 break;
             case actions.PARRY1:

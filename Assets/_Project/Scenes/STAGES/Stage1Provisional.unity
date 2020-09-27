@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.22041152, g: 0.14080273, b: 0.108377054, a: 1}
+  m_IndirectSpecularColor: {r: 0.24207526, g: 0.16514528, b: 0.14584123, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6570,6 +6570,7 @@ MonoBehaviour:
   extraAction: 7
   life: 100
   id: 1
+  numRound: 0
   myHud: {fileID: 844881714}
 --- !u!4 &1796534953
 Transform:
@@ -8020,6 +8021,11 @@ PrefabInstance:
       propertyPath: myHud
       value: 
       objectReference: {fileID: 844881714}
+    - target: {fileID: 2943641710593702938, guid: 116a87b22ca46994298b658a8fa10aec,
+        type: 3}
+      propertyPath: numRound
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3077597302996665793, guid: 116a87b22ca46994298b658a8fa10aec,
         type: 3}
       propertyPath: m_IsActive
