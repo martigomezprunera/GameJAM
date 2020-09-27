@@ -706,6 +706,9 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+
+            myPlayer.Sounds.PlaySound("Slash");
+
         }
         else
         {
@@ -762,6 +765,8 @@ public class GameManager : MonoBehaviour
                     //ps
                 }
             }
+
+            enemy.Sounds.PlaySound("Slash");
         }
 
     }

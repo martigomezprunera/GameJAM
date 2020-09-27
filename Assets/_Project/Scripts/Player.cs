@@ -1,11 +1,17 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     #region VARIABLES
+    [Header("References")]
+    [SerializeField] private GameObjectSounds _characterSounds = null;
+    public GameObjectSounds Sounds => _characterSounds;
 
+    [SerializeField] private CharacterAnimations _characterAnimations = null;
+
+    [Header("Settings")]
     public List<actions> myActions;
     public actions extraAction = actions.NONE;
 
@@ -17,9 +23,25 @@ public class Player : MonoBehaviour
 
     //HUD
     public HUD myHud;
+
+
     #endregion
 
     #region METHODS
+
+    #region AWAKE
+
+    private void Awake()
+    {
+        if (_characterSounds == null)
+            throw new NullReferenceException("_characterSounds has not been assigned at" + GetType());
+        if (_characterAnimations == null)
+            throw new NullReferenceException("_characterAnimations has not been assigned at" + GetType());
+
+        _characterAnimations.OnHit += CheckNextAnimation;
+    }
+
+    #endregion
 
     #region START
     private void Start()
@@ -223,11 +245,12 @@ public class Player : MonoBehaviour
 
 
     #region Comprobe
-    public void ComprobeNextAnimation()
+    public void CheckNextAnimation()
     {
        myGameManager.CheckNextAnimationPlayer(0);
     }
     #endregion
+
 
     #endregion
 

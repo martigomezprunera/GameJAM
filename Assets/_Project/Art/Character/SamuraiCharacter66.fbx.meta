@@ -291,9 +291,17 @@ ModelImporter:
       curves: []
       events:
       - time: 0.115625
-        functionName: ComprobeNextAnimation
+        functionName: TriggerSlash
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 0b580760ef435a74284b62afbbc67311,
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.1513158
+        functionName: TriggerHit
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
           type: 3}
         floatParameter: 0
         intParameter: 0
@@ -472,10 +480,18 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.159375
-        functionName: ComprobeNextAnimation
+      - time: 0.13656132
+        functionName: TriggerSlash
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 0b580760ef435a74284b62afbbc67311,
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.16447368
+        functionName: TriggerHit
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
           type: 3}
         floatParameter: 0
         intParameter: 0
@@ -509,10 +525,18 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.453125
-        functionName: ComprobeNextAnimation
+      - time: 0.42938262
+        functionName: TriggerSlash
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 0b580760ef435a74284b62afbbc67311,
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.46072957
+        functionName: TriggerHit
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
           type: 3}
         floatParameter: 0
         intParameter: 0
