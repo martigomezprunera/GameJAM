@@ -525,6 +525,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.117961586
+        functionName: TriggerParrySlash
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.42938262
         functionName: TriggerSlash
         data: 
@@ -535,6 +543,14 @@ ModelImporter:
         messageOptions: 0
       - time: 0.46072957
         functionName: TriggerHit
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.15611815
+        functionName: TriggerParry
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
           type: 3}

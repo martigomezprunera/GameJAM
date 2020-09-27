@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Enemy : MonoBehaviour
 {
@@ -8,6 +9,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObjectSounds _characterSounds = null;
     public GameObjectSounds Sounds => _characterSounds;
     [SerializeField] private CharacterAnimations _characterAnimations = null;
+
+    [Header("VFX")]
+    [SerializeField] private BloodVFXSpawner _bloodVFXSpawner = null;
+    [SerializeField] private Transform _bloodSpawnTransform = null;
+
+    [SerializeField] private VisualEffect _parrySparks = null;
 
     [Header("Settings")]
     [SerializeField]  public List<actions> enemyActions;
@@ -28,10 +35,19 @@ public class Enemy : MonoBehaviour
     {
         if (_characterSounds == null)
             throw new NullReferenceException("_characterSounds has not been assigned at" + GetType());
+        if (_bloodVFXSpawner == null)
+            throw new NullReferenceException("_bloodVFXSpawner has not been assigned at" + GetType());
+        if (_bloodSpawnTransform == null)
+            throw new NullReferenceException("_bloodSpawnTransform has not been assigned at" + GetType());
+        if (_parrySparks == null)
+            throw new NullReferenceException("_parrySparks has not been assigned at" + GetType());
         if (_characterAnimations == null)
             throw new NullReferenceException("_characterAnimations has not been assigned at" + GetType());
 
         _characterAnimations.OnHit += CheckNextAnimation;
+        _characterAnimations.OnSlash += PlaySlashSound;
+        _characterAnimations.OnParrySlash += PlaySlashSound;
+        _characterAnimations.OnParry += PlayParry;
     }
 
     private void Start()
@@ -788,4 +804,21 @@ public class Enemy : MonoBehaviour
         myGameManager.CheckNextAnimationPlayer(1);
     }
     #endregion
+
+    public void SpawnBlood()
+    {
+        _bloodVFXSpawner.SpawnBlood(_bloodSpawnTransform);
+        _characterSounds.PlaySound("Flesh");
+    }
+
+    private void PlaySlashSound()
+    {
+        _characterSounds.PlaySound("Slash");
+    }
+    public void PlayParry()
+    {
+        _characterSounds.PlaySound("Parry");
+        _parrySparks.Play();
+    }
+
 }

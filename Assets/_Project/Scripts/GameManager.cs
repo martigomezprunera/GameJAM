@@ -672,6 +672,7 @@ public class GameManager : MonoBehaviour
                     //enemy hitted
                     enemyAnimations.Hit();
                     enemy.getDamage(lightDamage);
+                    myPlayer.SpawnBlood();
                     //ps
 
                 }
@@ -679,17 +680,24 @@ public class GameManager : MonoBehaviour
                 {
                     enemyAnimations.Hit();
                     characterAnimations.Hit();
+
+                    myPlayer.PlayParry();
                 }
             }
             else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
             {
-                if (lastEnemyActions[aux - 1] != actions.ATACAR)
+                if (lastEnemyActions[aux - 1] == actions.PARRY1)
                 {
                     //enemy hitted
                     enemyAnimations.Hit();
                     enemy.getDamage(heavyDamage);
                     Debug.Log("HOSTIA PA TI!!");
+                    myPlayer.SpawnBlood();
                     //ps
+                }
+                else if(lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
+                {
+                    myPlayer.PlayParry();
                 }
             }
 
@@ -702,12 +710,11 @@ public class GameManager : MonoBehaviour
                     enemyAnimations.Hit();
                     
                     enemy.getDamage(lightDamage);
+
+                    myPlayer.SpawnBlood();
                     //ps
                 }
             }
-
-
-            myPlayer.Sounds.PlaySound("Slash");
 
         }
         else
@@ -720,35 +727,38 @@ public class GameManager : MonoBehaviour
                     //Character hitted
                     characterAnimations.Hit();
                     myPlayer.getDamage(lightDamage);
+                    enemy.SpawnBlood();
                     //ps
                 }
                 else if (lastPlayerActions[aux - 1] == actions.ATACAR)
                 {
                     enemyAnimations.Hit();
                     characterAnimations.Hit();
+
+                    enemy.PlayParry();
                 }
                 else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
                 {
                     //Character hitted
                     characterAnimations.Hit();
                     myPlayer.getDamage(lightDamage);
+
+                    enemy.SpawnBlood();
                     //ps
                 }
             }
             else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
             {
-                if (lastPlayerActions[aux - 1] != actions.ATACAR)
+                if(lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
                 {
-                    //Character hitted
-                    characterAnimations.Hit();
-                    myPlayer.getDamage(heavyDamage);
-                    //ps
+                    enemy.PlayParry();
                 }
-                else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
+                else
                 {
                     //Character hitted
                     characterAnimations.Hit();
                     myPlayer.getDamage(heavyDamage);
+                    enemy.SpawnBlood();
                     //ps
                 }
             }
@@ -760,13 +770,12 @@ public class GameManager : MonoBehaviour
                 {
                     //Character hitted
                     characterAnimations.Hit();
-                   
+                    enemy.SpawnBlood();
+
                     myPlayer.getDamage(lightDamage);
                     //ps
                 }
             }
-
-            enemy.Sounds.PlaySound("Slash");
         }
 
     }

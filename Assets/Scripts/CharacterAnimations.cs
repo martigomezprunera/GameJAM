@@ -12,6 +12,8 @@ public class CharacterAnimations : MonoBehaviour
 
     public event Action OnSlash;
     public event Action OnHit;
+    public event Action OnParrySlash;
+    public event Action OnParry;
     public void TriggerSlash()
     {
         OnSlash?.Invoke();
@@ -19,6 +21,14 @@ public class CharacterAnimations : MonoBehaviour
     public void TriggerHit()
     {
         OnHit?.Invoke();
+    }
+    public void TriggerParry()
+    {
+        OnParry?.Invoke();
+    }
+    public void TriggerParrySlash()
+    {
+        OnParrySlash?.Invoke();
     }
 
     #endregion
