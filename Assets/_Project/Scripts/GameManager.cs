@@ -319,10 +319,10 @@ public class GameManager : MonoBehaviour
 
                             //Enemy get damage and an exhaust on next round
                             //enemy.getDamage(lightDamage);
-                            if (aux == numRound - 1)
-                                enemy.extraAction = actions.EXHAUST;
-                            else
-                                enemy.enemyActions[aux + 1] = actions.EXHAUST;
+                            //if (aux == numRound - 1)
+                            //    enemy.extraAction = actions.EXHAUST;
+                            //else
+                            //    enemy.enemyActions[aux + 1] = actions.EXHAUST;
                             break;
 
                         case actions.ATACARFUERTE2:
@@ -383,7 +383,6 @@ public class GameManager : MonoBehaviour
 
                             //Player get damage and exahust on next turn
                             //myPlayer.getDamage(lightDamage);
-                            myPlayer.myActions[aux + 1] = actions.EXHAUST;
                             break;
 
                         case actions.ATACARFUERTE1:
@@ -392,35 +391,11 @@ public class GameManager : MonoBehaviour
                             enemyAnimations.ChargingHeavy();
                             //nothing
                             break;
-
-                        case actions.ATACARFUERTE2:
-
-                            enemyAnimations.HeavyAttack();
-
-                            //Player get damage + exahust on next
-                            //myPlayer.getDamage(heavyDamage);
-                            myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                            break;
-
                         case actions.PARRY1:
                             //LLamamos a las animaciones
                             characterAnimations.ChargingHeavy();
                             enemyAnimations.ParryFail();
-
-                            //falla el parry el enemigo
-                            if ((aux + 1) == numRound)
-                                enemy.extraAction = actions.EXHAUST;
-                            else
-                            {
-                                //Check ataquefuerte in next
-                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                            }
+                            
                             break;
 
                         case actions.PARRY2:
@@ -469,7 +444,6 @@ public class GameManager : MonoBehaviour
 
                             //Enemy get damage + exahust
                             //enemy.getDamage(heavyDamage);
-                            enemy.enemyActions[aux + 1] = actions.EXHAUST;
                             break;
 
                         case actions.ATACARFUERTE2:
@@ -543,21 +517,6 @@ public class GameManager : MonoBehaviour
                             //LLamamos a las animaciones
                             characterAnimations.ParryFail();
                             enemyAnimations.ChargingHeavy();
-
-                            //next turn exahust 
-                            /*if ((aux + 1) == numRound)
-                                myPlayer.extraAction = actions.EXHAUST;
-                            else
-                            {
-                                //Check ataquefuerte in next
-                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                            }*/
                             break;
 
                         case actions.ATACARFUERTE2:
@@ -573,298 +532,39 @@ public class GameManager : MonoBehaviour
                             //LLamamos a las animaciones
                             characterAnimations.ParryFail();
                             enemyAnimations.ParryFail();
-                            //enemyAnimations.Parry();
-
-                            //Player next turn exahust 
-                            if ((aux + 1) == numRound)
-                            {
-                                myPlayer.extraAction = actions.EXHAUST;
-                                enemy.extraAction = actions.EXHAUST;
-                            }
-                            else
-                            {
-                                //Check ataquefuerte in next
-                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-
-                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                            }
+                            //enemyAnimations.Parry();                         
 
                             break;
-
-                        case actions.PARRY2:
-                            //next turn exahust 
-                            if ((aux + 1) == numRound)
-                                myPlayer.extraAction = actions.EXHAUST;
-                            else
-                            {
-                                //Check ataquefuerte in next
-                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                            }
-                            break;
-
-                        case actions.ESQUIVAR:
-                            //LLamamos a las animaciones
-                            characterAnimations.ParryFail();
-                            enemyAnimations.Dodge();
-
-                            //next turn exahust 
-                            if ((aux + 1) == numRound)
-                                myPlayer.extraAction = actions.EXHAUST;
-                            else
-                            {
-                                //Check ataquefuerte in next
-                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                            }
-                            break;
-
                         case actions.EXHAUST:
                             //LLamamos a las animaciones
                             characterAnimations.ParryFail();
                             enemyAnimations.Exhaust();
-
-                            //next turn exahust 
-                            if ((aux + 1) == numRound)
-                                myPlayer.extraAction = actions.EXHAUST;
-                            else
-                            {
-                                //Check ataquefuerte in next
-                                if (myPlayer.myActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                                    myPlayer.myActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    myPlayer.myActions[aux + 1] = actions.EXHAUST;
-                            }
                             break;
 
                         default:
                             break;
                     }
                     break;
-
-                case actions.PARRY2:
-                    switch (enemy.enemyActions[aux])
-                    {
-                        case actions.ATACAR:
-                            //Player get damage
-                            //myPlayer.getDamage(lightDamage);
-                            break;
-
-                        case actions.ATACARFUERTE1:
-                            //nothing
-                            break;
-
-                        case actions.ATACARFUERTE2:
-                            //Player get damage
-                            //myPlayer.getDamage(heavyDamage);
-                            break;
-
-                        case actions.PARRY1:
-                            //falla el parry el enemigo
-                            if ((aux + 1) == numRound)
-                                enemy.extraAction = actions.EXHAUST;
-                            else
-                            {
-                                //Check ataquefuerte in next
-                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                            }
-                            break;
-
-                        case actions.PARRY2:
-                            //nothing
-                            break;
-
-                        case actions.ESQUIVAR:
-                            //nothing
-                            break;
-
-                        case actions.EXHAUST:
-                            //nada
-                            break;
-
-                        default:
-                            break;
-                    }
-                    break;
-
-                case actions.ESQUIVAR:
-                    switch (enemy.enemyActions[aux])
-                    {
-                        case actions.ATACAR:
-                            //LLamamos a las animaciones
-                            characterAnimations.Dodge();
-                            enemyAnimations.LighAttack();
-                            //Nada
-                            break;
-
-                        case actions.ATACARFUERTE1:
-                            //LLamamos a las animaciones
-                            characterAnimations.Dodge();
-                            enemyAnimations.ChargingHeavy();
-                            //Nada
-                            break;
-
-                        case actions.ATACARFUERTE2:
-                            //LLamamos a las animaciones
-                            characterAnimations.Dodge();
-                            enemyAnimations.HeavyAttack();
-                            //Player get damage
-                            //myPlayer.getDamage(heavyDamage);
-                            break;
-
-                        case actions.PARRY1:
-                            //LLamamos a las animaciones
-                            characterAnimations.Dodge();
-                            enemyAnimations.ParryFail();
-
-                            //falla el parry el enemigo
-                            if ((aux + 1) == numRound)
-                            {
-                                Debug.Log("Mete la accion");
-                                enemy.extraAction = actions.EXHAUST;
-                            }
-                            else
-                            {
-                                //Check ataquefuerte in next
-                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                            }
-                            break;
-
-                        case actions.PARRY2:
-                            //LLamamos a las animaciones
-                            characterAnimations.Dodge();
-                            //Nada
-                            break;
-
-                        case actions.ESQUIVAR:
-                            //LLamamos a las animaciones
-                            characterAnimations.Dodge();
-                            enemyAnimations.Dodge();
-                            //Nada
-                            break;
-
-                        case actions.EXHAUST:
-                            //LLamamos a las animaciones
-                            characterAnimations.Dodge();
-                            enemyAnimations.Exhaust();
-                            //Nada
-                            break;
-
-                        default:
-                            break;
-                    }
-                    break;
-
                 case actions.EXHAUST:
                     switch (enemy.enemyActions[aux])
                     {
                         case actions.ATACAR:
-                            //LLamamos a las animaciones
-                            characterAnimations.Exhaust();
                             enemyAnimations.LighAttack();
-                            //Player get damage
-                            //myPlayer.getDamage(lightDamage);
                             break;
 
                         case actions.ATACARFUERTE1:
-                            //LLamamos a las animaciones
-                            characterAnimations.Exhaust();
                             enemyAnimations.ChargingHeavy();
-
-                            //nothing
                             break;
-
-                        case actions.ATACARFUERTE2:
-                            //LLamamos a las animaciones
-                            characterAnimations.Exhaust();
-                            enemyAnimations.HeavyAttack();
-                            //Player get damage
-                            //myPlayer.getDamage(heavyDamage);
-                            break;
-
                         case actions.PARRY1:
-                            //LLamamos a las animaciones
-                            characterAnimations.Exhaust();
                             enemyAnimations.ParryFail();
-
-                            //falla el parry el enemigo
-                            if ((aux + 1) == numRound)
-                                enemy.extraAction = actions.EXHAUST;
-                            else
-                            {
-                                //Check ataquefuerte in next
-                                if (enemy.enemyActions[aux + 1] == actions.ATACARFUERTE1)
-                                {
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                                    enemy.enemyActions[aux + 2] = actions.ATACAR;
-                                }
-                                else
-                                    enemy.enemyActions[aux + 1] = actions.EXHAUST;
-                            }
                             break;
-
-                        case actions.PARRY2:
-                            //LLamamos a las animaciones
-                            characterAnimations.Exhaust();
-                            //nothing
-                            break;
-
-                        case actions.ESQUIVAR:
-                            //LLamamos a las animaciones
-                            characterAnimations.Exhaust();
-                            enemyAnimations.Dodge();
-                            //nothing
-                            break;
-
                         case actions.EXHAUST:
-                            //LLamamos a las animaciones
-                            characterAnimations.Exhaust();
-                            enemyAnimations.Exhaust();
-                            //nada
                             break;
 
                         default:
                             break;
                     }
                     break;
-
                 default:
                     break;
             }
@@ -881,7 +581,6 @@ public class GameManager : MonoBehaviour
                 copyActions = false;
             }
         }
-
         waitingRoundTimer = roundDuration;
     }
     #endregion
@@ -968,19 +667,23 @@ public class GameManager : MonoBehaviour
         {
             if (lastPlayerActions[aux - 1] == actions.ATACAR)
             {
-                if ((lastEnemyActions[aux - 1] != actions.ESQUIVAR) && (lastEnemyActions[aux - 1] != actions.PARRY1))
+                if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
                 {
                     //enemy hitted
                     enemyAnimations.Hit();
                     enemy.getDamage(lightDamage);
-                    Debug.Log("HOSTIA PA TI!!");
                     //ps
 
                 }
+                else if (lastEnemyActions[aux - 1] == actions.ATACAR)
+                {
+                    enemyAnimations.Hit();
+                    characterAnimations.Hit();
+                }
             }
-            else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2)
+            else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
             {
-                if (lastEnemyActions[aux - 1] != actions.PARRY1)
+                if (lastEnemyActions[aux - 1] != actions.ATACAR)
                 {
                     //enemy hitted
                     enemyAnimations.Hit();
@@ -993,15 +696,12 @@ public class GameManager : MonoBehaviour
             //Check si hace parry
             if (lastPlayerActions[aux - 1] == actions.PARRY1)
             {
-                if ((lastEnemyActions[aux - 1] == actions.ATACAR) || (lastEnemyActions[aux - 1] == actions.ATACARFUERTE2))
+                if ((lastEnemyActions[aux - 1] == actions.ATACAR) )
                 {
                     //Enemy Hitted
                     enemyAnimations.Hit();
-                    if(lastEnemyActions[aux - 1] == actions.ATACARFUERTE2)
-                        enemy.getDamage(heavyDamage);
-                    else
-                        enemy.getDamage(lightDamage);
-                    Debug.Log("HOSTIA PA TI!!");
+                    
+                    enemy.getDamage(lightDamage);
                     //ps
                 }
             }
@@ -1012,23 +712,40 @@ public class GameManager : MonoBehaviour
             //Check si player esta atacando            
             if (lastEnemyActions[aux - 1] == actions.ATACAR)
             {
-                if ((lastPlayerActions[aux - 1] != actions.ESQUIVAR) && (lastPlayerActions[aux - 1] != actions.PARRY1))
+                if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
                 {
                     //Character hitted
                     characterAnimations.Hit();
                     myPlayer.getDamage(lightDamage);
-                    Debug.Log("HOSTIA PA MI!!");
+                    //ps
+                }
+                else if (lastPlayerActions[aux - 1] == actions.ATACAR)
+                {
+                    enemyAnimations.Hit();
+                    characterAnimations.Hit();
+                }
+                else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
+                {
+                    //Character hitted
+                    characterAnimations.Hit();
+                    myPlayer.getDamage(lightDamage);
                     //ps
                 }
             }
-            else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE2)
+            else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
             {
-                if (lastPlayerActions[aux - 1] != actions.PARRY1)
+                if (lastPlayerActions[aux - 1] != actions.ATACAR)
                 {
                     //Character hitted
                     characterAnimations.Hit();
                     myPlayer.getDamage(heavyDamage);
-                    Debug.Log("HOSTIA PA MI!!");
+                    //ps
+                }
+                else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
+                {
+                    //Character hitted
+                    characterAnimations.Hit();
+                    myPlayer.getDamage(heavyDamage);
                     //ps
                 }
             }
@@ -1036,25 +753,17 @@ public class GameManager : MonoBehaviour
             //Check si hace parry
             if (lastEnemyActions[aux - 1] == actions.PARRY1)
             {
-                if ((lastPlayerActions[aux - 1] == actions.ATACAR) || (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2))
+                if (lastPlayerActions[aux - 1] == actions.ATACAR)
                 {
                     //Character hitted
                     characterAnimations.Hit();
-                    if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE2)
-                        myPlayer.getDamage(heavyDamage);
-                    else
-                        myPlayer.getDamage(lightDamage);
+                   
+                    myPlayer.getDamage(lightDamage);
                     //ps
                 }
             }
         }
-        //Clear if last
-        if (aux == lastPlayerActions.Count)
-        {
-            //Debug.Log("H entrao nen");
-            //lastPlayerActions.Clear();
-            //lastEnemyActions.Clear();
-        }
+
     }
     #endregion
 

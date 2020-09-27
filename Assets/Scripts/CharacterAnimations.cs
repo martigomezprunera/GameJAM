@@ -56,7 +56,7 @@ public class CharacterAnimations : MonoBehaviour
     #region CHARGING HEAVY
     public void ChargingHeavy()
     {
-        animator.SetBool("ChargingHeavy", true);
+        animator.SetTrigger("HeavyAttack");
     }
     #endregion
 
