@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class CharacterAnimations : MonoBehaviour
@@ -8,42 +7,20 @@ public class CharacterAnimations : MonoBehaviour
     public Animator animator;
     #endregion
 
-    #region UPDATE
-    void Update()
+
+    #region EVENTS
+
+    public event Action OnSlash;
+    public event Action OnHit;
+    public void TriggerSlash()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            LighAttack();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ChargingHeavy();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            HeavyAttack();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            Parry();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            ParryFail();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            Dodge();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            Hit();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            Exhaust();
-        }
+        OnSlash?.Invoke();
     }
+    public void TriggerHit()
+    {
+        OnHit?.Invoke();
+    }
+
     #endregion
 
     #region LIGHT ATTACK
@@ -92,7 +69,6 @@ public class CharacterAnimations : MonoBehaviour
     #region HIT
     public void Hit()
     {
-
         if (animator.GetBool("ChargingHeavy"))
         {
             animator.SetTrigger("HitCharged");

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 131.16855, g: 162.52502, b: 215.10977, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -385,66 +385,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 655309041}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b3debddab4037d4c8ccbd1b1a044fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 655309044}
-          m_MethodName: Play
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: EnterCredits
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1364324664}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 655309044}
-          m_MethodName: Play
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: ExitCredits
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 781888719}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: ExitCredits
-            m_BoolArgument: 0
-          m_CallState: 2
+  HoverSound: Button Hover
+  PressSound: Button Press
 --- !u!95 &655309044
 Animator:
   serializedVersion: 3
@@ -976,12 +921,12 @@ PrefabInstance:
     - target: {fileID: 3985225653229036378, guid: 71434e81bc5562a449ee9f7fdcf48c48,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -2.6
+      value: -2.5999756
       objectReference: {fileID: 0}
     - target: {fileID: 3985225653229036378, guid: 71434e81bc5562a449ee9f7fdcf48c48,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -6.3
+      value: -6.299988
       objectReference: {fileID: 0}
     - target: {fileID: 3985225653229036378, guid: 71434e81bc5562a449ee9f7fdcf48c48,
         type: 3}
@@ -1036,7 +981,7 @@ PrefabInstance:
     - target: {fileID: 6045161087782438576, guid: 71434e81bc5562a449ee9f7fdcf48c48,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 40.599976
+      value: 40.599854
       objectReference: {fileID: 0}
     - target: {fileID: 6045161087782438576, guid: 71434e81bc5562a449ee9f7fdcf48c48,
         type: 3}
@@ -1252,8 +1197,8 @@ GameObject:
   - component: {fileID: 1022159918}
   - component: {fileID: 1022159917}
   - component: {fileID: 1022159916}
-  - component: {fileID: 1022159915}
   - component: {fileID: 1022159914}
+  - component: {fileID: 1022159915}
   m_Layer: 5
   m_Name: Exit
   m_TagString: ExitButton
@@ -1309,66 +1254,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1022159912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b3debddab4037d4c8ccbd1b1a044fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1022159914}
-          m_MethodName: Play
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: EnterExit
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1364324664}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1022159914}
-          m_MethodName: Play
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: ExitExit
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 781888719}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: ExitExit
-            m_BoolArgument: 0
-          m_CallState: 2
+  HoverSound: Button Hover
+  PressSound: Button Press
 --- !u!114 &1022159916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2021,66 +1911,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1729796820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b3debddab4037d4c8ccbd1b1a044fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1729796823}
-          m_MethodName: Play
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: EnterPlay
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1364324664}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1729796823}
-          m_MethodName: Play
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: ExitPlay
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 781888719}
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: ExitPlay
-            m_BoolArgument: 0
-          m_CallState: 2
+  HoverSound: Button Hover
+  PressSound: Button Press
 --- !u!95 &1729796823
 Animator:
   serializedVersion: 3
@@ -2555,3 +2390,97 @@ RectTransform:
   m_AnchoredPosition: {x: -69.99988, y: -15.100037}
   m_SizeDelta: {x: 3313.1494, y: 1991.6758}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &2108276978
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3484698558731465969, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_Name
+      value: _AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465974, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: Sounds.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465974, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: Sounds.Array.data[3].Name
+      value: Sonido random
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465974, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: Sounds.Array.data[3].Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3dbf63c63daff5949afd2b3ff5881c6a, type: 3}
+    - target: {fileID: 3484698558731465974, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: Sounds.Array.data[3].Volume
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465974, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: Sounds.Array.data[3].Pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484698558731465975, guid: 4f68b9eb95eb6394da5fc08e0e251c82,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4f68b9eb95eb6394da5fc08e0e251c82, type: 3}

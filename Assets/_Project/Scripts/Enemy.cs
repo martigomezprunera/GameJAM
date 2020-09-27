@@ -1,9 +1,15 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private GameObjectSounds _characterSounds = null;
+    public GameObjectSounds Sounds => _characterSounds;
+    [SerializeField] private CharacterAnimations _characterAnimations = null;
+
+    [Header("Settings")]
     [SerializeField]  public List<actions> enemyActions;
     public actions extraAction = actions.NONE;
 
@@ -18,6 +24,16 @@ public class Enemy : MonoBehaviour
     //Game Manager
     GameManager myGameManager;
 
+    private void Awake()
+    {
+        if (_characterSounds == null)
+            throw new NullReferenceException("_characterSounds has not been assigned at" + GetType());
+        if (_characterAnimations == null)
+            throw new NullReferenceException("_characterAnimations has not been assigned at" + GetType());
+
+        _characterAnimations.OnHit += CheckNextAnimation;
+    }
+
     private void Start()
     {
         myGameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -29,7 +45,7 @@ public class Enemy : MonoBehaviour
         
         int numActionsToAdd = numRound;
         int action;
-        action = Random.Range(1, 5);
+        action = UnityEngine.Random.Range(1, 5);
 
         //Fijamos en 5 el maximo
         if (numRound > 5)
@@ -48,7 +64,7 @@ public class Enemy : MonoBehaviour
                 {
                     #region RONDA 1
                     case 1:
-                        action = Random.Range(1, 3);
+                        action = UnityEngine.Random.Range(1, 3);
                         switch (action)
                         {
                             case 1:
@@ -79,7 +95,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 2
                     case 2:
-                        action = Random.Range(1, 2);
+                        action = UnityEngine.Random.Range(1, 2);
                         switch (action)
                         {
                             case 1:
@@ -115,7 +131,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 3
                     case 3:
-                        action = Random.Range(1, 2);
+                        action = UnityEngine.Random.Range(1, 2);
                         switch (action)
                         {
                             case 1:
@@ -156,7 +172,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 4
                     case 4:
-                        action = Random.Range(1, 2);
+                        action = UnityEngine.Random.Range(1, 2);
                         switch (action)
                         {
                             case 1:
@@ -202,7 +218,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 5
                     case 5:
-                        action = Random.Range(1, 3);
+                        action = UnityEngine.Random.Range(1, 3);
                         switch (action)
                         {
                             case 1:
@@ -767,7 +783,7 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region Comprobe
-    public void ComprobeNextAnimation()
+    public void CheckNextAnimation()
     {
         myGameManager.CheckNextAnimationPlayer(1);
     }
