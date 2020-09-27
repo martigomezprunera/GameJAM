@@ -13,13 +13,15 @@ public enum RoundState
     SELECTING_ACTION,
     DOING_ACTIONS,
     GOING_NEXT_ROUND,
-    FINISH_STAGE
+    FINISH_STAGE,
+    STARTING_COMBAT
 };
 
 public class GameManager : MonoBehaviour
 {
 
     #region VARIABLES
+    float timeToStart = 0;
     //public//////////////////////
     public int numRound = 0;
     [Header("AGENTS")]
@@ -72,6 +74,8 @@ public class GameManager : MonoBehaviour
     public float timerAnimations = 2.5f;
     public float timerAux = 0;
 
+    private bool gameFinished = false;
+
     #endregion
 
     #region START
@@ -82,7 +86,8 @@ public class GameManager : MonoBehaviour
         aux = 0;
 
         OnStartGame?.Invoke();
-        ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+        //ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+        ChangeRoundSate(RoundState.STARTING_COMBAT);
     }
     #endregion
 
@@ -128,12 +133,18 @@ public class GameManager : MonoBehaviour
                             {
                                 finishText.text = "YOU WIN%";
                                 youWin = true;
+
+                                enemyAnimations.Death();
                             }
                             else
                             {
                                 finishText.text = "YOU LOSE%";
                                 youWin = false;
+                                characterAnimations.Death();
                             }
+                            gameFinished = true;
+                            StartCoroutine(Execute(youWin, 3.2f));
+
                             ChangeRoundSate(RoundState.FINISH_STAGE);
                         }
                     }
@@ -164,10 +175,21 @@ public class GameManager : MonoBehaviour
                 }
             case RoundState.FINISH_STAGE:
                 {
-                    if (Input.anyKeyDown || Input.mousePresent)
+                    timeToStart += Time.deltaTime;
+                    if (timeToStart >= 7)
                     {
                         fadeOut.SetBool("Active", true);
-                        Invoke("LoadNExtScene", 1f);
+                        Invoke("LoadNExtScene", 2f);
+                    }
+                    
+                    break;
+                }
+            case RoundState.STARTING_COMBAT:
+                {
+                    timeToStart += Time.deltaTime;
+                    if (timeToStart >=  7f)
+                    {
+                        ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
                     }
                     break;
                 }
@@ -264,8 +286,14 @@ public class GameManager : MonoBehaviour
                 }
             case RoundState.FINISH_STAGE:
                 {
-                    fadeOutGO.SetActive(true);
+                    //fadeOutGO.SetActive(true);
+                    timeToStart = 0;
                     roundState = RoundState.FINISH_STAGE;
+                    break;
+                }
+            case RoundState.STARTING_COMBAT:
+                {
+                    roundState = RoundState.STARTING_COMBAT;
                     break;
                 }
             default:
@@ -663,112 +691,132 @@ public class GameManager : MonoBehaviour
     #region CheckNextAnimationPlayer
     public void CheckNextAnimationPlayer(int id)
     {
-        if (id == 0)
+        if (!gameFinished)
         {
-            if (lastPlayerActions[aux - 1] == actions.ATACAR)
-            {
-                if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
-                {
-                    //enemy hitted
-                    enemyAnimations.Hit();
-                    enemy.getDamage(lightDamage);
-                    //ps
 
-                }
-                else if (lastEnemyActions[aux - 1] == actions.ATACAR)
-                {
-                    enemyAnimations.Hit();
-                    characterAnimations.Hit();
-                }
-            }
-            else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
-            {
-                if (lastEnemyActions[aux - 1] != actions.ATACAR)
-                {
-                    //enemy hitted
-                    enemyAnimations.Hit();
-                    enemy.getDamage(heavyDamage);
-                    Debug.Log("HOSTIA PA TI!!");
-                    //ps
-                }
-            }
-
-            //Check si hace parry
-            if (lastPlayerActions[aux - 1] == actions.PARRY1)
-            {
-                if ((lastEnemyActions[aux - 1] == actions.ATACAR) )
-                {
-                    //Enemy Hitted
-                    enemyAnimations.Hit();
-                    
-                    enemy.getDamage(lightDamage);
-                    //ps
-                }
-            }
-
-
-            myPlayer.Sounds.PlaySound("Slash");
-
-        }
-        else
-        {
-            //Check si player esta atacando            
-            if (lastEnemyActions[aux - 1] == actions.ATACAR)
-            {
-                if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
-                {
-                    //Character hitted
-                    characterAnimations.Hit();
-                    myPlayer.getDamage(lightDamage);
-                    //ps
-                }
-                else if (lastPlayerActions[aux - 1] == actions.ATACAR)
-                {
-                    enemyAnimations.Hit();
-                    characterAnimations.Hit();
-                }
-                else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
-                {
-                    //Character hitted
-                    characterAnimations.Hit();
-                    myPlayer.getDamage(lightDamage);
-                    //ps
-                }
-            }
-            else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
-            {
-                if (lastPlayerActions[aux - 1] != actions.ATACAR)
-                {
-                    //Character hitted
-                    characterAnimations.Hit();
-                    myPlayer.getDamage(heavyDamage);
-                    //ps
-                }
-                else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
-                {
-                    //Character hitted
-                    characterAnimations.Hit();
-                    myPlayer.getDamage(heavyDamage);
-                    //ps
-                }
-            }
-
-            //Check si hace parry
-            if (lastEnemyActions[aux - 1] == actions.PARRY1)
+            if (id == 0)
             {
                 if (lastPlayerActions[aux - 1] == actions.ATACAR)
                 {
-                    //Character hitted
-                    characterAnimations.Hit();
-                   
-                    myPlayer.getDamage(lightDamage);
-                    //ps
-                }
-            }
+                    if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
+                    {
+                        //enemy hitted
+                        enemyAnimations.Hit();
+                        enemy.getDamage(lightDamage);
+                        //ps
 
-            enemy.Sounds.PlaySound("Slash");
+                    }
+                    else if (lastEnemyActions[aux - 1] == actions.ATACAR)
+                    {
+                        enemyAnimations.Hit();
+                        characterAnimations.Hit();
+                    }
+                }
+                else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
+                {
+                    if (lastEnemyActions[aux - 1] != actions.ATACAR)
+                    {
+                        //enemy hitted
+                        enemyAnimations.Hit();
+                        enemy.getDamage(heavyDamage);
+                        Debug.Log("HOSTIA PA TI!!");
+                        //ps
+                    }
+                }
+
+                //Check si hace parry
+                if (lastPlayerActions[aux - 1] == actions.PARRY1)
+                {
+                    if ((lastEnemyActions[aux - 1] == actions.ATACAR))
+                    {
+                        //Enemy Hitted
+                        enemyAnimations.Hit();
+
+                        enemy.getDamage(lightDamage);
+                        //ps
+                    }
+                }
+
+
+                myPlayer.Sounds.PlaySound("Slash");
+
+            }
+            else
+            {
+                //Check si player esta atacando            
+                if (lastEnemyActions[aux - 1] == actions.ATACAR)
+                {
+                    if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
+                    {
+                        //Character hitted
+                        characterAnimations.Hit();
+                        myPlayer.getDamage(lightDamage);
+                        //ps
+                    }
+                    else if (lastPlayerActions[aux - 1] == actions.ATACAR)
+                    {
+                        enemyAnimations.Hit();
+                        characterAnimations.Hit();
+                    }
+                    else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
+                    {
+                        //Character hitted
+                        characterAnimations.Hit();
+                        myPlayer.getDamage(lightDamage);
+                        //ps
+                    }
+                }
+                else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
+                {
+                    if (lastPlayerActions[aux - 1] != actions.ATACAR)
+                    {
+                        //Character hitted
+                        characterAnimations.Hit();
+                        myPlayer.getDamage(heavyDamage);
+                        //ps
+                    }
+                    else if (lastPlayerActions[aux - 1] == actions.EXHAUST)
+                    {
+                        //Character hitted
+                        characterAnimations.Hit();
+                        myPlayer.getDamage(heavyDamage);
+                        //ps
+                    }
+                }
+
+                //Check si hace parry
+                if (lastEnemyActions[aux - 1] == actions.PARRY1)
+                {
+                    if (lastPlayerActions[aux - 1] == actions.ATACAR)
+                    {
+                        //Character hitted
+                        characterAnimations.Hit();
+
+                        myPlayer.getDamage(lightDamage);
+                        //ps
+                    }
+                }
+
+                enemy.Sounds.PlaySound("Slash");
+            }
         }
 
+    }
+    #endregion
+
+    #region EXECUTION
+    IEnumerator Execute(bool youWin, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+
+        if (youWin)
+        {
+            characterAnimations.LighAttack();
+        }
+        else
+        {
+            enemyAnimations.LighAttack();
+        }
     }
     #endregion
 

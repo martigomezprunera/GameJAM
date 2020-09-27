@@ -98,4 +98,17 @@ public class CharacterAnimations : MonoBehaviour
     }
     #endregion
 
+    #region INITIAL ANIMATION
+    public void InitialAnimation()
+    {
+        animator.SetTrigger("Initial");
+    }
+    #endregion
+
+    #region INITIAL ANIMATION
+    public void Death()
+    {
+        animator.SetTrigger("Death");
+    }
+    #endregion
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 131.16855, g: 162.52502, b: 215.10977, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -981,7 +981,7 @@ PrefabInstance:
     - target: {fileID: 7847286674065826143, guid: 662378797ce54bf4e93f9982bbc20d0a,
         type: 3}
       propertyPath: newScene
-      value: Stage2
+      value: Stage1Cinematica
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 662378797ce54bf4e93f9982bbc20d0a, type: 3}

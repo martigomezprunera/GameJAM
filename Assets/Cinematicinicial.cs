@@ -5,15 +5,18 @@ using UnityEngine;
 public class Cinematicinicial : MonoBehaviour
 {
     public CharacterAnimations characterAnimations;
+    public Canvas canvas;
     // Start is called before the first frame update
     void Start()
     {
+        characterAnimations.InitialAnimation();
+        canvas.enabled = false;
+        Invoke("DeactivateCinematic", 5.4f);
 
     }
 
-    // Update is called once per frame
-    void Update()
+    void DeactivateCinematic()
     {
-        
+        canvas.enabled = true;
     }
 }
