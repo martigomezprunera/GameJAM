@@ -75,12 +75,15 @@ public class GameManager : MonoBehaviour
     public float timerAux = 0;
 
     private bool gameFinished = false;
+    GameObject buttons;
 
     #endregion
 
     #region START
     void Start()
     {
+        buttons = GameObject.Find("ButtonsGamePad");
+        buttons.SetActive(false);
         //Initialize
         countDownRound = roundDuration;
         aux = 0;
@@ -88,6 +91,8 @@ public class GameManager : MonoBehaviour
         OnStartGame?.Invoke();
         //ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
         ChangeRoundSate(RoundState.STARTING_COMBAT);
+
+
     }
     #endregion
 
@@ -121,6 +126,8 @@ public class GameManager : MonoBehaviour
             case RoundState.DOING_ACTIONS:
                 {
 
+                    timerAux += Time.deltaTime;
+
                     waitingRoundTimer -= Time.deltaTime;
                     timerText.text = "Time foing actions: " + waitingRoundTimer;
 
@@ -143,14 +150,17 @@ public class GameManager : MonoBehaviour
                                 characterAnimations.Death();
                             }
                             gameFinished = true;
-                            StartCoroutine(Execute(youWin, 3.2f));
+                            StartCoroutine(Execute(youWin, 3.6f));
 
                             ChangeRoundSate(RoundState.FINISH_STAGE);
                         }
                     }
                     else
                     {
-                        ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+                        if (timerAux >= timerAnimations)
+                        {
+                            ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+                        }
                     }
                     
                     break;
@@ -214,6 +224,7 @@ public class GameManager : MonoBehaviour
                 }            
             case RoundState.SELECTING_ACTION:
                 {
+                    buttons.SetActive(true);
 
                     lastPlayerActions.Clear();
                     lastEnemyActions.Clear();
@@ -230,10 +241,14 @@ public class GameManager : MonoBehaviour
                     OnActionGame?.Invoke();
                     aux = 0;
                     copyActions = true;
+
+                    AudioManager.Instance.PlaySound("DoingGong");
                     break;
                 }
             case RoundState.DOING_ACTIONS:
                 {
+                    buttons.SetActive(false);
+                    timerAux = timerAnimations;
                     roundState = RoundState.DOING_ACTIONS;
                     myPlayer.canSelect = false;
 
@@ -322,7 +337,6 @@ public class GameManager : MonoBehaviour
     #region COMPARE ACTIONS
     void CompareActions()
     {
-        timerAux += Time.deltaTime;
         if (timerAux >= timerAnimations)
         {
             timerAux = 0;
@@ -664,6 +678,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < numRound; i++)
         {
             myHud.actionTextPlayer1[i].text = " ";
+            myHud.actionImagePlayer[i].sprite = myHud.emptyImage;
         }
 
         if(myPlayer.myActions.Count > 0)
@@ -679,6 +694,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < numRound; i++)
         {
             myHud.actionTextEnemy1[i].text = " ";
+            myHud.actionImageEnemy[i].sprite = myHud.emptyImage;
         }
 
         if (myPlayer.myActions.Count > 0)

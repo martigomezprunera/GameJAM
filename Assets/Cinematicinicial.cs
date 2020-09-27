@@ -18,5 +18,6 @@ public class Cinematicinicial : MonoBehaviour
     void DeactivateCinematic()
     {
         canvas.enabled = true;
+        AudioManager.Instance.PlaySound("InitialGong");
     }
 }

@@ -53,6 +53,12 @@ public class HUD : MonoBehaviour
     [Header("Text")]
     public Text textRound;
 
+    [Header("IMAGES ACTIONS COLORS")]
+    public Sprite lightimage;
+    public Sprite heavyImage;
+    public Sprite parryImage;
+    public Sprite emptyImage;
+
     // Start is called before the first frame update
     void Awake()
     {

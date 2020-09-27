@@ -56,3 +56,15 @@ MonoBehaviour:
     Pitch: 1
     SpatialBlend: 0
     Loop: 0
+  - Name: InitialGong
+    Clip: {fileID: 8300000, guid: bffac672ec9b1534ea1cb5a203b73c64, type: 3}
+    Volume: 0.357
+    Pitch: 1
+    SpatialBlend: 0
+    Loop: 0
+  - Name: DoingGong
+    Clip: {fileID: 8300000, guid: 6a854114e2ddf07438a3468566f5951c, type: 3}
+    Volume: 0.396
+    Pitch: 1
+    SpatialBlend: 0
+    Loop: 0
