@@ -718,12 +718,15 @@ public class Enemy : MonoBehaviour
         {
             case actions.ATACAR:
                 myHud.actionTextEnemy1[0].text = "A";
+                myHud.actionImageEnemy[0].sprite = myHud.lightimage;
                 break;
             case actions.ATACARFUERTE1:
                 myHud.actionTextEnemy1[0].text = "H";
+                myHud.actionImageEnemy[0].sprite = myHud.heavyImage;
                 break;
             case actions.PARRY1:
                 myHud.actionTextEnemy1[0].text = "P";
+                myHud.actionImageEnemy[0].sprite = myHud.parryImage;
                 break;
             case actions.ESQUIVAR:
                 myHud.actionTextEnemy1[0].text = "D";
@@ -737,6 +740,7 @@ public class Enemy : MonoBehaviour
         for(int i = 1; i < (numRound); i++)
         {
             myHud.actionTextEnemy1[i].text = ")";
+            myHud.actionImageEnemy[i].sprite = myHud.emptyImage;
         }
     }
     #endregion
@@ -778,14 +782,17 @@ public class Enemy : MonoBehaviour
             {
                 case actions.ATACAR:
                     myHud.actionTextEnemy1[i].text = "A";
+                    myHud.actionImageEnemy[i].sprite = myHud.lightimage;
                     break;
                 case actions.ATACARFUERTE1:
                     //myHud.actionTextEnemy1[i].text = "C";
                     //i++;
                     myHud.actionTextEnemy1[i].text = "H";
+                    myHud.actionImageEnemy[i].sprite = myHud.heavyImage;
                     break;
                 case actions.PARRY1:
                     myHud.actionTextEnemy1[i].text = "P";
+                    myHud.actionImageEnemy[i].sprite = myHud.parryImage;
                     break;
                 case actions.ESQUIVAR:
                     myHud.actionTextEnemy1[i].text = "D";

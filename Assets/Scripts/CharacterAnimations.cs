@@ -21,16 +21,16 @@ public class CharacterAnimations : MonoBehaviour
     public void TriggerHit()
     {
         OnHit?.Invoke();
-    }
-    public void TriggerParry()
-    {
-        OnParry?.Invoke();
-    }
-    public void TriggerParrySlash()
-    {
-        OnParrySlash?.Invoke();
-    }
-
+    }
+    public void TriggerParry()
+    {
+        OnParry?.Invoke();
+    }
+    public void TriggerParrySlash()
+    {
+        OnParrySlash?.Invoke();
+    }
+
     #endregion
 
     #region LIGHT ATTACK
@@ -108,4 +108,17 @@ public class CharacterAnimations : MonoBehaviour
     }
     #endregion
 
+    #region INITIAL ANIMATION
+    public void InitialAnimation()
+    {
+        animator.SetTrigger("Initial");
+    }
+    #endregion
+
+    #region INITIAL ANIMATION
+    public void Death()
+    {
+        animator.SetTrigger("Death");
+    }
+    #endregion
 }

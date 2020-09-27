@@ -13,13 +13,15 @@ public enum RoundState
     SELECTING_ACTION,
     DOING_ACTIONS,
     GOING_NEXT_ROUND,
-    FINISH_STAGE
+    FINISH_STAGE,
+    STARTING_COMBAT
 };
 
 public class GameManager : MonoBehaviour
 {
 
     #region VARIABLES
+    float timeToStart = 0;
     //public//////////////////////
     public int numRound = 0;
     [Header("AGENTS")]
@@ -72,17 +74,25 @@ public class GameManager : MonoBehaviour
     public float timerAnimations = 2.5f;
     public float timerAux = 0;
 
+    private bool gameFinished = false;
+    GameObject buttons;
+
     #endregion
 
     #region START
     void Start()
     {
+        buttons = GameObject.Find("ButtonsGamePad");
+        buttons.SetActive(false);
         //Initialize
         countDownRound = roundDuration;
         aux = 0;
 
         OnStartGame?.Invoke();
-        ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+        //ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+        ChangeRoundSate(RoundState.STARTING_COMBAT);
+
+
     }
     #endregion
 
@@ -116,6 +126,8 @@ public class GameManager : MonoBehaviour
             case RoundState.DOING_ACTIONS:
                 {
 
+                    timerAux += Time.deltaTime;
+
                     waitingRoundTimer -= Time.deltaTime;
                     timerText.text = "Time foing actions: " + waitingRoundTimer;
 
@@ -128,18 +140,27 @@ public class GameManager : MonoBehaviour
                             {
                                 finishText.text = "YOU WIN%";
                                 youWin = true;
+
+                                enemyAnimations.Death();
                             }
                             else
                             {
                                 finishText.text = "YOU LOSE%";
                                 youWin = false;
+                                characterAnimations.Death();
                             }
+                            gameFinished = true;
+                            StartCoroutine(Execute(youWin, 3.6f));
+
                             ChangeRoundSate(RoundState.FINISH_STAGE);
                         }
                     }
                     else
                     {
-                        ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+                        if (timerAux >= timerAnimations)
+                        {
+                            ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
+                        }
                     }
                     
                     break;
@@ -164,10 +185,21 @@ public class GameManager : MonoBehaviour
                 }
             case RoundState.FINISH_STAGE:
                 {
-                    if (Input.anyKeyDown || Input.mousePresent)
+                    timeToStart += Time.deltaTime;
+                    if (timeToStart >= 7)
                     {
                         fadeOut.SetBool("Active", true);
-                        Invoke("LoadNExtScene", 1f);
+                        Invoke("LoadNExtScene", 2f);
+                    }
+                    
+                    break;
+                }
+            case RoundState.STARTING_COMBAT:
+                {
+                    timeToStart += Time.deltaTime;
+                    if (timeToStart >=  7f)
+                    {
+                        ChangeRoundSate(RoundState.GOING_NEXT_ROUND);
                     }
                     break;
                 }
@@ -192,6 +224,7 @@ public class GameManager : MonoBehaviour
                 }            
             case RoundState.SELECTING_ACTION:
                 {
+                    buttons.SetActive(true);
 
                     lastPlayerActions.Clear();
                     lastEnemyActions.Clear();
@@ -208,10 +241,14 @@ public class GameManager : MonoBehaviour
                     OnActionGame?.Invoke();
                     aux = 0;
                     copyActions = true;
+
+                    AudioManager.Instance.PlaySound("DoingGong");
                     break;
                 }
             case RoundState.DOING_ACTIONS:
                 {
+                    buttons.SetActive(false);
+                    timerAux = timerAnimations;
                     roundState = RoundState.DOING_ACTIONS;
                     myPlayer.canSelect = false;
 
@@ -264,8 +301,14 @@ public class GameManager : MonoBehaviour
                 }
             case RoundState.FINISH_STAGE:
                 {
-                    fadeOutGO.SetActive(true);
+                    //fadeOutGO.SetActive(true);
+                    timeToStart = 0;
                     roundState = RoundState.FINISH_STAGE;
+                    break;
+                }
+            case RoundState.STARTING_COMBAT:
+                {
+                    roundState = RoundState.STARTING_COMBAT;
                     break;
                 }
             default:
@@ -294,7 +337,6 @@ public class GameManager : MonoBehaviour
     #region COMPARE ACTIONS
     void CompareActions()
     {
-        timerAux += Time.deltaTime;
         if (timerAux >= timerAnimations)
         {
             timerAux = 0;
@@ -636,6 +678,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < numRound; i++)
         {
             myHud.actionTextPlayer1[i].text = " ";
+            myHud.actionImagePlayer[i].sprite = myHud.emptyImage;
         }
 
         if(myPlayer.myActions.Count > 0)
@@ -651,6 +694,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < numRound; i++)
         {
             myHud.actionTextEnemy1[i].text = " ";
+            myHud.actionImageEnemy[i].sprite = myHud.emptyImage;
         }
 
         if (myPlayer.myActions.Count > 0)
@@ -663,11 +707,12 @@ public class GameManager : MonoBehaviour
     #region CheckNextAnimationPlayer
     public void CheckNextAnimationPlayer(int id)
     {
-        if (id == 0)
+        if (!gameFinished)
         {
-            if (lastPlayerActions[aux - 1] == actions.ATACAR)
+
+            if (id == 0)
             {
-                if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
+                if (lastPlayerActions[aux - 1] == actions.ATACAR)
                 {
                     //enemy hitted
                     enemyAnimations.Hit();
@@ -675,8 +720,14 @@ public class GameManager : MonoBehaviour
                     myPlayer.SpawnBlood();
                     //ps
 
+                    }
+                    else if (lastEnemyActions[aux - 1] == actions.ATACAR)
+                    {
+                        enemyAnimations.Hit();
+                        characterAnimations.Hit();
+                    }
                 }
-                else if (lastEnemyActions[aux - 1] == actions.ATACAR)
+                else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
                 {
                     enemyAnimations.Hit();
                     characterAnimations.Hit();
@@ -714,7 +765,6 @@ public class GameManager : MonoBehaviour
                     myPlayer.SpawnBlood();
                     //ps
                 }
-            }
 
         }
         else
@@ -747,7 +797,7 @@ public class GameManager : MonoBehaviour
                     //ps
                 }
             }
-            else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
+            else
             {
                 if(lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
                 {
@@ -761,12 +811,9 @@ public class GameManager : MonoBehaviour
                     enemy.SpawnBlood();
                     //ps
                 }
-            }
 
-            //Check si hace parry
-            if (lastEnemyActions[aux - 1] == actions.PARRY1)
-            {
-                if (lastPlayerActions[aux - 1] == actions.ATACAR)
+                //Check si hace parry
+                if (lastEnemyActions[aux - 1] == actions.PARRY1)
                 {
                     //Character hitted
                     characterAnimations.Hit();
@@ -775,9 +822,27 @@ public class GameManager : MonoBehaviour
                     myPlayer.getDamage(lightDamage);
                     //ps
                 }
+
+                enemy.Sounds.PlaySound("Slash");
             }
         }
 
+    }
+    #endregion
+
+    #region EXECUTION
+    IEnumerator Execute(bool youWin, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+
+        if (youWin)
+        {
+            characterAnimations.LighAttack();
+        }
+        else
+        {
+            enemyAnimations.LighAttack();
+        }
     }
     #endregion
 
