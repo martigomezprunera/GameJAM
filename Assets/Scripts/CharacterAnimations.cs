@@ -14,6 +14,7 @@ public class CharacterAnimations : MonoBehaviour
     public event Action OnHit;
     public event Action OnParrySlash;
     public event Action OnParry;
+    public event Action OnUnsheathe;
     public void TriggerSlash()
     {
         OnSlash?.Invoke();
@@ -22,15 +23,18 @@ public class CharacterAnimations : MonoBehaviour
     {
         OnHit?.Invoke();
     }
-    public void TriggerParry()
-    {
-        OnParry?.Invoke();
+    public void TriggerParry()
+    {
+        OnParry?.Invoke();
     }
-    public void TriggerParrySlash()
-    {
-        OnParrySlash?.Invoke();
+    public void TriggerParrySlash()
+    {
+        OnParrySlash?.Invoke();
     }
-
+    public void TriggerUnsheathe()
+    {
+        OnUnsheathe?.Invoke();
+    }
     #endregion
 
     #region LIGHT ATTACK

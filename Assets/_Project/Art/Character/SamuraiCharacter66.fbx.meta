@@ -585,7 +585,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.25316456
+        functionName: TriggerParrySlash
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -614,7 +622,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.5400844
+        functionName: TriggerUnsheathe
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -643,7 +659,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.48101267
+        functionName: TriggerUnsheathe
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

@@ -117,6 +117,8 @@ public class GameManager : MonoBehaviour
                     waitingRoundTimer -= Time.deltaTime;
                     timerText.text = "Time for select: " + waitingRoundTimer;
 
+                    KeyboardInput();
+
                     if (waitingRoundTimer <= 0)
                     {
                         ChangeRoundSate(RoundState.DOING_ACTIONS);
@@ -208,6 +210,22 @@ public class GameManager : MonoBehaviour
                     break;
                 }
         }        
+    }
+
+    private void KeyboardInput()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            myPlayer.Parry();
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            myPlayer.HeavyAttack();
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            myPlayer.LightAttack();
+        }
     }
     #endregion
 
@@ -704,15 +722,15 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+
     #region CheckNextAnimationPlayer
     public void CheckNextAnimationPlayer(int id)
     {
-        if (!gameFinished)
+        if (id == 0)
         {
-
-            if (id == 0)
+            if (lastPlayerActions[aux - 1] == actions.ATACAR)
             {
-                if (lastPlayerActions[aux - 1] == actions.ATACAR)
+                if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
                 {
                     //enemy hitted
                     enemyAnimations.Hit();
@@ -720,14 +738,8 @@ public class GameManager : MonoBehaviour
                     myPlayer.SpawnBlood();
                     //ps
 
-                    }
-                    else if (lastEnemyActions[aux - 1] == actions.ATACAR)
-                    {
-                        enemyAnimations.Hit();
-                        characterAnimations.Hit();
-                    }
                 }
-                else if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
+                else if (lastEnemyActions[aux - 1] == actions.ATACAR)
                 {
                     enemyAnimations.Hit();
                     characterAnimations.Hit();
@@ -746,7 +758,7 @@ public class GameManager : MonoBehaviour
                     myPlayer.SpawnBlood();
                     //ps
                 }
-                else if(lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
+                else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
                 {
                     myPlayer.PlayParry();
                 }
@@ -755,16 +767,17 @@ public class GameManager : MonoBehaviour
             //Check si hace parry
             if (lastPlayerActions[aux - 1] == actions.PARRY1)
             {
-                if ((lastEnemyActions[aux - 1] == actions.ATACAR) )
+                if ((lastEnemyActions[aux - 1] == actions.ATACAR))
                 {
                     //Enemy Hitted
                     enemyAnimations.Hit();
-                    
+
                     enemy.getDamage(lightDamage);
 
                     myPlayer.SpawnBlood();
                     //ps
                 }
+            }
 
         }
         else
@@ -797,9 +810,9 @@ public class GameManager : MonoBehaviour
                     //ps
                 }
             }
-            else
+            else if (lastEnemyActions[aux - 1] == actions.ATACARFUERTE1)
             {
-                if(lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
+                if (lastPlayerActions[aux - 1] == actions.ATACARFUERTE1)
                 {
                     enemy.PlayParry();
                 }
@@ -811,9 +824,12 @@ public class GameManager : MonoBehaviour
                     enemy.SpawnBlood();
                     //ps
                 }
+            }
 
-                //Check si hace parry
-                if (lastEnemyActions[aux - 1] == actions.PARRY1)
+            //Check si hace parry
+            if (lastEnemyActions[aux - 1] == actions.PARRY1)
+            {
+                if (lastPlayerActions[aux - 1] == actions.ATACAR)
                 {
                     //Character hitted
                     characterAnimations.Hit();
@@ -822,8 +838,6 @@ public class GameManager : MonoBehaviour
                     myPlayer.getDamage(lightDamage);
                     //ps
                 }
-
-                enemy.Sounds.PlaySound("Slash");
             }
         }
 
