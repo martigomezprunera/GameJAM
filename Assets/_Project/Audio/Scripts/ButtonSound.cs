@@ -12,6 +12,6 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        AudioManager.Instance.PlaySound(HoverSound);
+        AudioManager.Instance.PlaySound(PressSound);
     }
 }
