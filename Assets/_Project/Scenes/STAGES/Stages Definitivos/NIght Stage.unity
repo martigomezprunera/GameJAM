@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 45.22995, g: 28.633154, b: 24.624712, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9923,6 +9923,21 @@ PrefabInstance:
       propertyPath: myHud
       value: 
       objectReference: {fileID: 844881714}
+    - target: {fileID: 589915490901327575, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
+        type: 3}
+      propertyPath: numRound
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 589915490901327575, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
+        type: 3}
+      propertyPath: life
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 739705216525960972, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4656176527142203916, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9982,6 +9997,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391987678682118301, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7f3e9f500e8f925418ad974c848af7aa, type: 2}
+    - target: {fileID: 5596421427065862047, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6807455051907623235, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526, type: 3}

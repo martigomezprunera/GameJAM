@@ -23,8 +23,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private int life = 100;
     [SerializeField] public int id = 1;
-    [SerializeField] public int numRound;
-    public int  numActionsToAdd;
+    public int numRound { get; set; }
+    public int numActionsToAdd { get; set; }
     //HUD
     public HUD myHud;
 

@@ -2883,6 +2883,16 @@ PrefabInstance:
       propertyPath: myHud
       value: 
       objectReference: {fileID: 1912199205}
+    - target: {fileID: 589915490901327575, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
+        type: 3}
+      propertyPath: life
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 589915490901327575, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
+        type: 3}
+      propertyPath: id
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4656176527142203916, guid: 8f71542e9ec8d8e4c8edffb9f5a5e526,
         type: 3}
       propertyPath: m_LocalPosition.x
