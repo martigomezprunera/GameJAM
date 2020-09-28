@@ -11,7 +11,7 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
 
-    private string MainMenu = "MenuSceneHDRP";
+    private string MainMenu = "Menu Screen Enviro";
 
     // Update is called once per frame
     void Update()

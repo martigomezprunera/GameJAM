@@ -37,4 +37,8 @@ public class Sound
     {
         _source.Play();
     }
+    public void Stop()
+    {
+        _source.Stop();
+    }
 }

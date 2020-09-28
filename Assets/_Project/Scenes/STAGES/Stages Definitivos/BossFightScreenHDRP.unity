@@ -191,7 +191,7 @@ PrefabInstance:
     - target: {fileID: 7847286674065826143, guid: 662378797ce54bf4e93f9982bbc20d0a,
         type: 3}
       propertyPath: newScene
-      value: TempleStageDefinitivo
+      value: Temple Stage
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 662378797ce54bf4e93f9982bbc20d0a, type: 3}
