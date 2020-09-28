@@ -26,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/STAGES/Stages Definitivos/NIght Stage.unity
     guid: 15c43fe6fc5df0940b5ac903fc7f09e7
+  - enabled: 1
+    path: Assets/_Project/Scenes/STAGES/Stages Definitivos/Field Stage Definitivo.unity
+    guid: 9127119c1aa2a184cb68ad549a2e73c1
+  - enabled: 1
+    path: Assets/_Project/Scenes/STAGES/Stages Definitivos/TempleStageDefinitivo.unity
+    guid: 34e28e57940812141af8801996430061
   m_configObjects: {}
