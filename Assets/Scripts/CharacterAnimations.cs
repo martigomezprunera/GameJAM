@@ -44,6 +44,13 @@ public class CharacterAnimations : MonoBehaviour
     }
     #endregion
 
+    #region EXECUTE
+    public void Execute()
+    {
+        animator.SetTrigger("Execute");
+    }
+    #endregion
+
     #region CHARGING HEAVY
     public void ChargingHeavy()
     {

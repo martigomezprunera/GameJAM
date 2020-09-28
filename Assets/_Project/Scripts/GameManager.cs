@@ -157,6 +157,26 @@ public class GameManager : MonoBehaviour
                     if (aux < numRound)
                     {
                         CompareActions();
+                        if (myPlayer.GetLife() <= 0 || enemy.GetLife() <= 0)
+                        {
+                            if (enemy.GetLife() <= 0)
+                            {
+                                finishText.text = "YOU WIN%";
+                                youWin = true;
+
+                                enemyAnimations.Death();
+                            }
+                            else
+                            {
+                                finishText.text = "YOU LOSE%";
+                                youWin = false;
+                                characterAnimations.Death();
+                            }
+                            gameFinished = true;
+                            StartCoroutine(Execute(youWin, 4.2f));
+
+                            ChangeRoundSate(RoundState.FINISH_STAGE);
+                        }
                     }
                     else
                     {
@@ -876,11 +896,11 @@ public class GameManager : MonoBehaviour
 
         if (youWin)
         {
-            characterAnimations.LighAttack();
+            characterAnimations.Execute();
         }
         else
         {
-            enemyAnimations.LighAttack();
+            enemyAnimations.Execute();
         }
     }
     #endregion
