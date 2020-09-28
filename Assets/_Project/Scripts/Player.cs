@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
         _characterAnimations.OnSlash += PlaySlashSound;
         _characterAnimations.OnParrySlash += PlayParrySlashSound;
         _characterAnimations.OnParry += PlayParry;
+        _characterAnimations.OnUnsheathe += PlayUnsheathe;
     }
 
     #endregion
@@ -242,16 +243,16 @@ public class Player : MonoBehaviour
         switch (myAction)
         {
             case actions.ATACAR:
-                myHud.actionTextPlayer1[myActions.Count - 1].text = "A";
+                myHud.actionTextPlayer1[myActions.Count - 1].text = "1";
                 myHud.actionImagePlayer[myActions.Count - 1].sprite = myHud.lightimage;
                 break;
             case actions.ATACARFUERTE1:
                 //myHud.actionTextPlayer1[myActions.Count - 2].text = "C";
-                myHud.actionTextPlayer1[myActions.Count - 1].text = "H";
+                myHud.actionTextPlayer1[myActions.Count - 1].text = "2";
                 myHud.actionImagePlayer[myActions.Count - 1].sprite = myHud.heavyImage;
                 break;
             case actions.PARRY1:
-                myHud.actionTextPlayer1[myActions.Count - 1].text = "P";
+                myHud.actionTextPlayer1[myActions.Count - 1].text = "3";
                 myHud.actionImagePlayer[myActions.Count - 1].sprite = myHud.parryImage;
                 break;
             case actions.ESQUIVAR:
@@ -292,6 +293,12 @@ public class Player : MonoBehaviour
     {
         _characterSounds.PlaySound("Parry");
         _parrySparks.Play();
+    }
+
+    public void PlayUnsheathe()
+    {
+        _characterSounds.PlaySound("Unsheathe");
+
     }
 
     #endregion

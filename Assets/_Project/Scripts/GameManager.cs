@@ -237,7 +237,7 @@ public class GameManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            myPlayer.Parry();
+            myPlayer.LightAttack();
         }
         else if(Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -245,7 +245,7 @@ public class GameManager : MonoBehaviour
         }
         else if(Input.GetKeyDown(KeyCode.Alpha3))
         {
-            myPlayer.LightAttack();
+            myPlayer.Parry();
         }
     }
     #endregion
@@ -884,6 +884,17 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+        }
+        else
+        {
+            if(id == 0)
+            {
+                myPlayer.SpawnBlood();
+            }
+            else
+            {
+                enemy.SpawnBlood();
+            }
         }
     }
     #endregion

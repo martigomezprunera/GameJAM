@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using XftWeapon;
 
 public class KatanaParentLogic : MonoBehaviour
 {
-    [SerializeField] private GameObject _katanaHand = null;
-    [SerializeField] private GameObject _katanaHip = null;
+    [SerializeField] private MeshRenderer _katanaHand = null;
+    [SerializeField] private MeshRenderer _katanaHip = null;
+
+    [SerializeField] private GameObject _trail = null;
+
 
     [SerializeField] private CharacterAnimations _characterAnimations = null;
 
@@ -13,6 +17,9 @@ public class KatanaParentLogic : MonoBehaviour
     {
         if (_katanaHand == null)
             throw new NullReferenceException("_katanaHand has not been assigned at" + GetType());
+        if (_katanaHip == null)
+            throw new NullReferenceException("_katanaHip has not been assigned at" + GetType());
+
         if (_katanaHip == null)
             throw new NullReferenceException("_katanaHip has not been assigned at" + GetType());
 
@@ -29,12 +36,18 @@ public class KatanaParentLogic : MonoBehaviour
 
     public void Sheathe()
     {
-        _katanaHand.SetActive(false);
-        _katanaHip.SetActive(true);
+        _katanaHand.enabled = false;
+        _katanaHip.enabled = true;
+
+        //_trail.MyColor = new Color(0, 0, 0, 1);
+        _trail.SetActive(false);
     }
     public void Unsheathe()
     {
-        _katanaHand.SetActive(true);
-        _katanaHip.SetActive(false);
+        _katanaHand.enabled = true;
+        _katanaHip.enabled = false;
+
+        //_trail.MyColor = new Color(1, 1, 1, 0.2f);
+        _trail.SetActive(true);
     }
 }

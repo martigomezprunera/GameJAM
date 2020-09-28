@@ -660,7 +660,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.48101267
+      - time: 0.55884284
         functionName: TriggerUnsheathe
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 4b96255cf3336ba41b6deb42a26a9800,

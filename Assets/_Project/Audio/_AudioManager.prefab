@@ -58,25 +58,25 @@ MonoBehaviour:
     Loop: 0
   - Name: InitialGong
     Clip: {fileID: 8300000, guid: bffac672ec9b1534ea1cb5a203b73c64, type: 3}
-    Volume: 0.357
+    Volume: 0.1
     Pitch: 1
     SpatialBlend: 0
     Loop: 0
   - Name: DoingGong
     Clip: {fileID: 8300000, guid: 6a854114e2ddf07438a3468566f5951c, type: 3}
-    Volume: 0.396
+    Volume: 0.09
     Pitch: 1
     SpatialBlend: 0
     Loop: 0
   - Name: Menu Music
     Clip: {fileID: 8300000, guid: a2e90cb696c72894a8ad8de960a45801, type: 3}
-    Volume: 0.2
+    Volume: 0.15
     Pitch: 1
     SpatialBlend: 0
     Loop: 1
   - Name: Combat Music
     Clip: {fileID: 8300000, guid: c817b37debcecdc4d91153bd537ad130, type: 3}
-    Volume: 0.2
+    Volume: 0.15
     Pitch: 1
     SpatialBlend: 0
     Loop: 1

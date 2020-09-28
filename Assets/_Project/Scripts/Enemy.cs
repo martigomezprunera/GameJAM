@@ -20,10 +20,10 @@ public class Enemy : MonoBehaviour
     [SerializeField]  public List<actions> enemyActions;
     public actions extraAction = actions.NONE;
 
-
+    public int maxLife = 100;
     [SerializeField] private int life = 100;
     [SerializeField] public int id = 1;
-    public int numRound { get; set; }
+    public int numRound;
     public int numActionsToAdd { get; set; }
     //HUD
     public HUD myHud;
@@ -52,7 +52,9 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        myGameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();        
+        myGameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
+        life = maxLife;
     }
 
     #region GET NEW ACTION
@@ -142,7 +144,7 @@ public class Enemy : MonoBehaviour
                 {
                     #region RONDA 1
                     case 1:
-                        action = UnityEngine.Random.Range(1, 2);
+                        action = UnityEngine.Random.Range(1, 4);
                         switch (action)
                         {
                             case 1:
@@ -165,7 +167,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 2
                     case 2:
-                        action = UnityEngine.Random.Range(1, 2);
+                        action = UnityEngine.Random.Range(1, 3);
                         switch (action)
                         {
                             case 1:
@@ -186,7 +188,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 3
                     case 3:
-                        action = UnityEngine.Random.Range(1, 2);
+                        action = UnityEngine.Random.Range(1, 3);
                         switch (action)
                         {
                             case 1:
@@ -219,7 +221,7 @@ public class Enemy : MonoBehaviour
                 {
                     #region RONDA 1
                     case 1:
-                        action = UnityEngine.Random.Range(1, 3);
+                        action = UnityEngine.Random.Range(1, 4);
                         switch (action)
                         {
                             case 1:
@@ -242,7 +244,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 2
                     case 2:
-                        action = UnityEngine.Random.Range(1, 2);
+                        action = UnityEngine.Random.Range(1, 3);
                         switch (action)
                         {
                             case 1:
@@ -264,7 +266,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 3
                     case 3:
-                        action = UnityEngine.Random.Range(1, 2);
+                        action = UnityEngine.Random.Range(1, 3);
                         switch (action)
                         {
                             case 1:
@@ -287,7 +289,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 4
                     case 4:
-                        action = UnityEngine.Random.Range(1, 2);
+                        action = UnityEngine.Random.Range(1, 4);
                         switch (action)
                         {
                             case 1:
@@ -319,7 +321,7 @@ public class Enemy : MonoBehaviour
 
                     #region RONDA 5
                     case 5:
-                        action = UnityEngine.Random.Range(1, 3);
+                        action = UnityEngine.Random.Range(1, 4);
                         switch (action)
                         {
                             case 1:
@@ -366,15 +368,15 @@ public class Enemy : MonoBehaviour
         switch (enemyActions[0])
         {
             case actions.ATACAR:
-                myHud.actionTextEnemy1[0].text = "A";
+                myHud.actionTextEnemy1[0].text = "1";
                 myHud.actionImageEnemy[0].sprite = myHud.lightimage;
                 break;
             case actions.ATACARFUERTE1:
-                myHud.actionTextEnemy1[0].text = "H";
+                myHud.actionTextEnemy1[0].text = "2";
                 myHud.actionImageEnemy[0].sprite = myHud.heavyImage;
                 break;
             case actions.PARRY1:
-                myHud.actionTextEnemy1[0].text = "P";
+                myHud.actionTextEnemy1[0].text = "3";
                 myHud.actionImageEnemy[0].sprite = myHud.parryImage;
                 break;
             case actions.ESQUIVAR:
@@ -430,17 +432,17 @@ public class Enemy : MonoBehaviour
             switch (enemyActions[i])
             {
                 case actions.ATACAR:
-                    myHud.actionTextEnemy1[i].text = "A";
+                    myHud.actionTextEnemy1[i].text = "1";
                     myHud.actionImageEnemy[i].sprite = myHud.lightimage;
                     break;
                 case actions.ATACARFUERTE1:
                     //myHud.actionTextEnemy1[i].text = "C";
                     //i++;
-                    myHud.actionTextEnemy1[i].text = "H";
+                    myHud.actionTextEnemy1[i].text = "2";
                     myHud.actionImageEnemy[i].sprite = myHud.heavyImage;
                     break;
                 case actions.PARRY1:
-                    myHud.actionTextEnemy1[i].text = "P";
+                    myHud.actionTextEnemy1[i].text = "3";
                     myHud.actionImageEnemy[i].sprite = myHud.parryImage;
                     break;
                 case actions.ESQUIVAR:
