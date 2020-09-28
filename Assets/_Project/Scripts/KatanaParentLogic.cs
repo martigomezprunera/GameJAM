@@ -4,21 +4,18 @@ using UnityEngine;
 
 public class KatanaParentLogic : MonoBehaviour
 {
-    [SerializeField] private Transform _katanaTransform = null;
-
-    [SerializeField] private Transform _handBone = null;
-    [SerializeField] private Transform _hipBone = null;
+    [SerializeField] private GameObject _katanaHand = null;
+    [SerializeField] private GameObject _katanaHip = null;
 
     [SerializeField] private CharacterAnimations _characterAnimations = null;
 
     private void Awake()
     {
-        if (_katanaTransform == null)
-            throw new NullReferenceException("_katanaTransform has not been assigned at" + GetType());
-        if (_handBone == null)
-            throw new NullReferenceException("_handBone has not been assigned at" + GetType());
-        if (_hipBone == null)
-            throw new NullReferenceException("_hipBone has not been assigned at" + GetType());
+        if (_katanaHand == null)
+            throw new NullReferenceException("_katanaHand has not been assigned at" + GetType());
+        if (_katanaHip == null)
+            throw new NullReferenceException("_katanaHip has not been assigned at" + GetType());
+
         if (_characterAnimations == null)
             throw new NullReferenceException("_characterAnimations has not been assigned at" + GetType());
 
@@ -32,10 +29,12 @@ public class KatanaParentLogic : MonoBehaviour
 
     public void Sheathe()
     {
-        _katanaTransform.SetParent(_hipBone, false);
+        _katanaHand.SetActive(false);
+        _katanaHip.SetActive(true);
     }
     public void Unsheathe()
     {
-        _katanaTransform.SetParent(_handBone, false);
+        _katanaHand.SetActive(true);
+        _katanaHip.SetActive(false);
     }
 }
