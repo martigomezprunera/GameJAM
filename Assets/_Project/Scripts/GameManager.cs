@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
                                 characterAnimations.Death();
                             }
                             gameFinished = true;
-                            StartCoroutine(Execute(youWin, 3.6f));
+                            StartCoroutine(Execute(youWin, 4.2f));
 
                             ChangeRoundSate(RoundState.FINISH_STAGE);
                         }
@@ -855,11 +855,11 @@ public class GameManager : MonoBehaviour
 
         if (youWin)
         {
-            characterAnimations.LighAttack();
+            characterAnimations.Execute();
         }
         else
         {
-            enemyAnimations.LighAttack();
+            enemyAnimations.Execute();
         }
     }
     #endregion
