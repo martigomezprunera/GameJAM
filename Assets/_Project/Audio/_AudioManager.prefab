@@ -68,3 +68,15 @@ MonoBehaviour:
     Pitch: 1
     SpatialBlend: 0
     Loop: 0
+  - Name: Menu Music
+    Clip: {fileID: 8300000, guid: a2e90cb696c72894a8ad8de960a45801, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    SpatialBlend: 0
+    Loop: 1
+  - Name: Combat Music
+    Clip: {fileID: 8300000, guid: c817b37debcecdc4d91153bd537ad130, type: 3}
+    Volume: 0.2
+    Pitch: 1
+    SpatialBlend: 0
+    Loop: 1
