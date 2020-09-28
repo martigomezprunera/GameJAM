@@ -59,6 +59,12 @@ public class HUD : MonoBehaviour
     public Sprite parryImage;
     public Sprite emptyImage;
 
+    [Header("Images border actions Player")]
+    public List<Image> imagerBorderActionsPlayer;
+
+    [Header("Images border actions Enemy")]
+    public List<Image> imagerBorderActionsEnemy;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -69,6 +75,8 @@ public class HUD : MonoBehaviour
         _gameManager.OnStartGame += AnimateTextReady;
         _gameManager.OnActionGame += AnimateTextActions;
         _gameManager.OnFightGame += AnimateTextFight;
+
+        textRound.text = " ";
     }
 
     // Update is called once per frame

@@ -106,6 +106,27 @@ public class GameManager : MonoBehaviour
     #region HANDLE ROUND
     void HandleRound()
     {
+        if ((myPlayer.GetLife() <= 0 || enemy.GetLife() <= 0) && !gameFinished)
+        {
+            if (enemy.GetLife() <= 0)
+            {
+                finishText.text = "YOU WIN%";
+                youWin = true;
+
+                enemyAnimations.Death();
+            }
+            else
+            {
+                finishText.text = "YOU LOSE%";
+                youWin = false;
+                characterAnimations.Death();
+            }
+            gameFinished = true;
+            StartCoroutine(Execute(youWin, 3.6f));
+
+            ChangeRoundSate(RoundState.FINISH_STAGE);
+        }
+
         switch (roundState)
         {
             case RoundState.NONE:
@@ -136,26 +157,6 @@ public class GameManager : MonoBehaviour
                     if (aux < numRound)
                     {
                         CompareActions();
-                        if (myPlayer.GetLife() <= 0 || enemy.GetLife() <= 0)
-                        {
-                            if (enemy.GetLife() <= 0)
-                            {
-                                finishText.text = "YOU WIN%";
-                                youWin = true;
-
-                                enemyAnimations.Death();
-                            }
-                            else
-                            {
-                                finishText.text = "YOU LOSE%";
-                                youWin = false;
-                                characterAnimations.Death();
-                            }
-                            gameFinished = true;
-                            StartCoroutine(Execute(youWin, 3.6f));
-
-                            ChangeRoundSate(RoundState.FINISH_STAGE);
-                        }
                     }
                     else
                     {
@@ -265,6 +266,10 @@ public class GameManager : MonoBehaviour
                 }
             case RoundState.DOING_ACTIONS:
                 {
+                    //IMAGE BORDER ACTION
+                    myHud.imagerBorderActionsPlayer[0].enabled = true;
+                    myHud.imagerBorderActionsEnemy[0].enabled = true;
+
                     buttons.SetActive(false);
                     timerAux = timerAnimations;
                     roundState = RoundState.DOING_ACTIONS;
@@ -628,8 +633,21 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
+
             aux++;
-           // Debug.Log("Aux: " + aux);
+            myHud.imagerBorderActionsPlayer[aux - 1].enabled = true;
+            if(aux > 1)
+            {
+                myHud.imagerBorderActionsPlayer[aux - 2].enabled = false;
+            }
+
+            myHud.imagerBorderActionsEnemy[aux - 1].enabled = true;
+            if (aux > 1)
+            {
+                myHud.imagerBorderActionsEnemy[aux - 2].enabled = false;
+            }
+
+            // Debug.Log("Aux: " + aux);
             if (copyActions)
             {
                 //nos guardamos las acciones para las animaciones
@@ -697,6 +715,8 @@ public class GameManager : MonoBehaviour
         {
             myHud.actionTextPlayer1[i].text = " ";
             myHud.actionImagePlayer[i].sprite = myHud.emptyImage;
+            myHud.imagerBorderActionsPlayer[i].enabled = false;
+            myHud.imagerBorderActionsEnemy[i].enabled = false;
         }
 
         if(myPlayer.myActions.Count > 0)
@@ -713,6 +733,7 @@ public class GameManager : MonoBehaviour
         {
             myHud.actionTextEnemy1[i].text = " ";
             myHud.actionImageEnemy[i].sprite = myHud.emptyImage;
+            myHud.imagerBorderActionsEnemy[i].enabled = false;
         }
 
         if (myPlayer.myActions.Count > 0)
