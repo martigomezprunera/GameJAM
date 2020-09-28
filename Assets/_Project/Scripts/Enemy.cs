@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
 
         _characterAnimations.OnHit += CheckNextAnimation;
         _characterAnimations.OnSlash += PlaySlashSound;
-        _characterAnimations.OnParrySlash += PlaySlashSound;
+        _characterAnimations.OnParrySlash += PlayParrySlashSound;
         _characterAnimations.OnParry += PlayParry;
     }
 
@@ -826,6 +826,11 @@ public class Enemy : MonoBehaviour
     {
         _characterSounds.PlaySound("Parry");
         _parrySparks.Play();
+    }
+
+    private void PlayParrySlashSound()
+    {
+        _characterSounds.PlaySound("Parry Slash");
     }
 
 }

@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
 
         _characterAnimations.OnHit += CheckNextAnimation;
         _characterAnimations.OnSlash += PlaySlashSound;
-        _characterAnimations.OnParrySlash += PlaySlashSound;
+        _characterAnimations.OnParrySlash += PlayParrySlashSound;
         _characterAnimations.OnParry += PlayParry;
     }
 
@@ -278,6 +278,10 @@ public class Player : MonoBehaviour
     private void PlaySlashSound()
     {
         _characterSounds.PlaySound("Slash");
+    }
+    private void PlayParrySlashSound()
+    {
+        _characterSounds.PlaySound("Parry Slash");
     }
 
     public void PlayParry()
