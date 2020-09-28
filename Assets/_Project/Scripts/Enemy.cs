@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int life = 100;
     [SerializeField] public int id = 1;
     [SerializeField] public int numRound;
-
+    public int  numActionsToAdd;
     //HUD
     public HUD myHud;
 
@@ -52,30 +52,169 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        myGameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        myGameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();        
     }
 
     #region GET NEW ACTION
     public void GetNewActions(int numRound)
     {
         
-        int numActionsToAdd = numRound;
+        numActionsToAdd = numRound;
         int action;
         action = UnityEngine.Random.Range(1, 5);
 
-        //Fijamos en 5 el maximo
-        if (numRound > 5)
-            numActionsToAdd = 5;
+        switch (id)
+        {
+            case 1:
+                if (numActionsToAdd > 2)
+                    numActionsToAdd = 2;
+                break;
+            case 2:
+                if (numActionsToAdd > 3)
+                    numActionsToAdd = 3;
+                break;
+            case 3:
+                if (numActionsToAdd > 5)
+                    numActionsToAdd = 5;
+                break;
+            default:
+                break;
+        }
 
-        //Si arrastyramos exahust añadimos una accion menos
-        if (enemyActions.Count > 0)
-            numActionsToAdd--;
 
         //Dependiendo del ID
         switch (id)
         {
             #region PRIMER ENEMIGO 
             case 1:
+                switch (numActionsToAdd)
+                {
+                    #region RONDA 1
+                    case 1:
+                        action = UnityEngine.Random.Range(1, 1);
+                        switch (action)
+                        {
+                            case 1:
+                                enemyActions.Add(actions.ATACAR);
+                                break;
+
+                            case 2:
+                                enemyActions.Add(actions.ATACARFUERTE1);
+                                break;
+
+                            case 3:
+                                enemyActions.Add(actions.PARRY1);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    #endregion
+
+                    #region RONDA 2
+                    case 2:
+                        action = UnityEngine.Random.Range(1, 2);
+                        switch (action)
+                        {
+                            case 1:
+                                enemyActions.Add(actions.ATACAR);
+                                enemyActions.Add(actions.PARRY1);
+                                break;
+
+                            case 2:
+                                enemyActions.Add(actions.ATACARFUERTE1);
+                                enemyActions.Add(actions.ATACAR);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    #endregion
+                    default:
+                        break;
+                }
+                break;
+            #endregion
+
+            #region SEGUNDO ENEMIGO
+            case 2:
+                switch (numActionsToAdd)
+                {
+                    #region RONDA 1
+                    case 1:
+                        action = UnityEngine.Random.Range(1, 2);
+                        switch (action)
+                        {
+                            case 1:
+                                enemyActions.Add(actions.ATACAR);
+                                break;
+
+                            case 2:
+                                enemyActions.Add(actions.ATACARFUERTE1);
+                                break;
+
+                            case 3:
+                                enemyActions.Add(actions.PARRY1);
+                                break;
+
+                            default:
+                                break;
+                        }
+                        break;
+                    #endregion
+
+                    #region RONDA 2
+                    case 2:
+                        action = UnityEngine.Random.Range(1, 2);
+                        switch (action)
+                        {
+                            case 1:
+                                enemyActions.Add(actions.ATACAR);
+                                enemyActions.Add(actions.PARRY1);
+                                break;
+
+                            case 2:
+                                enemyActions.Add(actions.ATACARFUERTE1);
+                                enemyActions.Add(actions.ATACAR);
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                        break;
+                    #endregion
+
+                    #region RONDA 3
+                    case 3:
+                        action = UnityEngine.Random.Range(1, 2);
+                        switch (action)
+                        {
+                            case 1:
+                                enemyActions.Add(actions.ATACAR);
+                                enemyActions.Add(actions.PARRY1);
+                                enemyActions.Add(actions.ATACAR);
+                                break;
+
+                            case 2:
+                                enemyActions.Add(actions.PARRY1);
+                                enemyActions.Add(actions.ATACAR);
+                                enemyActions.Add(actions.ATACARFUERTE1);
+                                break;
+
+                            default:
+                                break;
+                        }
+                        break;
+                    #endregion
+
+                    default:
+                        break;
+                }
+                break;
+            #endregion
+
+            #region TERCER ENEMIGO
+            case 3:
                 switch (numActionsToAdd)
                 {
                     #region RONDA 1
@@ -95,14 +234,6 @@ public class Enemy : MonoBehaviour
                                 enemyActions.Add(actions.PARRY1);
                                 break;
 
-                            /*case 4:
-                                enemyActions.Add(actions.PARRY1);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ATACAR);
-                                break;*/
-
                             default:
                                 break;
                         }
@@ -115,29 +246,15 @@ public class Enemy : MonoBehaviour
                         switch (action)
                         {
                             case 1:
-                                enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.PARRY1);
+                                enemyActions.Add(actions.ATACAR);
                                 break;
 
                             case 2:
                                 enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            /*case 3:
                                 enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
                                 break;
-
-                            case 4:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;*/
+                    
 
                             default:
                                 break;
@@ -152,33 +269,15 @@ public class Enemy : MonoBehaviour
                         {
                             case 1:
                                 enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ATACARFUERTE1);
+                                enemyActions.Add(actions.ATACAR);
                                 break;
 
                             case 2:
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            /*case 3:
                                 enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 5:
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;*/
+                                break;
 
                             default:
                                 break;
@@ -192,39 +291,25 @@ public class Enemy : MonoBehaviour
                         switch (action)
                         {
                             case 1:
-                                enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.PARRY1);
+                                enemyActions.Add(actions.ATACAR);
                                 break;
 
                             case 2:
-                                enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            /*case 3:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ESQUIVAR);
                                 enemyActions.Add(actions.PARRY1);
                                 break;
 
-                            case 4:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ATACAR);
+                            case 3:
                                 enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;*/
+                                enemyActions.Add(actions.ATACAR);
+                                enemyActions.Add(actions.ATACAR);
+                                break;
 
                             default:
                                 break;
@@ -238,463 +323,27 @@ public class Enemy : MonoBehaviour
                         switch (action)
                         {
                             case 1:
+                                enemyActions.Add(actions.ATACAR);
+                                enemyActions.Add(actions.ATACARFUERTE1);
+                                enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.PARRY1);
                                 break;
 
                             case 2:
+                                enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACAR);
                                 break;
 
                             case 3:
                                 enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
                                 enemyActions.Add(actions.ATACARFUERTE1);
                                 enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            /*case 4:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.PARRY1);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;*/
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    default:
-                        break;
-                }
-                break;
-            #endregion
-
-            #region SEGUNDO ENEMIGO
-            case 2:
-                switch (numRound)
-                {
-                    #region RONDA 1
-                    case 1:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 2:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.PARRY1);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    #region RONDA 2
-                    case 2:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 2:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    #region RONDA 3
-                    case 3:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 2:
                                 enemyActions.Add(actions.PARRY1);
                                 enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    #region RONDA 4
-                    case 4:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
-
-                            case 2:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.PARRY1);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    #region RONDA 5
-                    case 5:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 2:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.PARRY1);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    default:
-                        break;
-                }
-                break;
-            #endregion
-
-            #region TERCER ENEMIGO
-            case 3:
-                switch (numRound)
-                {
-                    #region RONDA 1
-                    case 1:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 2:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.PARRY1);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    #region RONDA 2
-                    case 2:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 2:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    #region RONDA 3
-                    case 3:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 2:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    #region RONDA 4
-                    case 4:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 2:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                    #endregion
-
-                    #region RONDA 5
-                    case 5:
-                        switch (action)
-                        {
-                            case 1:
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                break;
-
-                            case 2:
-                                enemyActions.Add(actions.PARRY1);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.PARRY1);
-                                break;
-
-                            case 3:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                break;
-
-                            case 4:
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.PARRY1);
-                                break;
-
-                            case 5:
-                                enemyActions.Add(actions.ESQUIVAR);
-                                enemyActions.Add(actions.ATACARFUERTE1);
-                                enemyActions.Add(actions.ATACARFUERTE2);
-                                enemyActions.Add(actions.ATACAR);
-                                enemyActions.Add(actions.ESQUIVAR);
                                 break;
 
                             default:
@@ -737,7 +386,7 @@ public class Enemy : MonoBehaviour
         }
 
         //INTERROGANTES
-        for(int i = 1; i < (numRound); i++)
+        for(int i = 1; i < (numActionsToAdd); i++)
         {
             myHud.actionTextEnemy1[i].text = ")";
             myHud.actionImageEnemy[i].sprite = myHud.emptyImage;

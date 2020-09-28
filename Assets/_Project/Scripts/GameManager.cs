@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
                     waitingRoundTimer -= Time.deltaTime;
                     timerText.text = "Time foing actions: " + waitingRoundTimer;
 
-                    if (aux < numRound)
+                    if (aux < enemy.numActionsToAdd)
                     {
                         CompareActions();
                         if (myPlayer.GetLife() <= 0 || enemy.GetLife() <= 0)
@@ -671,7 +671,7 @@ public class GameManager : MonoBehaviour
             if (copyActions)
             {
                 //nos guardamos las acciones para las animaciones
-                for (int i=0; i < myPlayer.myActions.Count; i++)
+                for (int i=0; i < enemy.numActionsToAdd; i++)
                 {
                     lastPlayerActions.Add(myPlayer.myActions[i]);
                     lastEnemyActions.Add(enemy.enemyActions[i]);
@@ -749,7 +749,7 @@ public class GameManager : MonoBehaviour
     #region UnfillHUDEnemy
     void UnfillHUDEnemy()
     {
-        for (int i = 0; i < numRound; i++)
+        for (int i = 0; i < enemy.numActionsToAdd; i++)
         {
             myHud.actionTextEnemy1[i].text = " ";
             myHud.actionImageEnemy[i].sprite = myHud.emptyImage;
@@ -762,8 +762,7 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
-
-
+    
     #region CheckNextAnimationPlayer
     public void CheckNextAnimationPlayer(int id)
     {

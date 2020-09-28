@@ -208,7 +208,7 @@ public class HUD : MonoBehaviour
     #region ImageActions
     void ImageActions()
     {
-        switch (numRound)
+        switch (_enemy.numActionsToAdd)
         {
             case 1:
                 actionImagePlayer[0].color = new Color(actionImagePlayer[0].color.r, actionImagePlayer[0].color.g, actionImagePlayer[0].color.b, 1f);

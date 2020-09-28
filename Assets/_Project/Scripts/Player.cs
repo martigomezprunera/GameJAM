@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
 
     GameManager myGameManager;
 
+    public Enemy myEnemy;
+
     [SerializeField] private int life = 100;
 
     public bool canSelect = false;
@@ -162,8 +164,8 @@ public class Player : MonoBehaviour
     {
         int aux = myGameManager.numRound;
 
-        if (aux > 5)
-            aux = 5;
+        if (aux > myEnemy.numActionsToAdd)
+            aux = myEnemy.numActionsToAdd;
 
         if (canSelect && myActions.Count < aux)
         {
@@ -177,9 +179,9 @@ public class Player : MonoBehaviour
     public void HeavyAttack()
     {
         int aux = myGameManager.numRound;
+        if (aux > myEnemy.numActionsToAdd)
+            aux = myEnemy.numActionsToAdd;
 
-        if (aux > 5)
-            aux = 5;
 
         if (canSelect && myActions.Count < aux)
         {
@@ -203,8 +205,10 @@ public class Player : MonoBehaviour
     {
         int aux = myGameManager.numRound;
 
-        if (aux > 5)
-            aux = 5;
+
+        if (aux > myEnemy.numActionsToAdd)
+            aux = myEnemy.numActionsToAdd;
+
 
         if (canSelect && myActions.Count < aux)
         {
